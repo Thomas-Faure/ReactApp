@@ -64,15 +64,24 @@ class Login extends Component {
           </div>
         
           <form onSubmit={this.handleSubmit}>
-              <label>
-                  Username:
-              <input type="text" value={this.state.valueU} onChange={this.handleChangeUsername}></input>
-              </label>
-              <label>
-                  Password:
-              <input type="text" value={this.state.valueP} onChange={this.handleChangePassword}></input>
-              </label>
-              <input type="submit" value="submit"></input>
+          <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername}/>
+          </div>
+        </div>
+        <div class="field">
+  <label class="label">Name</label>
+  <div class="control">
+    <input class="input" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword}/>
+  </div>
+</div>
+              
+<div class="control">
+  <input class="button is-link" type="submit" value="submit"></input>
+ 
+  </div>
+       
 
           </form>
          

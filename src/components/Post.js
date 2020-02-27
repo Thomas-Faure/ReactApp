@@ -43,17 +43,12 @@ class Post extends Component {
     }
 
     getData(){
-        {if(this.state.id != this.props.match.params.id){
-            if(this.state.id != this.props.match.params.id){
+        {if(this.state.id !== this.props.match.params.id){
                 this.setState({id:this.props.match.params.id },
                     ()=>{
                         this.getPost()
                         this.getComments()
                 });
-    
-               
-    
-          }
       }}
     }
 

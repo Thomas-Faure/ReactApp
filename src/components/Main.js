@@ -45,10 +45,10 @@ class Main extends Component {
         <HashRouter>
          <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">
-    <NavLink to="/">
+    <a class="navbar-item" href="/#/">
+   
       <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
-    </NavLink>
+  
     </a>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -60,15 +60,14 @@ class Main extends Component {
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item">
-        <NavLink to="/">Home</NavLink>
+      <a class="navbar-item" href="/#/">
+      Home
       </a>
-
-      <a class="navbar-item">
-      <NavLink to="/contact" >Contact</NavLink>
+      <a class="navbar-item"href="/#/contact" >
+      Contact
       </a>
-      <a class="navbar-item">
-      <NavLink to="/posts">Posts</NavLink>
+      <a class="navbar-item" href="/#/posts">
+      Posts
       </a>
 
     
