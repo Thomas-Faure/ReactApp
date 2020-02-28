@@ -33,7 +33,7 @@ class Login extends Component {
   }
 
   login(){
-      fetch("http://localhost:2000/user/login",{
+      fetch("http://51.255.175.118:2000/user/login",{
           method:'POST',
           headers:{
               'Accept':'application/json',
