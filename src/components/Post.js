@@ -17,7 +17,7 @@ class Post extends Component {
     }
 
     getPost(){
-        fetch("http://localhost:2000/post/"+this.state.id,{
+        fetch("http://51.255.175.118:2000/post/"+this.state.id,{
             method:"GET"
         })
         .then(res => res.json())
@@ -30,7 +30,7 @@ class Post extends Component {
     }
     getComments(){
 
-        fetch("http://localhost:2000/post/"+this.state.id+"/comments",{
+        fetch("http://51.255.175.118:2000/post/"+this.state.id+"/comments",{
             method:"GET"
         })
         .then(res => res.json())

@@ -16,7 +16,7 @@ class Posts extends Component {
     }
 
     getPosts(){
-        fetch("http://localhost:2000/post",{
+        fetch("http://51.255.175.118:2000/post",{
             method:"GET"
         })
         .then(res => res.json())

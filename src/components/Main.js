@@ -17,7 +17,7 @@ class Main extends Component {
  
   verifLogin(){
     const token = localStorage.token;
-    fetch("http://localhost:2000/user/verify",{
+    fetch("http://51.255.175.118:2000/user/verify",{
       method:"GET",
       headers:{
         'Authorization':'Bearer '+token
