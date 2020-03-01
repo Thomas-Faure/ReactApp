@@ -47,6 +47,7 @@ class Login extends Component {
         if (data.token !== undefined) {
           localStorage.setItem("token", data.token)
           this.props.login()
+          
           this.setState({ errorLogin: false })
           
         } else {
@@ -59,9 +60,11 @@ class Login extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        console.log(data)
+      
         this.props.setUser(data[0])
+       
         console.log(this.props.user)
+       
       })
   }
 
@@ -102,7 +105,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    user: state.user
+    user: state.userInfo
 
   }
 }

@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 class Home extends Component {
 
   render() {
+    console.log(this.props.user.username)
     return (
       
       <div>
         <h2>HELLO</h2>
         <h1>Counter {this.props.counter}</h1>
-    {!this.props.user ? <h2>{this.props.user}Vide</h2>: null}
+    {this.props.user != null ?<h1>Welcome {this.props.user.username}</h1> : <h1>Vide</h1>}
       </div>
     );
   }
@@ -18,7 +19,7 @@ class Home extends Component {
 const mapStateToProps = (state) =>{
   return{
     counter : state.counter,
-    user: state.user
+    user: state.userInfo
     }
 }
 

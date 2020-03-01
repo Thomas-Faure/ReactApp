@@ -29,6 +29,7 @@ class Main extends Component {
           this.props.login()
       }
     })
+    
   }
   componentDidMount(){
     this.verifLogin()
