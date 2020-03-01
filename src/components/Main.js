@@ -11,7 +11,7 @@ import Contact from "./Contact";
 import Login from "./Login";
 import Posts from "./Posts";
 import Post from "./Post";
-import {login,logoff} from '../actions';
+import {login,logoff,setUser} from '../actions';
 class Main extends Component {
 
  
@@ -26,7 +26,22 @@ class Main extends Component {
     .then(response => response.json())
     .then(json =>{
       if(json){
+        
+          if(!json.error){
           this.props.login()
+          fetch("http://51.255.175.118:2000/user/" + json.id, {
+            method: "GET",
+            headers:{
+              'Authorization':'Bearer '+token
+            }
+          })
+            .then(res => res.json())
+            .then((data) => {
+            
+              this.props.setUser(data[0])
+    
+            })
+          }
       }
     })
     
@@ -113,7 +128,8 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = ()=>{
   return{
     logoff,
-    login
+    login,
+    setUser
 
   }
 }

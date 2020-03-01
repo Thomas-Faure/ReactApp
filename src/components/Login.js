@@ -33,6 +33,7 @@ class Login extends Component {
   }
 
   login() {
+    var user_id = 0
     console.log("login")
     fetch("http://51.255.175.118:2000/user/login", {
       method: 'POST',
@@ -47,25 +48,26 @@ class Login extends Component {
         if (data.token !== undefined) {
           localStorage.setItem("token", data.token)
           this.props.login()
-          
+          user_id = data.id
           this.setState({ errorLogin: false })
-          
+         
+          fetch("http://51.255.175.118:2000/user/" + user_id, {
+            method: "GET",
+            headers:{
+              'Authorization':'Bearer '+data.token
+            }
+          })
+            .then(res => res.json())
+            .then((data) => {
+            
+              this.props.setUser(data[0])
+    
+            })
         } else {
           this.setState({ errorLogin: true })
         }
       })
-
-    fetch("http://51.255.175.118:2000/user/username/" + this.state.valueU, {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-      
-        this.props.setUser(data[0])
-       
-        console.log(this.props.user)
-       
-      })
+   
   }
 
   render() {
