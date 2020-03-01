@@ -5,10 +5,11 @@ class Home extends Component {
 
   render() {
     return (
+      
       <div>
         <h2>HELLO</h2>
-    <h1>Counter {this.props.counter}</h1>
-
+        <h1>Counter {this.props.counter}</h1>
+    {!this.props.user ? <h2>{this.props.user}Vide</h2>: null}
       </div>
     );
   }
@@ -16,12 +17,10 @@ class Home extends Component {
 
 const mapStateToProps = (state) =>{
   return{
-    counter : state.counter
-  }
+    counter : state.counter,
+    user: state.user
+    }
 }
-
-
-
 
  
 export default connect(mapStateToProps,null)(Home);
