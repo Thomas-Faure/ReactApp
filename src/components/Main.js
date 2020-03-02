@@ -11,7 +11,7 @@ import Contact from "./Contact";
 import Login from "./Login";
 import Posts from "./Posts";
 import Post from "./Post";
-import {login,logoff,setUser} from '../actions';
+import {login,logoff,setUser,unSetUser} from '../actions';
 class Main extends Component {
 
  
@@ -26,22 +26,24 @@ class Main extends Component {
     .then(response => response.json())
     .then(json =>{
       if(json){
+          if(this.props.isLogged){
+            if(!json.error){
+              this.props.login()
+              fetch("http://51.255.175.118:2000/user/" + json.id, {
+                method: "GET",
+                headers:{
+                  'Authorization':'Bearer '+token
+                }
+              })
+                .then(res => res.json())
+                .then((data) => {
+                
+                  this.props.setUser(data[0])
         
-          if(!json.error){
-          this.props.login()
-          fetch("http://51.255.175.118:2000/user/" + json.id, {
-            method: "GET",
-            headers:{
-              'Authorization':'Bearer '+token
-            }
-          })
-            .then(res => res.json())
-            .then((data) => {
-            
-              this.props.setUser(data[0])
-    
-            })
+                })
+              }
           }
+          
       }
     })
     
@@ -53,6 +55,7 @@ class Main extends Component {
    this.props.logoff();
     localStorage.setItem("token",null)
     window.location.href = '/#/';
+    this.props.unSetUser()
   }
 
   render() {
@@ -63,7 +66,7 @@ class Main extends Component {
   <div class="navbar-brand">
     <a class="navbar-item" href="/#/">
    
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
+      <img src="logo1.png"  />
   
     </a>
 
@@ -129,7 +132,8 @@ const mapDispatchToProps = ()=>{
   return{
     logoff,
     login,
-    setUser
+    setUser,
+    unSetUser
 
   }
 }

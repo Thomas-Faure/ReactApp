@@ -29,7 +29,7 @@ export const setUser = (user) =>{
         payload: user
     }
 }
-export const unsetUser = () =>{
+export const unSetUser = () =>{
     return {
         type: "UNSETUSER"
     }

@@ -28,8 +28,9 @@ class Login extends Component {
     this.setState({ valueP: event.target.value })
   }
 
-  handleSubmit(even) {
+  handleSubmit(event) {
     this.login()
+    event.preventDefault();
   }
 
   login() {
