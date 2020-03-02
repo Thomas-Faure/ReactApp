@@ -10,6 +10,7 @@ class Posts extends Component {
     }
     this.getPosts = this.getPosts.bind(this)
     this.handleChange = this.handleChange.bind(this);
+    this.postlike = this.postlike.bind(this);
   }
 
   componentDidMount() {
@@ -22,15 +23,29 @@ class Posts extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        console.log(data)
-        this.setState({ posts: data, 
-          list: data })
+        this.setState({
+          posts: data,
+          list: data
+        })
 
       })
 
   }
   seePost(id) {
     window.location.href = '/#/post/' + id;
+  }
+
+  postlike(id){
+    var taille = 0;
+    fetch("http://51.255.175.118:2000/opinion/"+id, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then((data) => {
+        taille = data.length
+      })
+      console.log(taille)
+      return taille
   }
 
   handleChange(e) {
@@ -67,11 +82,11 @@ class Posts extends Component {
       <div class="columns ">
         <div class="column is-7-desktop is-full-mobile is-offset-1">
           {this.state.posts != null ?
-            this.state.posts.map((val) =>
-              <div class="card" onClick={() => { this.seePost(val.post_id) }}>
+            this.state.posts.map((val, index) =>
+              <div key="{index}" class="card" onClick={() => { this.seePost(val.post_id) }}>
                 <div class="card-content">
-                  <div key="{va.post_id}">
-                    {(val.url_image != "") && (val.url_image != null) ?
+                  <div >
+                    {(val.url_image !== "") && (val.url_image !== null) ?
                       <div class="media-left">
                         <figure class="image is-48x48">
                           <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
@@ -94,7 +109,7 @@ class Posts extends Component {
                       </div>
                     </div>
                     <div class="rating">
-                      <img src="ear.png" class="icon"></img>
+                      <div class="liked"><p>{this.postlike(val.post_id)}</p><img src="ear.png" class="icon"></img></div>
                       <img src="comment.png" class="icon"></img>
                       <img src="warning.png" class="icon"></img>
                     </div>
@@ -111,9 +126,21 @@ class Posts extends Component {
           }
 
         </div>
-        <div class="column is-3-desktop is-desktop">
-          <h3>Filter</h3>
+        <div class="column is-3-desktop is-desktop filter">
+          <img src="filter.png" class="icon"></img>
           <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
+          <div class="filtre">
+            <div class="mainfilter">
+              <div><input type="radio" name="time" value="Plus recent" checked/> <label>Plus recent</label></div>
+              <div><input type="radio" name="time" value="Plus populaire" /><label>Plus populaire</label></div>
+              <div><input type="radio" name="time" value="Plus commenté" /><label>Plus commenté</label></div>
+            </div>
+            <div class="mainfilter">
+              <div><input type="radio" name="time" value="Plus recent" /> <label>Plus recent</label></div>
+              <div><input type="radio" name="time" value="Plus populaire" /><label>Plus populaire</label></div>
+              <div><input type="radio" name="time" value="Plus commenté" /><label>Plus commenté</label></div>
+            </div>
+          </div>
         </div>
       </div>
 

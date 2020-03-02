@@ -11,6 +11,7 @@ import Contact from "./Contact";
 import Login from "./Login";
 import Posts from "./Posts";
 import Post from "./Post";
+import Informations from "./Informations";
 import { login, logoff, setUser, unSetUser } from '../actions';
 class Main extends Component {
 
@@ -85,8 +86,8 @@ class Main extends Component {
               <a class="navbar-item" href="/#/contact" >
                 Contact
       </a>
-              <a class="navbar-item" href="/#/posts">
-                Posts
+              <a class="navbar-item" href="/#/informations">
+                Informations
       </a>
 
 
@@ -107,12 +108,13 @@ class Main extends Component {
         </nav>
         <section class="section">
           <div class="container">
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Posts} />
             <Route path="/stuff" component={Stuff} />
             <Route path="/posts" component={Posts} />
             <Route path="/post/:id" component={Post} />
             <Route path="/login" component={Login} />
             <Route path="/contact" component={Contact} />
+            <Route path="/informations" component={Informations} />
 
           </div>
         </section>

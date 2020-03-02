@@ -60,3 +60,19 @@
   border-radius: 0px 0px 5px 5px;
   width: 70%;
 }
+
+.filtre{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mainfilter{
+  display: flex;
+  flex-direction: column;
+}
+
+.liked{
+  display: flex;
+  flex-direction: row;
+}
