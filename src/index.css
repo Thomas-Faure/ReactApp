@@ -1,3 +1,62 @@
 .card:hover {
     background-color: #b9b2b1;
-  }
+}
+
+.post_title{
+  width: 80%;
+  margin-left: 10%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post_title>h4{
+  margin-top: 4px;
+  margin-bottom: 4px !important;
+}
+
+#post_title{
+  margin-left: 10px;
+}
+
+#post_id{
+  margin-right: 10px;
+}
+
+.infos{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.media-content{
+  padding: 15px;
+  background-color: lightskyblue;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.rating{
+  background-color: greenyellow;
+  border-radius: 0px 0px 0px 5px;
+  padding: 3px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.author{
+  text-align: right;
+  color: red;
+}
+
+.card{
+  margin-bottom: 10px;
+}
+
+.bestanswer{
+  background-color: red;
+  margin-left: 30%;
+  padding: 3px;
+  border-radius: 0px 0px 5px 5px;
+  width: 70%;
+}
