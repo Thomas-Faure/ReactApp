@@ -27,7 +27,7 @@ class Main extends Component {
       .then(response => response.json())
       .then(json => {
         if (json) {
-          if (this.props.isLogged) {
+          if (!this.props.isLogged) {
             if (!json.error) {
               this.props.login()
               fetch("http://51.255.175.118:2000/user/" + json.id, {

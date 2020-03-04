@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PostModel from './Model/PostModel'
 import Moment from 'react-moment';
 class Posts extends Component {
 
@@ -156,43 +157,12 @@ class Posts extends Component {
         <div class="column is-7-desktop is-full-mobile is-offset-1">
           {((this.state.posts != null )&& (this.state.posts != ""))?
             this.state.posts.map((val, index) =>
-              <div key="{index}" class="card" onClick={() => { this.seePost(val.post_id) }}>
-                <div class="card-content">
-                  <div >
-                    {(val.url_image !== "") && (val.url_image !== null) ?
-                      <div class="media-left">
-                        <figure class="image is-48x48">
-                          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
-                        </figure>
-                      </div> : null}
-
-                    <div class="media-content">
-                      <div class="post_title">
-                        <h4 class="title is-4" id="post_title">{val.title}</h4>
-                        <h4 class="title is-4" id="post_id">#{val.post_id}</h4>
-                      </div>
-                      <div class="description">
-                        <p>{val.description}</p>
-                      </div>
-                      <div class="infos">
-                        <Moment interval={30000} fromNow>
-                          {val.date}
-                        </Moment >
-                        <p class="author">{val.username}</p>
-                      </div>
-                    </div>
-                    <div class="rating">
-                      <div class="liked"><p class="infosRate">{val.like}</p><img src="ear.png" class="icon"></img></div>
-                      <div class="liked"><p class="infosRate">{val.comment}</p><img src="comment.png" class="icon"></img></div>
-                      <img src="warning.png" class="icon"></img>
-                    </div>
-                    <div class="bestanswer">
-                      <p>Best answer</p>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+               
+                  <PostModel post={val} key={val.id}/>
+              
+     
+                
+        
             )
             :
             <h1>Aucune publication trouvée</h1>
