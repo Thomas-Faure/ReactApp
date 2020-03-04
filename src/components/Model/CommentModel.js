@@ -2,7 +2,6 @@
 
 
 import React, { Component } from "react";
-import Moment from 'react-moment';
 class CommentModel extends Component {
 
     constructor(props){
@@ -24,7 +23,7 @@ class CommentModel extends Component {
       }
   componentDidMount() {
       this.verifAlreadyCommented()
-   // this.getReport()
+
   }
   verifAlreadyCommented(){
     const token = localStorage.token;
@@ -37,7 +36,7 @@ class CommentModel extends Component {
       }
       ).then(res => res.json())
       .then(res => {
-          console.log(res.length)
+         
           if(res.length>0){
             this.setState({alreadyReported : true})
 
@@ -72,7 +71,7 @@ class CommentModel extends Component {
 
     return (
         <div>
-                {this.state.alreadyReported == true ? <button onClick={this.report}>Report✅</button> : <button onClick={this.report}>Report</button>}
+                {this.state.alreadyReported === true ? <button onClick={this.report}>Report<span role="img" aria-label="validate">✅</span></button> : <button onClick={this.report}>Report</button>}
                 
                 <p>id comment :{this.state.comment.comment_id}</p>
                 <p>description :{this.state.comment.description}</p>

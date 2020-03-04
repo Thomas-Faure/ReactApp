@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   Route,
-  NavLink,
   HashRouter
 } from "react-router-dom";
-import Home from "./Home";
 import Stuff from "./Stuff";
 import Contact from "./Contact";
 import Login from "./Login";
@@ -63,51 +61,51 @@ class Main extends Component {
     return (
 
       <HashRouter>
-        <nav class="navbar " role="navigation" aria-label="main navigation">
-          <div class="navbar-brand">
-            <a class="navbar-item" href="/#/">
+        <nav className="navbar " role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+            <a className="navbar-item" href="/#/">
 
-              <img src="logo1.png" />
+              <img src="logo1.png" alt="logo" />
 
             </a>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
           </div>
 
-          <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-              <a class="navbar-item" href="/#/">
+          <div id="navbarBasicExample" className="navbar-menu">
+            <div className="navbar-start">
+              <a className="navbar-item" href="/#/">
                 Home
       </a>
-              <a class="navbar-item" href="/#/contact" >
+              <a className="navbar-item" href="/#/contact" >
                 Contact
       </a>
-              <a class="navbar-item" href="/#/informations">
+              <a className="navbar-item" href="/#/informations">
                 Informations
       </a>
 
 
             </div>
 
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <div class="buttons">
-                  {!this.props.isLogged ? <NavLink to="/login"><a class="button is-primary">
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="buttons">
+                  {!this.props.isLogged ? <a href="/#/login" className="button is-primary">
                     <strong>Login</strong>
-                  </a></NavLink> : null}
+                  </a> : null}
 
-                  {this.props.isLogged ? <button class="button is-primary" onClick={() => this.logoff()}>logOff</button> : null}
+                  {this.props.isLogged ? <button className="button is-primary" onClick={() => this.logoff()}>logOff</button> : null}
                 </div>
               </div>
             </div>
           </div>
         </nav>
-        <section class="section">
-          <div class="container">
+        <section className="section">
+          <div className="container">
             <Route exact path="/" component={Posts} />
             <Route path="/stuff" component={Stuff} />
             <Route path="/posts" component={Posts} />

@@ -35,7 +35,7 @@ class Login extends Component {
 
   login() {
     var user_id = 0
-    console.log("login")
+  
     fetch("http://51.255.175.118:2000/user/login", {
       method: 'POST',
       headers: {

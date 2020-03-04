@@ -4,8 +4,7 @@ class PostModel extends Component {
 
     constructor(props){
         super(props)
-        console.log("called")
-        console.log(this.props.index)
+      
         this.props.post.report=0
         this.state = {
             post : this.props.post,
@@ -16,7 +15,7 @@ class PostModel extends Component {
     }
 
     
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
        this.setState({
            post : nextProps.post
        })
@@ -48,38 +47,38 @@ class PostModel extends Component {
   render() {
 
     return (
-        <div class="card" onClick={() => { this.seePost(this.state.post.post_id) }}>
-        <div class="card-content">
+        <div className="card" onClick={() => { this.seePost(this.state.post.post_id) }}>
+        <div className="card-content">
           <div >
             {(this.state.post.url_image !== "") && (this.state.post.url_image !== null) ?
-              <div class="media-left">
-                <figure class="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+              <div className="media-left">
+                <figure className="image is-48x48">
+                  <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
                 </figure>
               </div> : null}
 
-            <div class="media-content">
-              <div class="post_title">
-                <h4 class="title is-4" id="post_title">{this.state.post.title}</h4>
-                <h4 class="title is-4" id="post_id">#{this.state.post.post_id}</h4>
+            <div className="media-content">
+              <div className="post_title">
+                <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>
+                <h4 className="title is-4" id="post_id">#{this.state.post.post_id}</h4>
               </div>
-              <div class="description">
+              <div className="description">
                 <p>{this.state.post.description}</p>
               </div>
-              <div class="infos">
+              <div className="infos">
                 <Moment interval={30000} fromNow>
                   {this.state.post.date}
                 </Moment >
-                <p class="author">{this.state.post.username}</p>
+                <p className="author">{this.state.post.username}</p>
               </div>
             </div>
-            <div class="rating">
-              <div class="liked"><p class="infosRate">{this.state.post.like}</p><img src="ear.png" class="icon"></img></div>
-              <div class="liked"><p class="infosRate">{this.state.post.comment}</p><img src="comment.png" class="icon"></img></div>
-              <div class="liked"><p class="infosRate">{this.state.post.report}</p><img src="warning.png" class="icon"></img></div>
+            <div className="rating">
+              <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt= "img1"className="icon"></img></div>
+              <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
+              <div className="liked"><p className="infosRate">{this.state.post.report}</p><img src="warning.png" alt="img3" className="icon"></img></div>
               
             </div>
-            <div class="bestanswer">
+            <div className="bestanswer">
               <p>Best answer</p>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PostModel from './Model/PostModel'
-import Moment from 'react-moment';
 class Posts extends Component {
 
   constructor(props) {
@@ -107,7 +106,7 @@ class Posts extends Component {
     if ((this.state.search !== "") && (this.state.search !== null)) {
       if ((this.state.cat !== "") && (this.state.cat !== null)) {
         currentList = this.state.list.filter(item => {
-          if (this.state.cat == item.post_category) {
+          if (this.state.cat === item.post_category) {
             return item
           }
         });
@@ -125,7 +124,7 @@ class Posts extends Component {
     } else {
       if ((this.state.cat !== "") && (this.state.cat !== null)) {
         currentList = this.state.list.filter(item => {
-          if (this.state.cat == item.post_category) {
+          if (this.state.cat === item.post_category) {
             return item
           }
         })
@@ -153,12 +152,11 @@ class Posts extends Component {
 
   render() {
     return (
-      <div class="columns ">
-        <div class="column is-7-desktop is-full-mobile is-offset-1">
-          {((this.state.posts != null )&& (this.state.posts != ""))?
-            this.state.posts.map((val, index) =>
-               
-                  <PostModel post={val} key={val.id}/>
+      <div className="columns ">
+        <div className="column is-7-desktop is-full-mobile is-offset-1">
+          {((this.state.posts !== null )&& (this.state.posts !== ""))?
+            this.state.posts.map((val,index) =>
+                  <PostModel key={val.post_id} post={val}/>
               
      
                 
@@ -169,22 +167,22 @@ class Posts extends Component {
           }
 
         </div>
-        <div class="column is-3-desktop is-desktop filter">
-          <img src="filter.png" class="icon"></img>
+        <div className="column is-3-desktop is-desktop filter">
+          <img src="filter.png" alt="img" className="icon"></img>
           <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
-          <div class="filtre">
-            <div class="mainfilter" onChange={this.mainfilter}>
+          <div className="filtre">
+            <div className="mainfilter" onChange={this.mainfilter}>
               <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
               <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
               <div><label><input type="radio" name="time" value="commente" />Plus commenté</label></div>
             </div>
-            <div class="categoryfilter" onChange={this.categoryFilter}>
+            <div className="categoryfilter" onChange={this.categoryFilter}>
               <select id="category">
                 <option value=""></option>
                 {
                   this.state.category != null ?
                     this.state.category.map((val, index) =>
-                      <option value={val.post_category_id}>{val.description}</option>
+                      <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
                     ) :
                     null
                 }

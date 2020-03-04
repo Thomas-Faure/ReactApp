@@ -4,7 +4,7 @@ class Post extends Component {
 
     constructor(props){
         super(props)
-        console.log("doo")
+    
         this.state = {
             id : 0,
             post: null,
@@ -19,7 +19,7 @@ class Post extends Component {
         
     }
     componentDidMount() {
-       // this.verifAlreadyCommented()
+        this.getData()
  
     }
 
@@ -29,7 +29,7 @@ class Post extends Component {
         })
         .then(res => res.json())
         .then((data)=>{
-            console.log(data)
+       
             this.setState({post : data[0]},()=>{this.verifAlreadyCommented()})
            
         })
@@ -42,7 +42,7 @@ class Post extends Component {
         })
         .then(res => res.json())
         .then((data)=>{
-            console.log(data)
+         
             this.setState({comments : data})
            
         })
@@ -60,7 +60,7 @@ class Post extends Component {
           }
           ).then(res => res.json())
           .then(res => {
-              console.log(res.length)
+          
               if(res.length>0){
                 this.setState({alreadyReported : true})
     
@@ -102,13 +102,13 @@ class Post extends Component {
 
  
   render() {
-   this.getData()
+
     
     return (
       <div>
           {this.state.post != null ? 
             <div>
-                {this.state.alreadyReported == true ? <button onClick={this.report}>Report✅</button> : <button onClick={this.report}>Report</button>}
+                {this.state.alreadyReported === true ? <button onClick={this.report}>Report<span aria-label="validate">✅</span></button> : <button onClick={this.report}>Report</button>}
         <h2>Post:</h2>
         <p>id: {this.state.post.post_id}</p>
         <p>title: {this.state.post.title}</p>
@@ -118,7 +118,7 @@ class Post extends Component {
         <h2>Comments:</h2>
         {this.state.comments != null ? 
         this.state.comments.map((val,index)=>
-            <CommentModel comment={val} key={index}></CommentModel>
+            <CommentModel comment={val}></CommentModel>
             
         )
         :
