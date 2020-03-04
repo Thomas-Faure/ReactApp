@@ -154,7 +154,7 @@ class Posts extends Component {
     return (
       <div class="columns ">
         <div class="column is-7-desktop is-full-mobile is-offset-1">
-          {this.state.posts != null ?
+          {((this.state.posts != null )&& (this.state.posts != ""))?
             this.state.posts.map((val, index) =>
               <div key="{index}" class="card" onClick={() => { this.seePost(val.post_id) }}>
                 <div class="card-content">
