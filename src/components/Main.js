@@ -10,6 +10,10 @@ import Login from "./Login";
 import Posts from "./Posts";
 import Post from "./Post";
 import Informations from "./Informations";
+import BackOfficeShowPosts from './backoffice/show/Post'
+import BackOfficeShowUsers from './backoffice/show/User'
+import BackOfficeShowComments from './backoffice/show/Comments'
+import BackOfficeIndex from './backoffice/index'
 import { login, logoff, setUser, unSetUser } from '../actions';
 class Main extends Component {
 
@@ -113,6 +117,11 @@ class Main extends Component {
             <Route path="/login" component={Login} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
+            <Route exact path="/backoffice" component={BackOfficeIndex} />
+            <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
+            <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
+            <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
+
 
           </div>
         </section>
