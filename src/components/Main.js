@@ -14,6 +14,7 @@ import BackOfficeShowPosts from './backoffice/show/Post'
 import BackOfficeShowUsers from './backoffice/show/User'
 import BackOfficeShowComments from './backoffice/show/Comments'
 import BackOfficeIndex from './backoffice/index'
+import BackOfficeCreatePost from './backoffice/create/Post'
 import { login, logoff, setUser, unSetUser } from '../actions';
 class Main extends Component {
 
@@ -120,6 +121,7 @@ class Main extends Component {
             <Route exact path="/backoffice" component={BackOfficeIndex} />
             <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
             <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
+            <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
             <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
 
 

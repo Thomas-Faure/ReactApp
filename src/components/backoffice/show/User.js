@@ -99,9 +99,10 @@ class BackOfficeShowUsers extends Component {
 
             <div class="columns">
             <div class="column is-one-quarter"></div>
-            <div class="column is-half"  style={{textAlign: "center",margin: "auto"}}>
+            <div class="column is-half" >
+            <button class="button is-primary" style={{textAlign: "left",margin: "auto",marginBottom: "10px"}}>Add new post</button>
             <input class="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
-        <p>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p>
+      
             <table style={{width: "100%"}} class="table">
   <thead>
     <tr style={{textAlign:"center"}}>
@@ -132,7 +133,7 @@ class BackOfficeShowUsers extends Component {
     
   </tbody>
 </table>
-<p><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><p style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p><br/><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
 <button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>Back</button></p>
             </div>
             <div class="column is-one-quarted"></div>

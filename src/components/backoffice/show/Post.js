@@ -15,6 +15,7 @@ class BackOfficeShowPosts extends Component {
         this.pushNextButton=this.pushNextButton.bind(this)
         this.pushPrevButton=this.pushPrevButton.bind(this)
         this.handleChangeSearch = this.handleChangeSearch.bind(this)
+        this.deletePost= this.deletePost.bind(this)
 
 
       }
@@ -77,6 +78,36 @@ class BackOfficeShowPosts extends Component {
 
     }
 
+    deletePost(id){
+        let postTempFixed = this.state.dataFixed.filter((n)=>{
+            var exist = true
+            if(n.post_id==id) exist=false
+            return exist
+        })
+        console.log(postTempFixed)
+        let postTemp = this.state.data.filter((n)=>{
+            var exist = true
+            if(n.post_id==id) exist=false
+            return exist
+        })
+        console.log(postTemp)
+        console.log(postTemp.length)
+        
+        let newMaxPage = Math.floor((postTemp.length-1)/this.state.elementsByPage)
+        var newActualPage = this.state.actualPage
+        if(newMaxPage < this.state.actualPage) {
+            newActualPage = newActualPage-1
+        }
+       this.setState({
+            data : postTemp,
+            dataFixed: postTempFixed,
+            maxPage: Math.floor((postTemp.length-1)/this.state.elementsByPage),
+            actualPage : newActualPage
+
+        })
+
+    }
+
     pushPrevButton(){
         if(this.state.actualPage >0){
             this.setState({
@@ -94,9 +125,10 @@ class BackOfficeShowPosts extends Component {
 
             <div class="columns">
             <div class="column is-one-quarter"></div>
-            <div class="column is-half"  style={{textAlign: "center",margin: "auto"}}>
+            <div class="column is-half"  style={{margin: "auto"}}>
+            <button class="button is-primary" style={{textAlign: "left",margin: "auto",marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/posts/create'}>Add new post</button>
             <input class="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
-        <p>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p>
+        
             <table style={{width: "100%"}} class="table">
   <thead>
     <tr style={{textAlign:"center"}}>
@@ -117,7 +149,7 @@ class BackOfficeShowPosts extends Component {
             <th style={{height:100,width:30}}>{val.post_id}</th>
             <td style={{height:100,width:150}} >{val.title}</td>
             <td style={{height:100,width:250}, { 'whiteSpace': 'unset' } } >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:100,width:200}} ><p><button class="button is-info" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}>V</button><button class="button is-info">M</button><button class="button is-danger">D</button></p></td>
+            <td style={{height:100,width:200}} ><p><button class="button is-info" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}>V</button><button class="button is-info">M</button><button class="button is-danger" onClick={()=>{this.deletePost(val.post_id)}}>D</button></p></td>
             </tr>
             )
             :
@@ -127,7 +159,7 @@ class BackOfficeShowPosts extends Component {
     
   </tbody>
 </table>
-<p><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><p style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p><br/><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
 <button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>Back</button></p>
             </div>
             <div class="column is-one-quarted"></div>
