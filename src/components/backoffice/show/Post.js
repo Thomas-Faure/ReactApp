@@ -62,7 +62,7 @@ class BackOfficeShowPosts extends Component {
             var temp = this.state.dataFixed.filter((n)=>{
                 var properties = ["post_id","title","description"]
                 var exist = false
-                console.log(properties)
+         
                 for(var i = 0;i<properties.length;++i){
                     if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
                         exist = true
