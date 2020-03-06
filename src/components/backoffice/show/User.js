@@ -100,7 +100,18 @@ class BackOfficeShowUsers extends Component {
             <div class="columns">
             <div class="column is-one-quarter"></div>
             <div class="column is-half" >
-            <button class="button is-primary" style={{textAlign: "left",margin: "auto",marginBottom: "10px"}}>Add new post</button>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage User</h1>
+            <div class="columns">
+            <div class="column is-one-quarter">
+            <button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
+            </div>
+            <div class="column is-half" style={{textAlign: "center"}}>
+            <button class="button is-primary" style={{marginBottom: "10px"}}>+</button>
+            </div>
+            <div class="column is-one-quarter">
+
+            </div>
+            </div>
             <input class="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
       
             <table style={{width: "100%"}} class="table">
@@ -120,21 +131,19 @@ class BackOfficeShowUsers extends Component {
     {((this.state.data !== null )&& (this.state.data !== ""))?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
             <tr>
-            <th style={{height:100,width:30}}>{val.user_id}</th>
-            <td style={{height:100,width:150}} >{val.username}</td>
-            <td style={{height:100,width:150}} >{val.firstname}</td>
-            <td style={{height:100,width:200}} ><p><button class="button is-info">M</button><button class="button is-danger">D</button></p></td>
+            <th style={{height:50,width:30}}>{val.user_id}</th>
+            <td style={{height:50,width:150}} >{val.username}</td>
+            <td style={{height:50,width:150}} >{val.firstname}</td>
+            <td style={{height:50,width:200}} ><p><button class="button is-info">M</button><button class="button is-danger">D</button></p></td>
             </tr>
             )
             :
             <h1>Aucune publication trouvée</h1>
           }
-
-    
   </tbody>
 </table>
 <p style={{textAlign: "center",margin: "auto"}}><p style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p><br/><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
-<button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>Back</button></p>
+</p>
             </div>
             <div class="column is-one-quarted"></div>
             </div>
