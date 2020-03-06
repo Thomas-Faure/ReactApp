@@ -57,7 +57,7 @@ class BackOfficeShowUsers extends Component {
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
-            console.log(this.state.searchItem)
+         
           
             var temp = this.state.dataFixed.filter((n)=>{
                 var exist = false
@@ -65,7 +65,7 @@ class BackOfficeShowUsers extends Component {
              
                      
                          if(n[property].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                             console.log(n)
+                        
                                exist = true
                          }
                     

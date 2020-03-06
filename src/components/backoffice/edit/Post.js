@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
 
-class BackOfficeCreatePost extends Component {
+class BackOfficeEditPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      id:this.props.match.params.id,
       valueTitle: "",
       valueDescription: "",
     }
@@ -12,9 +13,11 @@ class BackOfficeCreatePost extends Component {
     this.handleChangeDescription=this.handleChangeDescription.bind(this)
     this.handleChangeTitle= this.handleChangeTitle.bind(this)
     this.sendData = this.sendData.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
   componentDidMount() {
+      this.getData();
   }
 
   handleChangeTitle(event) {
@@ -29,20 +32,42 @@ class BackOfficeCreatePost extends Component {
     event.preventDefault();
   }
 
+  getData(){
+    fetch("http://51.255.175.118:2000/post/"+this.state.id, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+        
+      })
+        .then(res => res.json())
+        .then((data) => {
+         
+            if(data.length===1){
+                this.setState({
+                    valueTitle:data[0].title,
+                    valueDescription:data[0].description})
+            }
+          
+        })
+
+  }
+
   sendData() {
     
   
-    fetch("http://51.255.175.118:2000/post/create", {
+    fetch("http://51.255.175.118:2000/post/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: "T", title: this.state.valueTitle, description: this.state.valueDescription})
+      body: JSON.stringify({ category: 1, title: this.state.valueTitle, description: this.state.valueDescription})
     })
       .then(res => res.json())
       .then((data) => {
-          if(data.result===true){
+          if(data.affectedRows===1){
             window.location = "/#/backoffice/posts"; 
           }
         
@@ -53,15 +78,13 @@ class BackOfficeCreatePost extends Component {
   render() {
     return (
       <div>
-        <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
-          : null}
-        </div>
+
 
         <form onSubmit={this.handleSubmit}>
           <div class="field">
             <label class="label">Title</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Title" value={this.state.valueTitle} onChange={this.handleChangeTitle} />
+              <input class="input" type="text" placeholder="title" value={this.state.valueTitle} onChange={this.handleChangeTitle} />
             </div>
           </div>
           <div class="field">
@@ -90,4 +113,4 @@ class BackOfficeCreatePost extends Component {
 
 
 
-export default BackOfficeCreatePost;
+export default BackOfficeEditPost;

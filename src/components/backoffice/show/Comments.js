@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { useHistory } from 'react-router-dom';
 class BackOfficeShowComments extends Component {
 
     constructor(props) {
@@ -55,7 +54,7 @@ class BackOfficeShowComments extends Component {
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
-            console.log(this.state.searchItem)
+         
           
             var temp = this.state.dataFixed.filter((n)=>{
                 var exist = false
@@ -94,12 +93,12 @@ class BackOfficeShowComments extends Component {
     render() {
         return (
 
-            <div class="columns">
-            <div class="column is-one-quarter"></div>
-            <div class="column is-half"  style={{textAlign: "center",margin: "auto"}}>
-            <input class="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <div className="columns">
+            <div className="column is-one-quarter"></div>
+            <div className="column is-half"  style={{textAlign: "center",margin: "auto"}}>
+            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
         <p>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p>
-            <table style={{width: "100%"}} class="table">
+            <table style={{width: "100%"}} className="table">
   <thead>
     <tr style={{textAlign:"center"}}>
       
@@ -115,24 +114,24 @@ class BackOfficeShowComments extends Component {
   
     {((this.state.data !== null )&& (this.state.data !== ""))?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
-            <tr>
+            <tr key={val.comment_id}>
             <th style={{height:100,width:30}}>{val.comment_id}</th>
-            <td style={{height:100,width:250}, { 'whiteSpace': 'unset' } } >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
+            <td style={{height:100,width:250} } >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
             <th style={{height:100,width:30}}>{val.username}</th>
-            <td style={{height:100,width:200}} ><p><button class="button is-info">V</button><button class="button is-info">M</button><button class="button is-danger">D</button></p></td>
+            <td style={{height:100,width:200}} ><p><button className="button is-info">V</button><button className="button is-info">M</button><button className="button is-danger">D</button></p></td>
             </tr>
             )
             :
-            <h1>Aucune publication trouvée</h1>
+            null
           }
 
     
   </tbody>
 </table>
-<p><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
-<button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
+<p><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
             </div>
-            <div class="column is-one-quarted"></div>
+            <div className="column is-one-quarted"></div>
             </div>
            
     );
