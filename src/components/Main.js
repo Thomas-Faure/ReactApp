@@ -12,10 +12,16 @@ import Post from "./Post";
 import Informations from "./Informations";
 import BackOfficeShowPosts from './backoffice/show/Post'
 import BackOfficeShowUsers from './backoffice/show/User'
+import BackOfficeShowPostCategories from './backoffice/show/PostCategory'
+import BackOfficeShowCommentCategories from './backoffice/show/CommentCategory'
 import BackOfficeShowComments from './backoffice/show/Comments'
 import BackOfficeIndex from './backoffice/index'
 import BackOfficeCreatePost from './backoffice/create/Post'
 import BackOfficeEditPost from './backoffice/edit/Post'
+import BackOfficeEditUser from './backoffice/edit/User'
+import BackOfficeEditComment from './backoffice/edit/Comment'
+import BackOfficeEditPostCategory from './backoffice/edit/PostCategory'
+import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import { login, logoff, setUser, unSetUser } from '../actions';
 class Main extends Component {
 
@@ -122,9 +128,15 @@ class Main extends Component {
             <Route exact path="/backoffice" component={BackOfficeIndex} />
             <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
             <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
+            <Route exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
+            <Route exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
             <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
+            <Route exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
             <Route exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
+            <Route exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory}/>
+            <Route exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory}/>
             <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
+            <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
 
 
           </div>

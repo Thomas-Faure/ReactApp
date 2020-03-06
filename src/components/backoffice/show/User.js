@@ -1,5 +1,7 @@
 import React, { Component } from "react";
- 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 class BackOfficeShowUsers extends Component {
 
     constructor(props) {
@@ -10,11 +12,14 @@ class BackOfficeShowUsers extends Component {
             data: null,
             elementsByPage: 5,
             actualPage : 0,
-            maxPage: 0
+            maxPage: 0,
+            isOpen: false,
+            IdUserSelected: null
         }
         this.pushNextButton=this.pushNextButton.bind(this)
         this.pushPrevButton=this.pushPrevButton.bind(this)
         this.handleChangeSearch = this.handleChangeSearch.bind(this)
+        this.deleteUser= this.deleteUser.bind(this)
 
 
       }
@@ -24,11 +29,10 @@ class BackOfficeShowUsers extends Component {
     }
 
     getData(){
-        const token = localStorage.token;
+      const token = localStorage.token;
         fetch("http://51.255.175.118:2000/user/list", {
-      method: "GET",
-      headers:{
-        'Authorization':'Bearer '+token
+      method: "GET",headers: {
+        'Authorization': 'Bearer ' + token
       }
     })
       .then(res => res.json())
@@ -57,18 +61,15 @@ class BackOfficeShowUsers extends Component {
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
-         
-          
+            
             var temp = this.state.dataFixed.filter((n)=>{
+                var properties = ["user_id","username","firstname"]
                 var exist = false
-                for(const property in n){
-             
-                     
-                         if(n[property].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                        
-                               exist = true
-                         }
-                    
+                console.log(properties)
+                for(var i = 0;i<properties.length;++i){
+                    if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                        exist = true
+                   }
                 }
                 return exist
                 
@@ -84,6 +85,40 @@ class BackOfficeShowUsers extends Component {
 
     }
 
+    deleteUser(id){
+        let userTempFixed = this.state.dataFixed.filter((n)=>{
+            var exist = true
+            if(n.user_id===id) exist=false
+            return exist
+        })
+    
+        let userTemp = this.state.data.filter((n)=>{
+            var exist = true
+            if(n.user_id===id) exist=false
+            return exist
+        })
+  
+        let newMaxPage = Math.floor((userTemp.length-1)/this.state.elementsByPage)
+        var newActualPage = this.state.actualPage
+        if(newMaxPage < this.state.actualPage) {
+            if(newActualPage !== 0){
+            newActualPage = newActualPage-1
+            }
+        }
+       this.setState({
+            data : userTemp,
+            dataFixed: userTempFixed,
+            maxPage: (Math.floor((userTemp.length-1)/this.state.elementsByPage)=== -1 ? 0: Math.floor((userTemp.length-1)/this.state.elementsByPage)),
+            actualPage : newActualPage
+
+        })
+        fetch('http://51.255.175.118:2000/user/' + id+'/delete', {
+        method: 'DELETE',
+        })
+        
+
+    }
+
     pushPrevButton(){
         if(this.state.actualPage >0){
             this.setState({
@@ -94,27 +129,51 @@ class BackOfficeShowUsers extends Component {
 
     }
 
+
+
     render() {
         return (
+            <div>
 
-            <div class="columns">
-            <div class="column is-one-quarter"></div>
-            <div class="column is-half" >
+<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
+  <div className="modal-background"></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Delete User</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+    </header>
+    <section className="modal-card-body">
+        <p>Are you sure to delete this user ?</p>
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button is-danger" onClick={()=>{this.deleteUser(this.state.IdUserSelected);this.setState({isOpen:false,IdUserSelected:null})}}>Delete</button>
+      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+    </footer>
+  </div>
+</div>
+ 
+
+            <div className="columns">
+            <div className="column is-one-quarter"></div>
+            <div className="column is-half"  style={{margin: "auto"}}>
             <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage User</h1>
-            <div class="columns">
-            <div class="column is-one-quarter">
-            <button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
+           
+            <div className="columns">
+            <div className="column is-one-quarter">
+            <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
-            <div class="column is-half" style={{textAlign: "center"}}>
-            <button class="button is-primary" style={{marginBottom: "10px"}}>+</button>
+            <div className="column is-half" style={{textAlign: "center"}}>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/users/create'}>+</button>
             </div>
-            <div class="column is-one-quarter">
+            <div className="column is-one-quarter">
 
             </div>
             </div>
-            <input class="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
-      
-            <table style={{width: "100%"}} class="table">
+
+            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+
+        
+            <table style={{width: "100%"}} className="table">
   <thead>
     <tr style={{textAlign:"center"}}>
       
@@ -130,22 +189,25 @@ class BackOfficeShowUsers extends Component {
   
     {((this.state.data !== null )&& (this.state.data !== ""))?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
-            <tr>
+            <tr key={val.user_id}>
             <th style={{height:50,width:30}}>{val.user_id}</th>
             <td style={{height:50,width:150}} >{val.username}</td>
-            <td style={{height:50,width:150}} >{val.firstname}</td>
-            <td style={{height:50,width:200}} ><p><button class="button is-info">M</button><button class="button is-danger">D</button></p></td>
+            <td style={{height:50,width:250}} >{val.firstname.length>10 ? val.firstname.substring(0,10)+"...": val.firstname}</td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/users/'+val.user_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdUserSelected:val.user_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
-            <h1>Aucune publication trouvée</h1>
+         null
           }
+
+    
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><p style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage} / {this.state.maxPage}</p><br/><button class="button is-link" onClick={this.pushPrevButton}>Prev</button><button class="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
 </p>
             </div>
-            <div class="column is-one-quarted"></div>
+            <div className="column is-one-quarted"></div>
+            </div>
             </div>
            
     );

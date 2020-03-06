@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 
 
-class BackOfficeEditPost extends Component {
+class BackOfficeEditComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
-      valueTitle: "",
+      comment_id:this.props.match.params.comment_id,
+      post_id: this.props.match.params.post_id,
       valueDescription: "",
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeDescription=this.handleChangeDescription.bind(this)
-    this.handleChangeTitle= this.handleChangeTitle.bind(this)
     this.sendData = this.sendData.bind(this)
     this.getData = this.getData.bind(this)
   }
@@ -33,20 +32,18 @@ class BackOfficeEditPost extends Component {
   }
 
   getData(){
-    fetch("http://51.255.175.118:2000/post/"+this.state.id, {
+    fetch("http://51.255.175.118:2000/comment/"+this.state.comment_id, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
-        
       })
         .then(res => res.json())
         .then((data) => {
          
             if(data.length===1){
                 this.setState({
-                    valueTitle:data[0].title,
                     valueDescription:data[0].description})
             }
           
@@ -57,7 +54,7 @@ class BackOfficeEditPost extends Component {
   sendData() {
     
   
-    fetch("http://51.255.175.118:2000/post/"+this.state.id+"/edit", {
+    fetch("http://51.255.175.118:2000/comment/"+this.state.comment_id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -68,7 +65,7 @@ class BackOfficeEditPost extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/posts"; 
+            window.location = "/#/backoffice/posts/"+this.state.post_id+"/comments"; 
           }
         
       })
@@ -81,12 +78,7 @@ class BackOfficeEditPost extends Component {
 
 
         <form onSubmit={this.handleSubmit}>
-          <div class="field">
-            <label class="label">Title</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="title" value={this.state.valueTitle} onChange={this.handleChangeTitle} />
-            </div>
-          </div>
+         
           <div class="field">
             <label class="label">Description</label>
             <div class="control">
@@ -94,13 +86,7 @@ class BackOfficeEditPost extends Component {
             </div>
           </div>
           <div class="field">
-            <label class="label">Post Category</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Url_image</label>
+            <label class="label">Comment Category</label>
             <div class="control">
               <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
@@ -125,4 +111,4 @@ class BackOfficeEditPost extends Component {
 
 
 
-export default BackOfficeEditPost;
+export default BackOfficeEditComment;
