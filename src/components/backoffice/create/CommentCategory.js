@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-class BackOfficeEditCommentCategory extends Component {
+class BackOfficeCreateCommentCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,12 +16,9 @@ class BackOfficeEditCommentCategory extends Component {
 
 
     this.sendData = this.sendData.bind(this)
-    this.getData = this.getData.bind(this)
   }
 
-  componentDidMount() {
-      this.getData();
-  }
+ 
 
   handleChangeDescription(event) {
     this.setState({ valueDescription: event.target.value })
@@ -38,36 +35,12 @@ class BackOfficeEditCommentCategory extends Component {
     event.preventDefault();
   }
 
-  getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/commentCategory/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
-          
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueDescription:data[0].description,
-                    valueCouleur:data[0].color
-                })
-            }
-          
-        })
 
-  }
 
   sendData() {
     
   
-    fetch("http://51.255.175.118:2000/commentCategory/"+this.state.id+"/edit", {
+    fetch("http://51.255.175.118:2000/commentCategory/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -77,7 +50,7 @@ class BackOfficeEditCommentCategory extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-          if(data.affectedRows===1){
+          if(data.result===true){
             window.location = "/#/backoffice/commentCategories"; 
           }
         
@@ -88,8 +61,6 @@ class BackOfficeEditCommentCategory extends Component {
   render() {
     return (
       <div>
-
-
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <label className="label">Description</label>
@@ -125,4 +96,4 @@ class BackOfficeEditCommentCategory extends Component {
 
 
 
-export default BackOfficeEditCommentCategory;
+export default BackOfficeCreateCommentCategory;

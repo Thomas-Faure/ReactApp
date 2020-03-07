@@ -64,12 +64,12 @@ class BackOfficeShowPosts extends Component {
                 var exist = false
          
                 for(var i = 0;i<properties.length;++i){
+                  console.log(n[properties[i]])
                     if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
                         exist = true
                    }
                 }
                 return exist
-                
             })
             this.setState({data:temp,
                 actualPage : 0,

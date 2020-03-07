@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-class BackOfficeEditPostCategory extends Component {
+class BackOfficeCreatePostCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,12 +16,9 @@ class BackOfficeEditPostCategory extends Component {
     this.handleChangeUrl= this.handleChangeUrl.bind(this)
 
     this.sendData = this.sendData.bind(this)
-    this.getData = this.getData.bind(this)
   }
 
-  componentDidMount() {
-      this.getData();
-  }
+
 
   handleChangeDescription(event) {
     this.setState({ valueDescription: event.target.value })
@@ -40,36 +37,12 @@ class BackOfficeEditPostCategory extends Component {
     event.preventDefault();
   }
 
-  getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/postCategory/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
-          
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueDescription:data[0].description,
-                    valueCouleur:data[0].couleur,
-                valueUrl:data[0].url_image})
-            }
-          
-        })
 
-  }
 
   sendData() {
     
   
-    fetch("http://51.255.175.118:2000/postCategory/"+this.state.id+"/edit", {
+    fetch("http://51.255.175.118:2000/postCategory/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -79,7 +52,7 @@ class BackOfficeEditPostCategory extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-          if(data.affectedRows===1){
+          if(data.result===true){
             window.location = "/#/backoffice/postCategories"; 
           }
         
@@ -90,8 +63,6 @@ class BackOfficeEditPostCategory extends Component {
   render() {
     return (
       <div>
-
-
         <form onSubmit={this.handleSubmit}>
           <div class="field">
             <label class="label">Description</label>
@@ -132,4 +103,4 @@ class BackOfficeEditPostCategory extends Component {
 
 
 
-export default BackOfficeEditPostCategory;
+export default BackOfficeCreatePostCategory;

@@ -4,11 +4,10 @@ import {
   Route,
   HashRouter
 } from "react-router-dom";
-import Stuff from "./Stuff";
 import Contact from "./Contact";
 import Login from "./Login";
-import Posts from "./Posts";
-import Post from "./Post";
+import PostsList from "./PostsList";
+import PostDetails from "./PostDetails";
 import Informations from "./Informations";
 import BackOfficeShowPosts from './backoffice/show/Post'
 import BackOfficeShowUsers from './backoffice/show/User'
@@ -17,10 +16,13 @@ import BackOfficeShowCommentCategories from './backoffice/show/CommentCategory'
 import BackOfficeShowComments from './backoffice/show/Comments'
 import BackOfficeIndex from './backoffice/index'
 import BackOfficeCreatePost from './backoffice/create/Post'
+import BackOfficeCreateUser from './backoffice/create/User'
 import BackOfficeEditPost from './backoffice/edit/Post'
 import BackOfficeEditUser from './backoffice/edit/User'
 import BackOfficeEditComment from './backoffice/edit/Comment'
 import BackOfficeEditPostCategory from './backoffice/edit/PostCategory'
+import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
+import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import { login, logoff, setUser, unSetUser } from '../actions';
 class Main extends Component {
@@ -118,10 +120,9 @@ class Main extends Component {
         </nav>
         <section className="section">
           <div className="container">
-            <Route exact path="/" component={Posts} />
-            <Route path="/stuff" component={Stuff} />
-            <Route path="/posts" component={Posts} />
-            <Route path="/post/:id" component={Post} />
+            <Route exact path="/" component={PostsList} />
+            <Route path="/posts" component={PostsList} />
+            <Route path="/post/:id" component={PostDetails} />
             <Route path="/login" component={Login} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
@@ -131,6 +132,9 @@ class Main extends Component {
             <Route exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
             <Route exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
             <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
+            <Route exact path="/backoffice/users/create" component={BackOfficeCreateUser} />
+            <Route exact path="/backoffice/postCategories/create" component={BackOfficeCreatePostCategory} />
+            <Route exact path="/backoffice/commentCategories/create" component={BackOfficeCreateCommentCategory} />
             <Route exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
             <Route exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
             <Route exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory}/>

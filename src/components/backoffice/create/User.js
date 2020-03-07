@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-class BackOfficeEditUser extends Component {
+class BackOfficeCreateUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -11,7 +11,7 @@ class BackOfficeEditUser extends Component {
       valueLastname: "",
       valueMail: "",
       valueSexe: "",
-      valueAdmin: "",
+      valueAdmin: 0,
       valueBirthday: "",
       valuePassword: ""
     }
@@ -25,12 +25,10 @@ class BackOfficeEditUser extends Component {
     this.handleChangeBirthday= this.handleChangeBirthday.bind(this)
     this.handleChangePassword= this.handleChangePassword.bind(this)
     this.sendData = this.sendData.bind(this)
-    this.getData = this.getData.bind(this)
+ 
   }
 
-  componentDidMount() {
-      this.getData();
-  }
+
 
   handleChangeUsername(event) {
     this.setState({ valueUsername: event.target.value })
@@ -62,40 +60,12 @@ class BackOfficeEditUser extends Component {
     event.preventDefault();
   }
 
-  getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/user/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
-          
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueUsername:data[0].username,
-                    valueFirstname:data[0].firstname,
-                valueAdmin:data[0].admin,
-            valueMail:data[0].mail,
-            valueLastname:data[0].lastname,
-            valueSexe:data[0].sexe,
-          valueBirthday:data[0].birthday.slice(0,10)})
-            }
-          
-        })
-
-  }
+  
 
   sendData() {
     
   
-    fetch("http://51.255.175.118:2000/user/"+this.state.id+"/edit", {
+    fetch("http://51.255.175.118:2000/user/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -207,4 +177,4 @@ class BackOfficeEditUser extends Component {
 
 
 
-export default BackOfficeEditUser;
+export default BackOfficeCreateUser;

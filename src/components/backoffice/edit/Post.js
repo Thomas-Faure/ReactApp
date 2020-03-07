@@ -8,16 +8,21 @@ class BackOfficeEditPost extends Component {
       id:this.props.match.params.id,
       valueTitle: "",
       valueDescription: "",
+      categories: [],
+      valueCategory: "",
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeDescription=this.handleChangeDescription.bind(this)
     this.handleChangeTitle= this.handleChangeTitle.bind(this)
+    this.handleChangeCategory= this.handleChangeCategory.bind(this)
     this.sendData = this.sendData.bind(this)
     this.getData = this.getData.bind(this)
+    this.getCategories = this.getCategories.bind(this)
   }
 
   componentDidMount() {
       this.getData();
+      this.getCategories()
   }
 
   handleChangeTitle(event) {
@@ -25,6 +30,9 @@ class BackOfficeEditPost extends Component {
   }
   handleChangeDescription(event) {
     this.setState({ valueDescription: event.target.value })
+  }
+  handleChangeCategory(event) {
+    this.setState({ valueCategory: event.target.value })
   }
 
   handleSubmit(event) {
@@ -43,14 +51,32 @@ class BackOfficeEditPost extends Component {
       })
         .then(res => res.json())
         .then((data) => {
-         
+      
             if(data.length===1){
                 this.setState({
                     valueTitle:data[0].title,
-                    valueDescription:data[0].description})
+                    valueDescription:data[0].description,
+                    valueCategory:data[0].post_category})
             }
           
         })
+
+  }
+
+  getCategories(){
+    fetch("http://51.255.175.118:2000/postCategory", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then((data) => {
+       
+          this.setState({categories:data})
+        
+      })
 
   }
 
@@ -93,18 +119,28 @@ class BackOfficeEditPost extends Component {
               <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
+
           <div class="field">
-            <label class="label">Post Category</label>
+            <label class="label">Category</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+            <div className="select">
+            
+              <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
+              {(this.state.categories.length != 0 )?
+            this.state.categories.map((val,index) =>
+            <option value={val.post_category_id}>{val.description}</option>
+            )
+            :
+         null
+          }
+              
+ 
+
+          </select>
+          </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Url_image</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
-            </div>
-          </div>
+
 
           <div class="control">
             <input class="button is-link" type="submit" value="submit"></input>

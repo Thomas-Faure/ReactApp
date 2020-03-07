@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PostModel from './Model/PostModel'
-class Posts extends Component {
+class PostsList extends Component {
 
   constructor(props) {
     super(props)
@@ -196,4 +196,4 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+export default PostsList;

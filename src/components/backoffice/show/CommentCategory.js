@@ -60,7 +60,7 @@ class BackOfficeShowPostCategories extends Component {
 
             
             var temp = this.state.dataFixed.filter((n)=>{
-                var properties = ["comment_category_id","description","couleur"]
+                var properties = ["comment_category_id","description","color"]
                 var exist = false
             
                 for(var i = 0;i<properties.length;++i){
@@ -85,13 +85,13 @@ class BackOfficeShowPostCategories extends Component {
     deletePostCategory(id){
         let postTempFixed = this.state.dataFixed.filter((n)=>{
             var exist = true
-            if(n.post_id===id) exist=false
+            if(n.comment_category_id===id) exist=false
             return exist
         })
     
         let postTemp = this.state.data.filter((n)=>{
             var exist = true
-            if(n.post_id===id) exist=false
+            if(n.comment_category_id===id) exist=false
             return exist
         })
   
@@ -153,14 +153,14 @@ class BackOfficeShowPostCategories extends Component {
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half"  style={{margin: "auto"}}>
-            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Post Category</h1>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Comment Category</h1>
            
             <div className="columns">
             <div className="column is-one-quarter">
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/posts/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/commentCategories/create'}>+</button>
             </div>
             <div className="column is-one-quarter">
 
@@ -176,7 +176,7 @@ class BackOfficeShowPostCategories extends Component {
       
         <th >Id</th>
         <th >Description</th>
-        <th >Couleur</th>
+        <th >color</th>
         <th >Action</th>
 
     </tr>
@@ -189,7 +189,7 @@ class BackOfficeShowPostCategories extends Component {
             <tr key={val.comment_category_id}>
             <th style={{height:50,width:30}}>{val.comment_category_id}</th>
             <td style={{height:50,width:150}} >{val.description}</td>
-            <td style={{height:50,width:150}} >{val.couleur}</td>
+            <td style={{height:50,width:150}} >{val.color}</td>
             <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/commentCategories/'+val.comment_category_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentCategorySelected:val.comment_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )

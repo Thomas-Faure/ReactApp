@@ -1,6 +1,6 @@
 import React, { Component } from "react";
  import CommentModel from './Model/CommentModel'
-class Post extends Component {
+class PostDetails extends Component {
 
     constructor(props){
         super(props)
@@ -136,4 +136,4 @@ class Post extends Component {
   }
 }
  
-export default Post;
+export default PostDetails;

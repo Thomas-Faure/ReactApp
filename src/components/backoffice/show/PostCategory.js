@@ -85,13 +85,13 @@ class BackOfficeShowPostCategories extends Component {
     deletePostCategory(id){
         let postTempFixed = this.state.dataFixed.filter((n)=>{
             var exist = true
-            if(n.post_id===id) exist=false
+            if(n.post_category_id===id) exist=false
             return exist
         })
     
         let postTemp = this.state.data.filter((n)=>{
             var exist = true
-            if(n.post_id===id) exist=false
+            if(n.post_category_id===id) exist=false
             return exist
         })
   
@@ -160,7 +160,7 @@ class BackOfficeShowPostCategories extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/posts/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/postCategories/create'}>+</button>
             </div>
             <div className="column is-one-quarter">
 
