@@ -1,7 +1,7 @@
 
 
-
 import React, { Component } from "react";
+import Moment from 'react-moment';
 class CommentModel extends Component {
 
     constructor(props){
@@ -70,16 +70,31 @@ class CommentModel extends Component {
   render() {
 
     return (
-        <div>
-                {this.state.alreadyReported === true ? <button onClick={this.report}>Report<span role="img" aria-label="validate">✅</span></button> : <button onClick={this.report}>Report</button>}
-                
-                <p>id comment :{this.state.comment.comment_id}</p>
-                <p>description :{this.state.comment.description}</p>
-                <p>category :{this.state.comment.comment_category}</p>
-                <p>Author:({this.state.comment.user_id}){this.state.comment.username}</p>
-                <p>Report :{this.state.comment.report}</p>
-                <p>-------------</p>
+      <div className="card">
+      <div className="card-content">
+        <div >
+         
+
+          <div className="media-content" style={{backgroundColor: this.state.comment.color}}>
+            <div style={{backgroundColor:"white"}}  className="post_title">
+              <h4 className="title is-4" id="post_title">{this.state.comment.description}</h4>
+              <Moment interval={30000} fromNow>
+                  {this.state.comment.date}
+                </Moment >
+             
             </div>
+           
+            <div className="infos">
+              <p className="author">{this.state.comment.username}</p>
+              {this.state.alreadyReported === true ? <button onClick={this.report}>Report<span role="img" aria-label="validate">✅</span></button> : <button onClick={this.report}>Report</button>}
+            </div>
+          </div>
+         
+        </div>
+
+      </div>
+    </div>
+
     );
   }
 }
