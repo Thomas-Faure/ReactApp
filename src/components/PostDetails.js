@@ -12,7 +12,7 @@ class PostDetails extends Component {
       post: null,
       comments: null,
       alreadyReported: false,
-      actualPage: 0,
+      actualPage: 1,
       maxPage: 1,
       elementsByPage: 5,
       valueComment: "",
@@ -88,12 +88,12 @@ class PostDetails extends Component {
         this.setState(
           {
             comments: data,
-            maxPage: Math.floor(data.length / this.state.elementsByPage)
+            maxPage: Math.ceil(data.length / this.state.elementsByPage)
           }
         )
 
       })
-
+      return
   }
   verifAlreadyCommented() {
     const token = localStorage.token;
@@ -183,7 +183,7 @@ class PostDetails extends Component {
       .then((data) => {
         if (data.result === true) {
           this.getComments()
-          this.setState({ actualPage: this.state.maxPage, valueComment: "" })
+          this.setState({ actualPage: 1, valueComment: "" })
         }
 
       })
@@ -232,11 +232,11 @@ class PostDetails extends Component {
               </div>
 
             </div>
-            {this.state.maxPage - 1 == 0 ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+            {(this.state.maxPage  == 0) || (this.state.maxPage  == 1) ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage } / {this.state.maxPage}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
 
             {this.state.comments != null ?
-              this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage) - 1, 5 + (this.state.actualPage * this.state.elementsByPage) - 1).map((val, index) =>
+              this.state.comments.slice(0 + ((this.state.actualPage-1) * this.state.elementsByPage) , 5 + ((this.state.actualPage-1) * this.state.elementsByPage) ).map((val, index) =>
                 <CommentModel comment={val}></CommentModel>
               )
               :
