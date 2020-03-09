@@ -62,6 +62,7 @@ class Login extends Component {
             .then((data) => {
             
               this.props.setUser(data[0])
+              window.location.href = '/#/'
     
             })
         } else {
