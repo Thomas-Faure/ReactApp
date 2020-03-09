@@ -77,22 +77,22 @@ class PostDetails extends Component {
       })
 
   }
-  getComments() {
+  async getComments() {
 
-    fetch("http://51.255.175.118:2000/post/" + this.state.id + "/comments", {
+    let x = await fetch("http://51.255.175.118:2000/post/" + this.state.id + "/comments", {
       method: "GET"
     })
-      .then(res => res.json())
-      .then((data) => {
+    let y = await  x.json()
 
-        this.setState(
+    let z = await  this.setState(
           {
-            comments: data,
-            maxPage: Math.floor(data.length / this.state.elementsByPage)
+            comments: y,
+            maxPage: (Math.ceil(y.length / this.state.elementsByPage)-1)
           }
         )
-
-      })
+        
+        
+    return
 
   }
   verifAlreadyCommented() {
@@ -167,7 +167,6 @@ class PostDetails extends Component {
   }
 
   sendData() {
-
     const token = localStorage.token;
     fetch("http://51.255.175.118:2000/post/" + this.state.post.post_id + "/comment/create", {
       method: 'POST',
@@ -182,8 +181,15 @@ class PostDetails extends Component {
       .then(res => res.json())
       .then((data) => {
         if (data.result === true) {
-          this.getComments()
-          this.setState({ actualPage: this.state.maxPage, valueComment: "" })
+         
+         let asyncChangepage = async()=>{
+           console.log("oui")
+           let x = await this.getComments()
+           console.log(this.state.comments.length)
+           let y = await this.setState({actualPage: this.state.maxPage,valueComment: ""})
+
+         }
+         asyncChangepage()
         }
 
       })
@@ -236,7 +242,7 @@ class PostDetails extends Component {
             </p>}
 
             {this.state.comments != null ?
-              this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage) - 1, 5 + (this.state.actualPage * this.state.elementsByPage) - 1).map((val, index) =>
+              this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
                 <CommentModel comment={val}></CommentModel>
               )
               :

@@ -126,7 +126,7 @@ class BackOfficeEditPost extends Component {
             <div className="select">
             
               <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-              {(this.state.categories.length != 0 )?
+              {(this.state.categories.length !== 0 )?
             this.state.categories.map((val,index) =>
             <option value={val.post_category_id}>{val.description}</option>
             )
