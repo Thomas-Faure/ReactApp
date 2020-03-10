@@ -9,10 +9,16 @@ export const fetchPosts= ()=> {
             method: "GET"
           })
           .then(res => res.json())
-          .then(res => {       
-              console.log(res)   
-              dispatch(fetchPostsSuccess(res));
-              return res;
+          .then(async res  => {  
+              
+         
+            console.log("go") 
+             dispatch(fetchPostsSuccess(res));
+                    
+            return res;
+                
+               
+              
           })
           .catch(error => {
               dispatch(fetchPostsError(error));

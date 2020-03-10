@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
 import Moment from 'react-moment';
 class PostDetails extends Component {
@@ -8,7 +9,7 @@ class PostDetails extends Component {
     super(props)
 
     this.state = {
-      id: 0,
+      id: this.props.match.params.id,
       post: null,
       comments: null,
       alreadyReported: false,
@@ -21,9 +22,7 @@ class PostDetails extends Component {
 
 
     }
-    this.getPost = this.getPost.bind(this)
-    this.getComments = this.getComments.bind(this)
-    this.getData = this.getData.bind(this)
+    this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
     this.verifAlreadyCommented = this.verifAlreadyCommented.bind(this)
     this.pushNextButton = this.pushNextButton.bind(this)
@@ -53,11 +52,34 @@ class PostDetails extends Component {
     }
 
   }
-  componentDidMount() {
-    this.getData()
-    this.getCategories()
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.post.pending == false && this.props.comment.comments != null){
+      this.getData()
+    }
+}
+componentDidMount(){
+  this.getData()
+}
+getData(){
+  var data = this.props.post.posts.find(element => element.post_id == this.state.id);
+  if(this.props.comment.comments != null){
+  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
+  }else{
+    var comments = null
   }
+  console.log("------")
+  console.log(comments)
+  console.log(data)
+  if(data != undefined && comments !=null)
+  this.setState({ 
+    post: data,
+    comments:comments,
+    maxPage: (Math.ceil(comments.length/this.state.elementsByPage)-1)
+
+   }, () => { this.verifAlreadyCommented() })
+}
+
   handleChangeComment(event) {
     this.setState({ valueComment: event.target.value })
   }
@@ -65,18 +87,7 @@ class PostDetails extends Component {
     this.setState({ valueCategory: event.target.value })
   }
 
-  getPost() {
-    fetch("http://51.255.175.118:2000/post/" + this.state.id, {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
 
-        this.setState({ post: data[0] }, () => { this.verifAlreadyCommented() })
-
-      })
-
-  }
   async getComments() {
 
     let x = await fetch("http://51.255.175.118:2000/post/" + this.state.id + "/comments", {
@@ -134,37 +145,10 @@ class PostDetails extends Component {
       })
 
   }
-  getCategories() {
-    fetch("http://51.255.175.118:2000/commentCategory", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-
-        this.setState({ categories: data },
-          this.setState({ valueCategory: data[0].comment_category_id }))
-
-      })
-
-  }
+ 
 
 
-  getData() {
-    {
-      if (this.state.id !== this.props.match.params.id) {
-        this.setState({ id: this.props.match.params.id },
-          () => {
-            this.getPost()
-            this.getComments()
-
-          });
-      }
-    }
-  }
+ 
 
   sendData() {
     const token = localStorage.token;
@@ -197,8 +181,6 @@ class PostDetails extends Component {
   }
 
   render() {
-
-
     return (
       <div>
         {this.state.post != null ?
@@ -290,10 +272,22 @@ class PostDetails extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    isLogged: state.isLogged
+    isLogged: state.isLogged,
+    post: state.post,
+    comment: state.comment,
+    error: state.post.error,
+    posts: state.post.posts,
+    pending: state.post.pending
+
   }
 }
 
-export default connect(mapStateToProps, null)(PostDetails);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+
+

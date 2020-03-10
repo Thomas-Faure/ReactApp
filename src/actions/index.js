@@ -1,14 +1,86 @@
+/////////////////CATEGORIES COMMENT/////////////////////////////////
+export const FETCH_POST_CATEGORIES_PENDING = 'FETCH_POST_CATEGORIES_PENDING';
+export const FETCH_POST_CATEGORIES_SUCCESS = 'FETCH_POST_CATEGORIES_SUCCESS';
+export const FETCH_POST_CATEGORIES_ERROR = 'FETCH_POST_CATEGORIES_ERROR';
+
+export const  fetchPostCategoriesPending = ()=> {
+    return {
+        type: FETCH_POST_CATEGORIES_PENDING
+    }
+}
+
+export const fetchPostCategoriesSuccess = (categories) =>{
+    return {
+        type: FETCH_POST_CATEGORIES_SUCCESS,
+        payload: categories
+    }
+}
+export const  fetchPostCategoriesError = (error)=> {
+    return {
+        type: FETCH_POST_CATEGORIES_ERROR,
+        payload: error
+    }
+}
+/////////////////CATEGORIES COMMENT/////////////////////////////////
+export const FETCH_COMMENT_CATEGORIES_PENDING = 'FETCH_COMMENT_CATEGORIES_PENDING';
+export const FETCH_COMMENT_CATEGORIES_SUCCESS = 'FETCH_COMMENT_CATEGORIES_SUCCESS';
+export const FETCH_COMMENT_CATEGORIES_ERROR = 'FETCH_COMMENT_CATEGORIES_ERROR';
+
+export const  fetchCommentCategoriesPending = ()=> {
+    return {
+        type: FETCH_COMMENT_CATEGORIES_PENDING
+    }
+}
+
+export const fetchCommentCategoriesSuccess = (categories) =>{
+    return {
+        type: FETCH_COMMENT_CATEGORIES_SUCCESS,
+        payload: categories
+    }
+}
+
+export const  fetchCommentCategoriesError = (error)=> {
+    return {
+        type: FETCH_COMMENT_CATEGORIES_ERROR,
+        payload: error
+    }
+}
+/////////////////COMMENTS/////////////////////////////////
+export const FETCH_COMMENTS_PENDING = 'FETCH_COMMENTS_PENDING';
+export const FETCH_COMMENTS_SUCCESS = 'FETCH_COMMENTS_SUCCESS';
+export const FETCH_COMMENTS_ERROR = 'FETCH_COMMENTS_ERROR';
+
+export const  fetchCommentsPending = ()=> {
+    return {
+        type: FETCH_COMMENTS_PENDING
+    }
+}
+
+export const fetchCommentsSuccess = (comments) =>{
+    return {
+        type: FETCH_COMMENTS_SUCCESS,
+        payload: comments
+    }
+}
+
+export const  fetchCommentsError = (error)=> {
+    return {
+        type: FETCH_COMMENTS_ERROR,
+        payload: error
+    }
+}
+/////////////////POST/////////////////////////////////
 export const FETCH_POSTS_PENDING = 'FETCH_POSTS_PENDING';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
 
-export const  fetchPostsPending= ()=> {
+export const  fetchPostsPending = ()=> {
     return {
         type: FETCH_POSTS_PENDING
     }
 }
 
-export const fetchPostsSuccess= (posts) =>{
+export const fetchPostsSuccess = (posts) =>{
     return {
         type: FETCH_POSTS_SUCCESS,
         payload: posts
@@ -22,14 +94,7 @@ export const  fetchPostsError = (error)=> {
     }
 }
 
-/////////////////BACKOFFICE//////////////////
-export const setPosts = (posts) =>{
 
-    return {
-        type: "SET_POSTS",
-        payload: posts
-    }
-}
 ////////////////////////////////////////////
 //login
 export const login = () =>{

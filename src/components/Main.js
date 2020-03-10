@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
+import fetchComments from '../fetch/fetchComments'
 import {
   Route,
   HashRouter
@@ -27,6 +28,9 @@ import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
 import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import { login, logoff, setUser, unSetUser } from '../actions';
+
+import fetchCommentCategories from "../fetch/fetchCommentCategories";
+import fetchPostCategories from "../fetch/fetchPostCategories";
 class Main extends Component {
 
 
@@ -63,10 +67,14 @@ class Main extends Component {
       })
 
   }
+  
   componentDidMount() {
     this.verifLogin()
-    const {fetchPosts} = this.props;
+    
     this.props.fetchPosts()
+    this.props.fetchComments()
+    this.props.fetchCommentCategories()
+    this.props.fetchPostCategories()
   }
   logoff() {
     this.props.logoff();
@@ -105,8 +113,6 @@ class Main extends Component {
               <a className="navbar-item" href="/#/informations">
                 Informations
       </a>
-
-
             </div>
 
             <div className="navbar-end">
@@ -167,7 +173,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     login,
     setUser,
     unSetUser,
-  fetchPosts: fetchPosts
+  fetchPosts: fetchPosts,
+  fetchComments: fetchComments,
+  fetchCommentCategories: fetchCommentCategories,
+  fetchPostCategories:fetchPostCategories
+
 }, dispatch)
 
 
