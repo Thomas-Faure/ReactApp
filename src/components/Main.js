@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import fetchPosts from '../fetch/fetchPosts'
 import {
   Route,
   HashRouter
@@ -63,6 +65,8 @@ class Main extends Component {
   }
   componentDidMount() {
     this.verifLogin()
+    const {fetchPosts} = this.props;
+    this.props.fetchPosts()
   }
   logoff() {
     this.props.logoff();
@@ -157,14 +161,15 @@ const mapStateToProps = (state) => {
     isLogged: state.isLogged
   }
 }
-const mapDispatchToProps = () => {
-  return {
-    logoff,
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  logoff,
     login,
     setUser,
-    unSetUser
+    unSetUser,
+  fetchPosts: fetchPosts
+}, dispatch)
 
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps())(Main);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

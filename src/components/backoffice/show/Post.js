@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class BackOfficeShowPosts extends Component {
@@ -23,27 +24,21 @@ class BackOfficeShowPosts extends Component {
 
 
       }
-
-    componentDidMount() {
-        this.getData()
+    componentWillReceiveProps(nextProps){
+        if(this.props.post.posts.length != 0){
+          this.getData()
+        }
     }
-
+    componentDidMount(){
+      this.getData()
+    }
     getData(){
-        fetch("http://51.255.175.118:2000/post", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-  
-
+      var data = this.props.post.posts
         this.setState({
           data: data,
-          dataFixed: data,
+          dataFixed:data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
-        },)
-
-      })
-
+        })
     }
 
     pushNextButton(){
@@ -53,13 +48,12 @@ class BackOfficeShowPosts extends Component {
            
         })
     }
-
     }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
             
-            var temp = this.state.dataFixed.filter((n)=>{
+            var temp = this.props.posts.filter((n)=>{
                 var properties = ["post_id","title","description"]
                 var exist = false
          
@@ -129,6 +123,7 @@ class BackOfficeShowPosts extends Component {
 
 
     render() {
+   
         return (
             <div>
 
@@ -184,7 +179,7 @@ class BackOfficeShowPosts extends Component {
 
   <tbody>
   
-    {((this.state.data !== null )&& (this.state.data !== ""))?
+    {(this.state.data !=null)?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.post_id}</th>
@@ -210,5 +205,20 @@ class BackOfficeShowPosts extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => {
+  return {
+    post: state.post,
+    error: state.post.error,
+    posts: state.post.posts,
+    pending: state.post.pending
+
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
  
-export default BackOfficeShowPosts;
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowPosts);

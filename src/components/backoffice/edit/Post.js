@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import {setPosts} from '../../../actions';
 
 class BackOfficeEditPost extends Component {
   constructor(props) {
@@ -41,28 +42,15 @@ class BackOfficeEditPost extends Component {
   }
 
   getData(){
-    fetch("http://51.255.175.118:2000/post/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-        
-      })
-        .then(res => res.json())
-        .then((data) => {
-      
-            if(data.length===1){
-                this.setState({
-                    valueTitle:data[0].title,
-                    valueDescription:data[0].description,
-                    valueCategory:data[0].post_category})
-            }
-          
-        })
+    var post = this.props.post.find(element => element.post_id == this.state.id);
+    this.setState({
+      valueTitle:post.title,
+      valueDescription:post.description,
+      valueCategory:post.post_category})
+ 
+
 
   }
-
   getCategories(){
     fetch("http://51.255.175.118:2000/postCategory", {
       method: 'GET',
@@ -103,6 +91,9 @@ class BackOfficeEditPost extends Component {
 
   render() {
     return (
+      <div class="columns">
+      <div class="column is-one-quarter"></div>
+      <div class="column is-half">
       <div>
 
 
@@ -153,12 +144,27 @@ class BackOfficeEditPost extends Component {
 
 
       </div>
+      </div>
+      <div class="column is-one-quarter"></div>
+      </div>
     );
   }
 }
 
 
 
+const mapStateToProps = (state) => {
+  return {
+    post: state.post
+  }
+}
 
+const mapDispatchToProps = () => {
+  return {
+    
 
-export default BackOfficeEditPost;
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditPost);
+

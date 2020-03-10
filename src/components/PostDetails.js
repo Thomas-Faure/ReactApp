@@ -240,13 +240,21 @@ class PostDetails extends Component {
             </div>
             {this.state.maxPage - 1 == 0 ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
-
+            <div class="columns">
+            <div class="column is-one-quarter"></div>
+            <div class="column is-half">
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
                 <CommentModel comment={val}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
+
+            </div>
+            <div class="column is-one-quarter"></div>
+          </div>
+
+            
 
           </div>
           :

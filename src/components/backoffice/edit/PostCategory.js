@@ -89,6 +89,9 @@ class BackOfficeEditPostCategory extends Component {
 
   render() {
     return (
+      <div class="columns">
+      <div class="column is-one-quarter"></div>
+      <div class="column is-half">
       <div>
 
 
@@ -123,6 +126,9 @@ class BackOfficeEditPostCategory extends Component {
         <p style={{marginTop:"10px"}}><button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice/postCategories'}>Back</button></p>
 
 
+      </div>
+      </div>
+      <div class="column is-one-quarter"></div>
       </div>
     );
   }

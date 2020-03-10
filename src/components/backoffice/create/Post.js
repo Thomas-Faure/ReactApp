@@ -80,11 +80,10 @@ class BackOfficeCreatePost extends Component {
 
   render() {
     return (
+      <div class="columns">
+  <div class="column is-one-quarter"></div>
+  <div class="column is-half">
       <div>
-        <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
-          : null}
-        </div>
-
         <form onSubmit={this.handleSubmit}>
           <div class="field">
             <label class="label">Title</label>
@@ -132,6 +131,10 @@ class BackOfficeCreatePost extends Component {
 
 
       </div>
+      </div>
+      
+  <div class="column is-one-quarter"></div>
+  </div>
     );
   }
 }

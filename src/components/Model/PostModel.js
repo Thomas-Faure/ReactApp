@@ -50,13 +50,6 @@ class PostModel extends Component {
         <div className="card" onClick={() => { this.seePost(this.state.post.post_id) }}>
         <div className="card-content">
           <div >
-            {(this.state.post.url_image !== "") && (this.state.post.url_image !== null) ?
-              <div className="media-left">
-                <figure className="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
-                </figure>
-              </div> : null}
-
             <div className="media-content">
               <div className="post_title">
                 <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>

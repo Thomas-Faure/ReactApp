@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
 class PostsList extends Component {
 
@@ -12,7 +14,7 @@ class PostsList extends Component {
       cat: null,
       search: null
     }
-    this.getPosts = this.getPosts.bind(this)
+ 
     this.getPostsCategory = this.getPostsCategory.bind(this)
     this.handleChange = this.handleChange.bind(this);
     this.mainfilter = this.mainfilter.bind(this);
@@ -22,23 +24,12 @@ class PostsList extends Component {
   }
 
   componentDidMount() {
-    this.getPosts();
-    this.getPostsCategory();
+
   }
 
-  getPosts() {
-    fetch("http://51.255.175.118:2000/post", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({
-          posts: data,
-          list: data
-        })
+ 
 
-      })
-  }
+
 
   getPostsCategory() {
     fetch("http://51.255.175.118:2000/postCategory", {
@@ -62,7 +53,6 @@ class PostsList extends Component {
       mainfilter: e.target.value
     })
   }
-
   async categoryFilter(e) {
     await this.setState({
       cat: e.target.value
@@ -151,16 +141,16 @@ class PostsList extends Component {
   }
 
   render() {
+    console.log(this.props.post)
     return (
       <div className="columns ">
         <div className="column is-7-desktop is-full-mobile is-offset-1">
-          {((this.state.posts !== null )&& (this.state.posts !== ""))?
-            this.state.posts.map((val,index) =>
+          {((this.props.post.posts !== null )&& (this.props.post.posts !== ""))?
+            this.props.post.posts.map((val,index) =>
                   <PostModel key={val.post_id} post={val}/>
               
      
-                
-        
+
             )
             :
             <h1>Aucune publication trouvée</h1>
@@ -196,4 +186,23 @@ class PostsList extends Component {
   }
 }
 
-export default PostsList;
+
+const mapStateToProps = state => {
+  return {
+    post: state.post,
+    error: state.post.error,
+    posts: state.post.posts,
+    pending: state.post.pending
+
+  }
+}
+
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
+
