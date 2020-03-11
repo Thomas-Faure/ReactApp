@@ -35,7 +35,7 @@ class Login extends Component {
 
   login() {
     var user_id = 0
-  
+
     fetch("http://51.255.175.118:2000/user/login", {
       method: 'POST',
       headers: {
@@ -51,56 +51,70 @@ class Login extends Component {
           this.props.login()
           user_id = data.id
           this.setState({ errorLogin: false })
-         
+
           fetch("http://51.255.175.118:2000/user/" + user_id, {
             method: "GET",
-            headers:{
-              'Authorization':'Bearer '+data.token
+            headers: {
+              'Authorization': 'Bearer ' + data.token
             }
           })
             .then(res => res.json())
             .then((data) => {
               this.props.setUser(data[0])
               window.location.href = '/#/'
-    
+
             })
         } else {
           this.setState({ errorLogin: true })
         }
       })
-   
+
   }
 
   render() {
     return (
-      <div>
-        <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
+
+      <section class="hero is-success is-fullheight">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+              <h3 class="title has-text-black">Login</h3>
+              <hr class="login-hr" />
+              <p class="subtitle has-text-black">Please login to proceed.</p>
+              <div class="box">
+                <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
           : null}
         </div>
 
-        <form onSubmit={this.handleSubmit}>
-          <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername} />
+                <form>
+                  <div class="field" onSubmit={this.handleSubmit}>
+                    <div class="control">
+                      <input class="input is-large" type="text" placeholder="Usernmae" autofocus="" value={this.state.valueU} onChange={this.handleChangeUsername}/>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <input class="input is-large" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="checkbox">
+                      <input type="checkbox" />
+                        Remember me
+                				</label>
+                  </div>
+                  <input class="button is-link" type="submit" value="submit"></input>
+                </form>
+              </div>
+              <p class="has-text-grey">
+                <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+                        <a href="../">Need Help?</a>
+              </p>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input class="input" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} />
-            </div>
-          </div>
-
-          <div class="control">
-            <input class="button is-link" type="submit" value="submit"></input>
-
-          </div>
-
-
-        </form>
-
-      </div>
+        </div>
+      </section>
     );
   }
 }

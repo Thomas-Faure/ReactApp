@@ -135,11 +135,9 @@ class Main extends Component {
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons">
-                  {!this.props.isLogged ? <a href="/#/login" className="button is-primary">
-                    <strong>Login</strong>
-                  </a> : null}
-
-                  {this.props.isLogged ? <button className="button is-primary" onClick={() => this.logoff()}>logOff</button> : null}
+                  {!this.props.isLogged ? <a href="/#/login" className="navbar-item">
+                    Login
+                  </a> : <a className="navbar-item" onClick={() => this.logoff()}>Logout</a>}
                 </div>
               </div>
             </div>
