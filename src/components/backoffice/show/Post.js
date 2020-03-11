@@ -24,11 +24,7 @@ class BackOfficeShowPosts extends Component {
 
 
       }
-    componentWillReceiveProps(nextProps){
-        if(this.props.post.posts.length != 0){
-          this.getData()
-        }
-    }
+
     componentDidMount(){
       this.getData()
     }
@@ -58,7 +54,7 @@ class BackOfficeShowPosts extends Component {
                 var exist = false
          
                 for(var i = 0;i<properties.length;++i){
-                  console.log(n[properties[i]])
+               
                     if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
                         exist = true
                    }
@@ -179,7 +175,7 @@ class BackOfficeShowPosts extends Component {
 
   <tbody>
   
-    {(this.state.data !=null)?
+    {(this.state.data !== null)?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.post_id}</th>

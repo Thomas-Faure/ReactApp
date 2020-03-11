@@ -33,6 +33,10 @@ class PostDetails extends Component {
 
   }
 
+componentDidMount(){
+  this.getData()
+}
+
   pushPrevButton() {
     if (this.state.actualPage > 0) {
       this.setState({
@@ -44,7 +48,7 @@ class PostDetails extends Component {
   }
 
   pushNextButton() {
-    if (this.state.actualPage != this.state.maxPage) {
+    if (this.state.actualPage !== this.state.maxPage) {
       this.setState({
         actualPage: this.state.actualPage + 1
 
@@ -53,25 +57,17 @@ class PostDetails extends Component {
 
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.post.pending == false && this.props.comment.comments != null){
-      this.getData()
-    }
-}
-componentDidMount(){
-  this.getData()
-}
+
+
+
+
 getData(){
-  var data = this.props.post.posts.find(element => element.post_id == this.state.id);
-  if(this.props.comment.comments != null){
-  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
-  }else{
-    var comments = null
-  }
-  console.log("------")
-  console.log(comments)
-  console.log(data)
-  if(data != undefined && comments !=null)
+
+  var data = this.props.post.posts.find(element => element.post_id === this.state.id);
+  
+  var comments = this.props.comment.comments.filter(element => element.post === this.state.id)
+  
+
   this.setState({ 
     post: data,
     comments:comments,
@@ -95,7 +91,7 @@ getData(){
     })
     let y = await  x.json()
 
-    let z = await  this.setState(
+    await  this.setState(
           {
             comments: y,
             maxPage: (Math.ceil(y.length / this.state.elementsByPage)-1)
@@ -167,10 +163,10 @@ getData(){
         if (data.result === true) {
          
          let asyncChangepage = async()=>{
-           console.log("oui")
-           let x = await this.getComments()
-           console.log(this.state.comments.length)
-           let y = await this.setState({actualPage: this.state.maxPage,valueComment: ""})
+       
+           await this.getComments()
+    
+           await this.setState({actualPage: this.state.maxPage,valueComment: ""})
 
          }
          asyncChangepage()
@@ -220,7 +216,7 @@ getData(){
               </div>
 
             </div>
-            {this.state.maxPage - 1 == 0 ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+            {this.state.maxPage - 1 === 0 ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) === 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage === this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
             <div class="columns">
             <div class="column is-one-quarter"></div>
@@ -249,7 +245,7 @@ getData(){
               <div class="add_bottom">
                 <div className="select" class="select">
                   <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                    {(this.state.categories.length != 0) ?
+                    {(this.state.categories.length !== 0) ?
                       this.state.categories.map((val, index) =>
                         <option value={val.comment_category_id}>{val.description}</option>
                       )

@@ -1,7 +1,7 @@
 
 
 import React, { Component } from "react";
-import Moment from 'react-moment';
+
 class CommentModel extends Component {
 
     constructor(props){
@@ -77,7 +77,7 @@ class CommentModel extends Component {
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
-              <img src="https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png" alt="Placeholder image"/>
+              <img src="https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png" alt="image48"/>
             </figure>
           </div>
           <div class="media-content">
@@ -86,7 +86,7 @@ class CommentModel extends Component {
           </div>
         </div>
         <footer class="card-footer" >
-        <a href="#" class="card-footer-item"  style={{color:"black"}}>Like</a>
+        <a href="" class="card-footer-item"  style={{color:"black"}}>Like</a>
         {this.state.alreadyReported === true ?
          <a onClick={this.report} class="card-footer-item"  style={{color:"black"}}>Report✅</a>
         

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+
+
+
 
 class BackOfficeEditPostCategory extends Component {
   constructor(props) {
@@ -41,28 +45,17 @@ class BackOfficeEditPostCategory extends Component {
   }
 
   getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/postCategory/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
+
+    var data = this.props.categoriePost.categories.find(element => element.post_category_id === this.state.id);
+    if(data != null){
+      this.setState({
+        valueDescription:data.description,
+        valueCouleur:data.couleur,
+        valueUrl:data.url_image})
+
+    }
+                
           
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueDescription:data[0].description,
-                    valueCouleur:data[0].couleur,
-                valueUrl:data[0].url_image})
-            }
-          
-        })
 
   }
 
@@ -134,8 +127,20 @@ class BackOfficeEditPostCategory extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    categoriePost: state.categoriePost
+  }
+}
+
+const mapDispatchToProps = () => {
+  return {
+    
+
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditPostCategory);
 
 
 
-
-export default BackOfficeEditPostCategory;

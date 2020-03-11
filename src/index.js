@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
-import Index from './index.css'
+import Index from './index.scss'
 import thunk from 'redux-thunk';
 import App from './App';
-import loggingMiddleware from "./middleware/loggingMiddleware";
+
 import * as serviceWorker from './serviceWorker';
 import {createStore,applyMiddleware} from 'redux';
 import allReducers from './reducers'

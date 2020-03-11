@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-
+import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-class BackOfficeShowPostCategories extends Component {
+class BackOfficeShowCommentCategories extends Component {
 
     constructor(props) {
         super(props)
@@ -21,7 +22,6 @@ class BackOfficeShowPostCategories extends Component {
         this.handleChangeSearch = this.handleChangeSearch.bind(this)
         this.deletePostCategory= this.deletePostCategory.bind(this)
 
-
       }
 
     componentDidMount() {
@@ -29,23 +29,14 @@ class BackOfficeShowPostCategories extends Component {
     }
 
     getData(){
-        fetch("http://51.255.175.118:2000/commentCategory", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-  
-
+      var data =this.props.categorieComment.categories
         this.setState({
           data: data,
           dataFixed: data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
-        },)
-
-      })
+        })
 
     }
-
     pushNextButton(){
         if(this.state.actualPage < this.state.maxPage){
         this.setState({
@@ -210,5 +201,17 @@ class BackOfficeShowPostCategories extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    categorieComment : state.categorieComment
+
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
  
-export default BackOfficeShowPostCategories;
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowCommentCategories);
+ 

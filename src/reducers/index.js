@@ -16,7 +16,7 @@ const allReducers = combineReducers({
     post:postReducer,
     comment:commentReducer,
     categorieComment:categorieCommentReducer,
-    categoriePostReducer:categoriePostReducer
+    categoriePost:categoriePostReducer
 
 })
 

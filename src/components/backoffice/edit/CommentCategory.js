@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
 
 class BackOfficeEditCommentCategory extends Component {
   constructor(props) {
@@ -39,28 +40,17 @@ class BackOfficeEditCommentCategory extends Component {
   }
 
   getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/commentCategory/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
-          
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueDescription:data[0].description,
-                    valueCouleur:data[0].color
+    console.log(this.props.categorieComment)
+    var data = this.props.categorieComment.categories.find(element => element.comment_category_id === this.state.id);
+ 
+      if(data != null){
+              this.setState({
+                  valueDescription:data.description,
+                  valueCouleur:data.color
                 })
             }
           
-        })
+
 
   }
 
@@ -129,6 +119,17 @@ class BackOfficeEditCommentCategory extends Component {
 
 
 
+const mapStateToProps = (state) => {
+  return {
+    categorieComment: state.categorieComment
+  }
+}
 
+const mapDispatchToProps = () => {
+  return {
+    
 
-export default BackOfficeEditCommentCategory;
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditCommentCategory);

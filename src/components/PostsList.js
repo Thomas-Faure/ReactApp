@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
 class PostsList extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -15,7 +14,6 @@ class PostsList extends Component {
       search: null
     }
  
-    this.getPostsCategory = this.getPostsCategory.bind(this)
     this.handleChange = this.handleChange.bind(this);
     this.mainfilter = this.mainfilter.bind(this);
     this.search = this.search.bind(this)
@@ -23,25 +21,7 @@ class PostsList extends Component {
     this.categoryFilter = this.categoryFilter.bind(this);
   }
 
-  componentDidMount() {
 
-  }
-
- 
-
-
-
-  getPostsCategory() {
-    fetch("http://51.255.175.118:2000/postCategory", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-        this.setState({
-          category: data,
-        })
-      })
-  }
 
   seePost(id) {
     window.location.href = '/#/post/' + id;
@@ -141,10 +121,12 @@ class PostsList extends Component {
   }
 
   render() {
-    console.log(this.props.post)
+ 
     return (
       <div className="columns ">
+       
         <div className="column is-7-desktop is-full-mobile is-offset-1">
+        
           {((this.props.post.posts !== null )&& (this.props.post.posts !== ""))?
             this.props.post.posts.map((val,index) =>
                   <PostModel key={val.post_id} post={val}/>

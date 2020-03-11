@@ -1,23 +1,14 @@
-import {fetchCommentCategoriesPending, fetchCommentCategoriesSuccess, fetchCommentCategoriesError} from '../actions';
+import {fetchCommentCategoriesPending, fetchCommentCategoriesSuccess} from '../actions';
+import axios from 'axios'
 
-export const fetchCommentCategories= ()=> {
-    console.log("on fetch")
-    return dispatch => {
-       
-        dispatch(fetchCommentCategoriesPending());
-        fetch("http://51.255.175.118:2000/commentCategory", {
-            method: "GET"
-          })
-          .then(res => res.json())
-          .then(res => {       
-              console.log(res)   
-              dispatch(fetchCommentCategoriesSuccess(res));
-              return res;
-          })
-          .catch(error => {
-              dispatch(fetchCommentCategoriesError(error));
-          })  
-    }
+
+export const fetchCommentCategories= ()=> async dispatch => {
+    dispatch(fetchCommentCategoriesPending());
+    const res = await axios.get("http://51.255.175.118:2000/commentCategory")
+ 
+    dispatch(fetchCommentCategoriesSuccess(res.data));  
+      return res;
+    
 }
 
 export default fetchCommentCategories;

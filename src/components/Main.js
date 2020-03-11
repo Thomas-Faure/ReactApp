@@ -33,6 +33,17 @@ import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 class Main extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      dataLoaded: false
+
+
+    }
+
+
+  }
 
   verifLogin() {
     const token = localStorage.token;
@@ -68,13 +79,19 @@ class Main extends Component {
 
   }
   
-  componentDidMount() {
+  async componentDidMount() {
     this.verifLogin()
     
-    this.props.fetchPosts()
-    this.props.fetchComments()
-    this.props.fetchCommentCategories()
-    this.props.fetchPostCategories()
+
+    await this.props.fetchPosts()
+
+    await this.props.fetchComments()
+
+    await this.props.fetchCommentCategories()
+
+    await this.props.fetchPostCategories()
+
+    this.setState({dataLoaded: true})
   }
   logoff() {
     this.props.logoff();
@@ -85,9 +102,9 @@ class Main extends Component {
 
   render() {
     return (
-
+      (this.state.dataLoaded !== true) ? null :
       <HashRouter>
-        <nav className="navbar " role="navigation" aria-label="main navigation">
+        <nav className="navbar" style={{backgroundColor: '#BBDCF2'}}role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="/#/">
 
@@ -157,6 +174,7 @@ class Main extends Component {
         </section>
 
       </HashRouter>
+      
     );
   }
 }
@@ -164,7 +182,9 @@ class Main extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.isLogged
+    isLogged: state.isLogged,
+    post : state.post,
+    comment : state.comment
   }
 }
 

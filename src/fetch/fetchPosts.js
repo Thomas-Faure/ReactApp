@@ -1,29 +1,17 @@
-import {fetchPostsPending, fetchPostsSuccess, fetchPostsError} from '../actions';
+import {fetchPostsPending, fetchPostsSuccess} from '../actions';
+import axios from 'axios';
 
-export const fetchPosts= ()=> {
-    console.log("on fetch")
-    return dispatch => {
-       
+export const fetchPosts= ()=> async dispatch => {
+  
         dispatch(fetchPostsPending());
-        fetch("http://51.255.175.118:2000/post", {
-            method: "GET"
-          })
-          .then(res => res.json())
-          .then(async res  => {  
-              
-         
-            console.log("go") 
-             dispatch(fetchPostsSuccess(res));
+        const res = await axios.get("http://51.255.175.118:2000/post")
+          dispatch(fetchPostsSuccess(res.data));
                     
-            return res;
-                
-               
-              
-          })
-          .catch(error => {
-              dispatch(fetchPostsError(error));
-          })  
-    }
+          return res;
+                 
+          
+           
+    
 }
 
 export default fetchPosts;

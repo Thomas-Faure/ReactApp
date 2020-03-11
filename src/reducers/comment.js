@@ -1,7 +1,7 @@
 import {FETCH_COMMENTS_PENDING, FETCH_COMMENTS_SUCCESS, FETCH_COMMENTS_ERROR} from '../actions';
 const initialState = {
     pending: false,
-    comments: null,
+    comments: [],
     error: null
 }
 const commentReducer = (state = initialState, action)=>{

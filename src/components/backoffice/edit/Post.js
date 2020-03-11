@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+
 import { connect } from "react-redux";
-import {setPosts} from '../../../actions';
+
 
 class BackOfficeEditPost extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class BackOfficeEditPost extends Component {
   }
 
   getData(){
-    var post = this.props.post.find(element => element.post_id == this.state.id);
+    var post = this.props.post.posts.find(element => element.post_id === this.state.id);
     this.setState({
       valueTitle:post.title,
       valueDescription:post.description,

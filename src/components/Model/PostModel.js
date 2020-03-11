@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Moment from 'react-moment';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class PostModel extends Component {
 
     constructor(props){
@@ -38,8 +39,6 @@ class PostModel extends Component {
 
 
     }
-
-
     seePost(id) {
         window.location.href = '/#/post/' + id;
       }
@@ -47,32 +46,32 @@ class PostModel extends Component {
   render() {
 
     return (
-        <div className="card" onClick={() => { this.seePost(this.state.post.post_id) }}>
-        <div className="card-content">
+        <div style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => { this.seePost(this.state.post.post_id) }}>
+        
+        <div className="">
           <div >
-            <div className="media-content">
-              <div className="post_title">
-                <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>
-                <h4 className="title is-4" id="post_id">#{this.state.post.post_id}</h4>
+            <div className="media-content postModel" style={{backgroundColor: '#D7D9D7',width:"95%"}}>
+            <div className="infos">
+             <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
+           </div>
+              <div className="post_title" style={{backgroundColor: '#BBDCF2',borderRadius: "5px"}}>
+                
+                <h4 className="title is-4 animated  fadeIn" id="post_title">{this.state.post.title}</h4>
+                <h4 className="title is-4 animated  fadeIn delay-1s" id="post_id">#{this.state.post.post_id}</h4>
               </div>
-              <div className="description">
+              <div className="description animated  fadeIn delay-1s">
                 <p>{this.state.post.description}</p>
               </div>
-              <div className="infos">
-                <Moment interval={30000} fromNow>
-                  {this.state.post.date}
-                </Moment >
-                <p className="author">{this.state.post.username}</p>
-              </div>
+             
             </div>
-            <div className="rating">
+            <div className="rating" style={{backgroundColor: '#BBDCF2',width:"95%"}}>
               <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt= "img1"className="icon"></img></div>
               <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
               <div className="liked"><p className="infosRate">{this.state.post.report}</p><img src="warning.png" alt="img3" className="icon"></img></div>
               
             </div>
-            <div className="bestanswer">
-              <p>Best answer</p>
+            <div className="bestanswer" style={{backgroundColor: '#EBEBEC'}}>
+              <p ><strong style={{color: "yellow"}}><FontAwesomeIcon icon="star" /></strong>Best:</p>
             </div>
           </div>
 
