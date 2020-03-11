@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
 
 class BackOfficeCreatePostCategory extends Component {
   constructor(props) {
@@ -7,7 +9,7 @@ class BackOfficeCreatePostCategory extends Component {
     this.state = {
       id:this.props.match.params.id,
       valueDescription: "",
-      valueCouleur: "",
+      valueCouleur: "#ffffff",
       valueUrl: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -38,7 +40,6 @@ class BackOfficeCreatePostCategory extends Component {
   }
 
 
-
   sendData() {
     
   
@@ -53,7 +54,12 @@ class BackOfficeCreatePostCategory extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.result===true){
-            window.location = "/#/backoffice/postCategories"; 
+            let asyncUpdate = async()=>{
+              await this.props.fetchPostCategories()
+              window.location = "/#/backoffice/postCategories"; 
+             }
+            asyncUpdate()
+            
           }
         
       })
@@ -107,8 +113,18 @@ class BackOfficeCreatePostCategory extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    categoriePost:state.categoriePost
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchPostCategories:fetchPostCategories
+  
+},dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePostCategory);
 
 
 
-
-export default BackOfficeCreatePostCategory;

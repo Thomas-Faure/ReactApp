@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
+import fetchPosts from '../../../fetch/fetchPosts'
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class BackOfficeShowPostCategories extends Component {
@@ -31,7 +33,7 @@ class BackOfficeShowPostCategories extends Component {
 
     getData(){
 
-      var data =this.props.categoriePost.categories
+      var data = this.props.categoriePost.categories
         this.setState({
           data: data,
           dataFixed: data,
@@ -49,63 +51,54 @@ class BackOfficeShowPostCategories extends Component {
     }
 
     }
+    search(){
+      var temp = this.state.dataFixed.filter((n)=>{
+        var properties = ["post_category_id","description","couleur"]
+        var exist = false
+      
+        for(var i = 0;i<properties.length;++i){
+            if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                exist = true
+           }
+        }
+        return exist
+        
+    })
+    this.setState({data:temp,
+        actualPage : 0,
+        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
+
+    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
-            
-            var temp = this.state.dataFixed.filter((n)=>{
-                var properties = ["post_category_id","description","couleur"]
-                var exist = false
-              
-                for(var i = 0;i<properties.length;++i){
-                    if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                        exist = true
-                   }
-                }
-                return exist
-                
-            })
-            this.setState({data:temp,
-                actualPage : 0,
-                maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-        
-
                  
+        this.search()
+         
           })
 
 
     }
 
     deletePostCategory(id){
-        let postTempFixed = this.state.dataFixed.filter((n)=>{
-            var exist = true
-            if(n.post_category_id===id) exist=false
-            return exist
-        })
-    
-        let postTemp = this.state.data.filter((n)=>{
-            var exist = true
-            if(n.post_category_id===id) exist=false
-            return exist
-        })
-  
-        let newMaxPage = Math.floor((postTemp.length-1)/this.state.elementsByPage)
-        var newActualPage = this.state.actualPage
-        if(newMaxPage < this.state.actualPage) {
-            if(newActualPage !== 0){
-            newActualPage = newActualPage-1
-            }
-        }
-       this.setState({
-            data : postTemp,
-            dataFixed: postTempFixed,
-            maxPage: (Math.floor((postTemp.length-1)/this.state.elementsByPage)=== -1 ? 0: Math.floor((postTemp.length-1)/this.state.elementsByPage)),
-            actualPage : newActualPage
+      fetch('http://51.255.175.118:2000/postCategory/' + id+'/delete', {
+        method: 'DELETE',
+        }).then(()=>{
+
+          let asyncUpdate = async()=>{
+            
+            await this.props.fetchPostCategories()
+            await this.props.fetchPosts()
+            this.getData()
+            this.search()
+         
+          
+           }
+           asyncUpdate()
 
         })
-        fetch('http://51.255.175.118:2000/postCategory/' + id+'/delete', {
-        method: 'DELETE',
-        })
+        
+        
         
 
     }
@@ -213,6 +206,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchPosts: fetchPosts,
+  fetchPostCategories:fetchPostCategories
+
   
 }, dispatch)
  

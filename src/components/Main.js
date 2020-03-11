@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
+import fetchUsers from '../fetch/fetchUsers'
 import fetchComments from '../fetch/fetchComments'
 import {
   Route,
@@ -35,7 +36,7 @@ class Main extends Component {
 
   constructor(props) {
     super(props)
-
+    
     this.state = {
       dataLoaded: false
 
@@ -81,7 +82,7 @@ class Main extends Component {
   
   async componentDidMount() {
     this.verifLogin()
-    
+  
 
     await this.props.fetchPosts()
 
@@ -90,6 +91,8 @@ class Main extends Component {
     await this.props.fetchCommentCategories()
 
     await this.props.fetchPostCategories()
+
+    await this.props.fetchUsers()
 
     this.setState({dataLoaded: true})
   }
@@ -182,7 +185,8 @@ const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
     post : state.post,
-    comment : state.comment
+    comment : state.comment,
+    user: state.user
   }
 }
 
@@ -194,7 +198,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchComments: fetchComments,
   fetchCommentCategories: fetchCommentCategories,
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  fetchUsers: fetchUsers
 
 }, dispatch)
 

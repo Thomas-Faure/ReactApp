@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchUsers from '../../../fetch/fetchUsers'
+import sha256 from 'sha256';
 class BackOfficeEditUser extends Component {
   constructor(props) {
     super(props)
@@ -63,33 +65,15 @@ class BackOfficeEditUser extends Component {
   }
 
   getData(){
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/user/"+this.state.id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-       
-            'Authorization': 'Bearer ' + token
-          
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
-         
-            if(data.length===1){
-                this.setState({
-                    valueUsername:data[0].username,
-                    valueFirstname:data[0].firstname,
-                valueAdmin:data[0].admin,
-            valueMail:data[0].mail,
-            valueLastname:data[0].lastname,
-            valueSexe:data[0].sexe,
-          valueBirthday:data[0].birthday.slice(0,10)})
-            }
-          
-        })
-
+    var data = this.props.userList.users.find(element => element.user_id == this.state.id);
+    this.setState({
+        valueUsername:data.username,
+        valueFirstname:data.firstname,
+    valueAdmin:data.admin,
+valueMail:data.mail,
+valueLastname:data.lastname,
+valueSexe:data.sexe,
+valueBirthday:data.birthday.slice(0,10)})
   }
 
   sendData() {
@@ -108,12 +92,17 @@ class BackOfficeEditUser extends Component {
          mail: this.state.valueMail,
          sexe: this.state.valueSexe,
          admin:this.state.valueAdmin,
-         password: this.state.valuePassword})
+         password: sha256(this.state.valuePassword)})
     })
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/users"; 
+            let asyncUpdate = async()=>{
+              await this.props.fetchUsers()
+              window.location = "/#/backoffice/users"; 
+             }
+             asyncUpdate()
+  
           }
         
       })
@@ -208,8 +197,16 @@ class BackOfficeEditUser extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userList: state.userList,
+  }
+}
 
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchUsers: fetchUsers
+  
+},dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditUser);
 
-
-
-export default BackOfficeEditUser;

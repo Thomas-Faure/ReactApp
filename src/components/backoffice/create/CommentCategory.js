@@ -1,13 +1,14 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-
+import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 class BackOfficeCreateCommentCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
       id:this.props.match.params.id,
       valueDescription: "",
-      valueCouleur: ""
+      valueCouleur: "#ffffff"
 
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -51,7 +52,12 @@ class BackOfficeCreateCommentCategory extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.result===true){
-            window.location = "/#/backoffice/commentCategories"; 
+            let asyncUpdate = async()=>{
+        
+              await this.props.fetchCommentCategories()
+              window.location = "/#/backoffice/commentCategories"; 
+             }
+             asyncUpdate()
           }
         
       })
@@ -100,6 +106,18 @@ class BackOfficeCreateCommentCategory extends Component {
 
 
 
+const mapStateToProps = (state) => {
+  return {
 
+  }
+}
 
-export default BackOfficeCreateCommentCategory;
+const mapDispatchToProps = () => {
+  return {
+    fetchCommentCategories: fetchCommentCategories
+
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeCreateCommentCategory);
+

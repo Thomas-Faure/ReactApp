@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
-import Moment from 'react-moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import fetchComments from '../fetch/fetchComments'
+import fetchCommentCategories from "../fetch/fetchCommentCategories";
 class PostDetails extends Component {
 
   constructor(props) {
@@ -17,7 +19,7 @@ class PostDetails extends Component {
       maxPage: 1,
       elementsByPage: 5,
       valueComment: "",
-      valueCategory: 1,
+      valueCategory: this.props.categorieComment.categories[0].comment_category_id,
       categories: []
 
 
@@ -34,6 +36,7 @@ class PostDetails extends Component {
   }
 
 componentDidMount(){
+  
   this.getData()
 }
 
@@ -59,14 +62,20 @@ componentDidMount(){
 
 
 
-
+setComments(){
+  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
+  this.setState({ 
+    comments:comments,
+    maxPage: (Math.ceil(comments.length/this.state.elementsByPage)-1)
+   }, () => { this.verifAlreadyCommented() })
+}
 
 getData(){
 
-  var data = this.props.post.posts.find(element => element.post_id === this.state.id);
-  
-  console.log(data)
-  var comments = this.props.comment.comments.filter(element => element.post === this.state.id)
+
+  var data = this.props.post.posts.find(element => element.post_id == this.state.id);
+
+  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
   
 
   this.setState({ 
@@ -147,7 +156,11 @@ getData(){
          
          let asyncChangepage = async()=>{
        
-           await this.getComments()
+          await this.props.fetchComments()
+
+          await this.props.fetchCommentCategories()
+
+          this.setComments()
     
            await this.setState({actualPage: this.state.maxPage,valueComment: ""})
 
@@ -166,24 +179,23 @@ getData(){
           <div>
             <div className="card-content">
               <div >
-                <div className="media-content">
-                  <div className="post_title">
+                <div className="media-content postModel"  style={{backgroundColor: '#D7D9D7'}}>
+                <div className="infos">
+                  <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
+                  
+                  </div>
+                  <div className="post_title" style={{backgroundColor: '#BBDCF2'}}>
                     <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>
                     <h4 className="title is-4" id="post_id">#{this.state.post.post_id}</h4>
                   </div>
                   <div className="description">
                     <p>{this.state.post.description}</p>
                   </div>
-                  <div className="infos">
-                    <Moment interval={30000} fromNow>
-                      {this.state.post.date}
-                    </Moment >
-                    <p className="author">{this.state.post.username}</p>
-                  </div>
+                 
                 </div>
-                <div className="rating">
+                <div className="rating" style={{backgroundColor: '#BBDCF2'}}>
                   <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt="img1" className="icon"></img></div>
-                  <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
+                  <div className="liked"><p className="infosRate">{this.state.comments.length}</p><img src="comment.png" alt="img2" className="icon"></img></div>
                   <div className="liked"> 
                   {this.props.isLogged ?
                     (this.state.alreadyReported === true ?
@@ -193,26 +205,24 @@ getData(){
                     : <p className="infosRate">{this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p>}
                   </div>
                 </div>
-                <div className="bestanswer">
-                  <p>Best answer</p>
-                </div>
+              
               </div>
 
             </div>
             {(this.state.maxPage == 0 ) || (this.state.maxPage + 1 == 0 )? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
-            <div class="columns">
-            <div class="column is-one-quarter"></div>
-            <div class="column is-half">
+            <div className="columns">
+            <div className="column is-one-quarter"></div>
+            <div className="column is-half">
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                <CommentModel comment={val}></CommentModel>
+                <CommentModel key={val.comment_id}comment={val}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
 
             </div>
-            <div class="column is-one-quarter"></div>
+            <div className="column is-one-quarter"></div>
           </div>
 
             
@@ -221,15 +231,15 @@ getData(){
           :
           <div><p>Aucun post avec cet identifiant</p></div>}
         {this.props.isLogged ?
-          <div class="field card addpost">
-            <label class="label add_top">Add a comment</label>
-            <div class="control is-flex add">
-              <textarea class="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
-              <div class="add_bottom">
-                <div className="select" class="select">
+          <div className="field card addpost">
+            <label className="label add_top">Add a comment</label>
+            <div className="control is-flex add">
+              <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
+              <div className="add_bottom">
+                <div className="select" className="select">
                   <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                    {(this.state.categories.length !== 0) ?
-                      this.state.categories.map((val, index) =>
+                    {(this.props.categorieComment.categories.length !== 0) ?
+                      this.props.categorieComment.categories.map((val, index) =>
                         <option value={val.comment_category_id}>{val.description}</option>
                       )
                       :
@@ -242,8 +252,8 @@ getData(){
             </div>
           </div>
           :
-          <div class="field card addpost">
-            <label class="label add_top">Merci de vous connecter pour commenter</label>
+          <div className="field card addpost">
+            <label className="label add_top">Merci de vous connecter pour commenter</label>
           </div>
         }
       </div>
@@ -253,6 +263,7 @@ getData(){
 
 const mapStateToProps = state => {
   return {
+    categorieComment: state.categorieComment,
     isLogged: state.isLogged,
     post: state.post,
     comment: state.comment,
@@ -262,8 +273,9 @@ const mapStateToProps = state => {
 
   }
 }
-
 const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchComments: fetchComments,
+  fetchCommentCategories: fetchCommentCategories,
   
 }, dispatch)
  

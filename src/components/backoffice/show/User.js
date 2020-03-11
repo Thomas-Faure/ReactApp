@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import fetchUsers from '../../../fetch/fetchUsers'
+
+
 
 class BackOfficeShowUsers extends Component {
 
@@ -29,23 +33,15 @@ class BackOfficeShowUsers extends Component {
     }
 
     getData(){
-      const token = localStorage.token;
-        fetch("http://51.255.175.118:2000/user/list", {
-      method: "GET",headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-  
-
+      
+        var data = this.props.userList.users
         this.setState({
           data: data,
           dataFixed: data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
-        },)
+        })
 
-      })
+     
 
     }
 
@@ -58,65 +54,40 @@ class BackOfficeShowUsers extends Component {
     }
 
     }
+    search(){
+            
+      var temp = this.state.dataFixed.filter((n)=>{
+        var properties = ["user_id","username","firstname"]
+        var exist = false
+      
+        for(var i = 0;i<properties.length;++i){
+            if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                exist = true
+           }
+        }
+        return exist
+    })
+    this.setState({data:temp,
+        actualPage : 0,
+        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
+    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
-
-            
-            var temp = this.state.dataFixed.filter((n)=>{
-                var properties = ["user_id","username","firstname"]
-                var exist = false
-              
-                for(var i = 0;i<properties.length;++i){
-                    if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                        exist = true
-                   }
-                }
-                return exist
-                
-            })
-            this.setState({data:temp,
-                actualPage : 0,
-                maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-        
-
-                 
+            this.search()             
           })
-
-
     }
-
     deleteUser(id){
-        let userTempFixed = this.state.dataFixed.filter((n)=>{
-            var exist = true
-            if(n.user_id===id) exist=false
-            return exist
-        })
-    
-        let userTemp = this.state.data.filter((n)=>{
-            var exist = true
-            if(n.user_id===id) exist=false
-            return exist
-        })
-  
-        let newMaxPage = Math.floor((userTemp.length-1)/this.state.elementsByPage)
-        var newActualPage = this.state.actualPage
-        if(newMaxPage < this.state.actualPage) {
-            if(newActualPage !== 0){
-            newActualPage = newActualPage-1
-            }
-        }
-       this.setState({
-            data : userTemp,
-            dataFixed: userTempFixed,
-            maxPage: (Math.floor((userTemp.length-1)/this.state.elementsByPage)=== -1 ? 0: Math.floor((userTemp.length-1)/this.state.elementsByPage)),
-            actualPage : newActualPage
 
-        })
         fetch('http://51.255.175.118:2000/user/' + id+'/delete', {
         method: 'DELETE',
+        }).then(()=>{
+          let asyncUpdate = async()=>{
+            await this.props.fetchUsers()
+            this.getData()
+            this.search() 
+           }
+           asyncUpdate()
         })
-        
-
     }
 
     pushPrevButton(){
@@ -128,9 +99,6 @@ class BackOfficeShowUsers extends Component {
         }
 
     }
-
-
-
     render() {
         return (
             <div>
@@ -214,4 +182,20 @@ class BackOfficeShowUsers extends Component {
   }
 }
  
-export default BackOfficeShowUsers;
+
+
+const mapStateToProps = state => {
+  return {
+    userList: state.userList
+
+
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchUsers: fetchUsers,
+
+  
+}, dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUsers);

@@ -2,16 +2,21 @@
 
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+
 class CommentModel extends Component {
 
     constructor(props){
         super(props)
 
         this.props.comment.report=0
+
+        var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
         this.state = {
             comment : this.props.comment,
-            alreadyReported: false
-         
+            alreadyReported: false,
+            color: color
 
         }     
         this.report = this.report.bind(this) 
@@ -68,12 +73,12 @@ class CommentModel extends Component {
 
  
   render() {
-
+    
     return (
 
       <div class="card">
 
-      <div class="card-content" style={{backgroundColor: this.state.comment.color}}>
+      <div class="card-content" style={{backgroundColor: this.state.color}}>
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
@@ -105,5 +110,17 @@ class CommentModel extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => {
+  return {
+    categorieComment: state.categorieComment,
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
  
-export default CommentModel;
+export default connect(mapStateToProps, mapDispatchToProps)(CommentModel);
+ 

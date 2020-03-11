@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchUsers from '../../../fetch/fetchUsers'
+import sha256 from 'sha256';
 class BackOfficeCreateUser extends Component {
   constructor(props) {
     super(props)
@@ -78,12 +80,17 @@ class BackOfficeCreateUser extends Component {
          mail: this.state.valueMail,
          sexe: this.state.valueSexe,
          admin:this.state.valueAdmin,
-         password: this.state.valuePassword})
+         password: sha256(this.state.valuePassword)})
     })
       .then(res => res.json())
       .then((data) => {
-          if(data.affectedRows===1){
-            window.location = "/#/backoffice/users"; 
+          if(data.result===true){
+            let asyncUpdate = async()=>{
+              await this.props.fetchUsers()
+              window.location = "/#/backoffice/users"; 
+             }
+             asyncUpdate()
+           
           }
         
       })
@@ -180,8 +187,17 @@ class BackOfficeCreateUser extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchUsers: fetchUsers
+  
+},dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreateUser);
 
 
-
-
-export default BackOfficeCreateUser;

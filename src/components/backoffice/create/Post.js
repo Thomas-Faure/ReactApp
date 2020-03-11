@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
+import fetchPosts from '../../../fetch/fetchPosts'
 
 class BackOfficeCreatePost extends Component {
   constructor(props) {
@@ -38,22 +41,12 @@ class BackOfficeCreatePost extends Component {
   }
 
   getCategories(){
-    fetch("http://51.255.175.118:2000/postCategory", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-       
-          this.setState({categories:data},
-            this.setState({valueCategory:data[0].post_category_id}))
-        
-      })
+    
+    var data = this.props.categoriePost.categories
+    this.setState({categories:data,valueCategory:data[0].post_category_id})
+      
 
-  }
+}
 
   sendData() {
     
@@ -71,7 +64,13 @@ class BackOfficeCreatePost extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.result===true){
-            window.location = "/#/backoffice/posts"; 
+            let asyncUpdate = async()=>{
+              await this.props.fetchPosts()
+              await this.props.fetchPostCategories()
+              window.location = "/#/backoffice/posts"; 
+             }
+            asyncUpdate()
+           
           }
         
       })
@@ -110,15 +109,11 @@ class BackOfficeCreatePost extends Component {
             :
          null
           }
-              
- 
 
           </select>
           </div>
             </div>
           </div>
-
-         
 
           <div class="control">
             <input class="button is-link" type="submit" value="submit"></input>
@@ -141,6 +136,17 @@ class BackOfficeCreatePost extends Component {
 
 
 
+const mapStateToProps = (state) => {
+  return {
+    categoriePost:state.categoriePost
+  }
+}
 
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchPosts: fetchPosts,
+  fetchPostCategories:fetchPostCategories
+  
+},dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePost);
 
-export default BackOfficeCreatePost;

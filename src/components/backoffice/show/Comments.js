@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import fetchComments from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class BackOfficeShowComments extends Component {
@@ -30,19 +32,14 @@ class BackOfficeShowComments extends Component {
     }
 
     getData(){
-        fetch("http://51.255.175.118:2000/post/"+this.state.post_id+"/comments", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
 
+      
+      var data = this.props.comment.comments.filter(element => element.post == this.state.post_id)
         this.setState({
           data: data,
           dataFixed: data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
-        },)
-
-      })
+        })
 
     }
 
@@ -55,26 +52,30 @@ class BackOfficeShowComments extends Component {
     }
 
     }
+    search(){
+
+      var temp = this.state.dataFixed.filter((n)=>{
+        var properties = ["comment_id","description"]
+        var exist = false
+      
+        for(var i = 0;i<properties.length;++i){
+            if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                exist = true
+           }
+        }
+        return exist
+        
+    })
+    this.setState({data:temp,
+        actualPage : 0,
+        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
+    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
             
-            var temp = this.state.dataFixed.filter((n)=>{
-                var properties = ["comment_id","description"]
-                var exist = false
-              
-                for(var i = 0;i<properties.length;++i){
-                    if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                        exist = true
-                   }
-                }
-                return exist
-                
-            })
-            this.setState({data:temp,
-                actualPage : 0,
-                maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-        
+     
+          this.search()
 
                  
           })
@@ -83,37 +84,18 @@ class BackOfficeShowComments extends Component {
     }
 
     deletePost(id){
-        let commentTempFixed = this.state.dataFixed.filter((n)=>{
-            var exist = true
-            if(n.comment_id===id) exist=false
-            return exist
-        })
-    
-        let commentTemp = this.state.data.filter((n)=>{
-            var exist = true
-            if(n.comment_id===id) exist=false
-            return exist
-        })
-  
-        let newMaxPage = Math.floor((commentTemp.length-1)/this.state.elementsByPage)
-        var newActualPage = this.state.actualPage
-        if(newMaxPage < this.state.actualPage) {
-            if(newActualPage !== 0){
-            newActualPage = newActualPage-1
-            }
-        }
-       this.setState({
-            data : commentTemp,
-            dataFixed: commentTempFixed,
-            maxPage: (Math.floor((commentTemp.length-1)/this.state.elementsByPage)=== -1 ? 0: Math.floor((commentTemp.length-1)/this.state.elementsByPage)),
-            actualPage : newActualPage
 
-        })
-        fetch('http://51.255.175.118:2000/comment/' + id+'/delete', {
+      fetch('http://51.255.175.118:2000/comment/' + id+'/delete', {
         method: 'DELETE',
-        })
-        
+        }).then(()=>{
+          let asyncUpdate = async()=>{
+            await this.props.fetchComments()
+            this.getData()
+            this.search()
+           }
+           asyncUpdate()
 
+        })
     }
 
     pushPrevButton(){
@@ -125,9 +107,6 @@ class BackOfficeShowComments extends Component {
         }
 
     }
-
-
-
     render() {
         return (
             <div>
@@ -153,11 +132,11 @@ class BackOfficeShowComments extends Component {
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half"  style={{margin: "auto"}}>
-            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Post</h1>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Comment</h1>
            
             <div className="columns">
             <div className="column is-one-quarter">
-            <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
+            <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
                 <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/comments/create'}>+</button>
@@ -172,12 +151,10 @@ class BackOfficeShowComments extends Component {
         
             <table style={{width: "100%"}} className="table">
   <thead>
-    <tr style={{textAlign:"center"}}>
-      
+    <tr style={{textAlign:"center"}}>  
         <th >Id</th>
         <th >Description</th>
         <th >Action</th>
-
     </tr>
   </thead>
 
@@ -208,6 +185,21 @@ class BackOfficeShowComments extends Component {
     );
   }
 }
+
+
+
+const mapStateToProps = state => {
+  return {
+    comment: state.comment
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchComments: fetchComments,
+  
+}, dispatch)
  
-export default BackOfficeShowComments;
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowComments);
+
+
 

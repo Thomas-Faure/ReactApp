@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login, setUser } from '../actions';
+import sha256 from 'sha256';
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -29,6 +30,7 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
+
     this.login()
     event.preventDefault();
   }
@@ -42,7 +44,7 @@ class Login extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: this.state.valueU, password: this.state.valueP })
+      body: JSON.stringify({ username: this.state.valueU, password: sha256(this.state.valueP) })
     })
       .then(res => res.json())
       .then((data) => {
@@ -74,39 +76,34 @@ class Login extends Component {
   render() {
     return (
 
-      <section class="hero is-success is-fullheight">
-        <div class="hero-body">
-          <div class="container has-text-centered">
-            <div class="column is-4 is-offset-4">
-              <h3 class="title has-text-black">Login</h3>
-              <hr class="login-hr" />
-              <p class="subtitle has-text-black">Please login to proceed.</p>
-              <div class="box">
+      <section className="hero is-success is-fullheight">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <div className="column is-4 is-offset-4">
+              <h3 className="title has-text-black">Login</h3>
+              <hr className="login-hr" />
+              <p className="subtitle has-text-black">Please login to proceed.</p>
+              <div className="box">
                 <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
           : null}
         </div>
 
-                <form>
-                  <div class="field" onSubmit={this.handleSubmit}>
-                    <div class="control">
-                      <input class="input is-large" type="text" placeholder="Usernmae" autofocus="" value={this.state.valueU} onChange={this.handleChangeUsername}/>
+                <form onSubmit={this.handleSubmit}>
+                  <div className="field" onSubmit={this.handleSubmit}>
+                    <div className="control">
+                      <input className="input is-large" type="text" placeholder="Username"  value={this.state.valueU} onChange={this.handleChangeUsername}/>
                     </div>
                   </div>
-                  <div class="field">
-                    <div class="control">
-                      <input class="input is-large" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} />
+                  <div className="field">
+                    <div className="control">
+                      <input className="input is-large" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} />
                     </div>
                   </div>
-                  <div class="field">
-                    <label class="checkbox">
-                      <input type="checkbox" />
-                        Remember me
-                				</label>
-                  </div>
-                  <input class="button is-link" type="submit" value="submit"></input>
+                  
+                  <input className="button is-link" type="submit" value="submit"></input>
                 </form>
               </div>
-              <p class="has-text-grey">
+              <p className="has-text-grey">
                 <a href="../">Sign Up</a> &nbsp;·&nbsp;
                         <a href="../">Forgot Password</a> &nbsp;·&nbsp;
                         <a href="../">Need Help?</a>

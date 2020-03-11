@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
+import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 class BackOfficeEditCommentCategory extends Component {
   constructor(props) {
     super(props)
@@ -18,6 +19,7 @@ class BackOfficeEditCommentCategory extends Component {
 
     this.sendData = this.sendData.bind(this)
     this.getData = this.getData.bind(this)
+    
   }
 
   componentDidMount() {
@@ -40,8 +42,8 @@ class BackOfficeEditCommentCategory extends Component {
   }
 
   getData(){
-    console.log(this.props.categorieComment)
-    var data = this.props.categorieComment.categories.find(element => element.comment_category_id === this.state.id);
+
+    var data = this.props.categorieComment.categories.find(element => element.comment_category_id == this.state.id);
  
       if(data != null){
               this.setState({
@@ -68,7 +70,13 @@ class BackOfficeEditCommentCategory extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/commentCategories"; 
+           
+            let asyncUpdate = async()=>{
+        
+              await this.props.fetchCommentCategories()
+              window.location = "/#/backoffice/commentCategories"; 
+             }
+             asyncUpdate()
           }
         
       })
@@ -127,7 +135,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    
+    fetchCommentCategories: fetchCommentCategories
 
   }
 }

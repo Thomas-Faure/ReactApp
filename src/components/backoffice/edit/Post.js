@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-
+import { bindActionCreators } from "redux";
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
+import fetchPosts from '../../../fetch/fetchPosts'
 
 class BackOfficeEditPost extends Component {
   constructor(props) {
@@ -43,7 +45,7 @@ class BackOfficeEditPost extends Component {
   }
 
   getData(){
-    var post = this.props.post.posts.find(element => element.post_id === this.state.id);
+    var post = this.props.post.posts.find(element => element.post_id == this.state.id);
     this.setState({
       valueTitle:post.title,
       valueDescription:post.description,
@@ -53,24 +55,15 @@ class BackOfficeEditPost extends Component {
 
   }
   getCategories(){
-    fetch("http://51.255.175.118:2000/postCategory", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-       
-          this.setState({categories:data})
+    
+      var data = this.props.categoriePost.categories
+      this.setState({categories:data})
         
-      })
+      
 
   }
 
   sendData() {
-    
   
     fetch("http://51.255.175.118:2000/post/"+this.state.id+"/edit", {
       method: 'POST',
@@ -78,16 +71,20 @@ class BackOfficeEditPost extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ category: 1, title: this.state.valueTitle, description: this.state.valueDescription})
+      body: JSON.stringify({ category: this.state.valueCategory, title: this.state.valueTitle, description: this.state.valueDescription})
     })
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/posts"; 
-          }
-        
+            let asyncUpdate = async()=>{
+              await this.props.fetchPosts()
+              await this.props.fetchPostCategories()
+              window.location = "/#/backoffice/posts"; 
+             }
+             asyncUpdate()
+           
+          }    
       })
-   
   }
 
   render() {
@@ -156,16 +153,16 @@ class BackOfficeEditPost extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    post: state.post
+    post: state.post,
+    categoriePost:state.categoriePost
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    
-
-  }
-}
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchPosts: fetchPosts,
+  fetchPostCategories:fetchPostCategories
+  
+},dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditPost);
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditPost);
 

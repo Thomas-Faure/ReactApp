@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import fetchPosts from '../../../fetch/fetchPosts'
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
 class BackOfficeShowPosts extends Component {
 
     constructor(props) {
@@ -26,6 +27,7 @@ class BackOfficeShowPosts extends Component {
       }
 
     componentDidMount(){
+   
       this.getData()
     }
     getData(){
@@ -45,63 +47,50 @@ class BackOfficeShowPosts extends Component {
         })
     }
     }
+    search(){
+      var temp = this.props.posts.filter((n)=>{
+        var properties = ["post_id","title","description"]
+        var exist = false
+ 
+        for(var i = 0;i<properties.length;++i){
+       
+            if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                exist = true
+           }
+        }
+        return exist
+    })
+    this.setState({data:temp,
+        actualPage : 0,
+        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
+
+    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
-
-            
-            var temp = this.props.posts.filter((n)=>{
-                var properties = ["post_id","title","description"]
-                var exist = false
-         
-                for(var i = 0;i<properties.length;++i){
-               
-                    if(n[properties[i]].toString().toLowerCase().includes(this.state.searchItem.toLowerCase())){
-                        exist = true
-                   }
-                }
-                return exist
-            })
-            this.setState({data:temp,
-                actualPage : 0,
-                maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-        
-
-                 
+            this.search()      
           })
 
 
     }
 
     deletePost(id){
-        let postTempFixed = this.state.dataFixed.filter((n)=>{
-            var exist = true
-            if(n.post_id===id) exist=false
-            return exist
-        })
-    
-        let postTemp = this.state.data.filter((n)=>{
-            var exist = true
-            if(n.post_id===id) exist=false
-            return exist
-        })
-  
-        let newMaxPage = Math.floor((postTemp.length-1)/this.state.elementsByPage)
-        var newActualPage = this.state.actualPage
-        if(newMaxPage < this.state.actualPage) {
-            if(newActualPage !== 0){
-            newActualPage = newActualPage-1
-            }
-        }
-       this.setState({
-            data : postTemp,
-            dataFixed: postTempFixed,
-            maxPage: (Math.floor((postTemp.length-1)/this.state.elementsByPage)=== -1 ? 0: Math.floor((postTemp.length-1)/this.state.elementsByPage)),
-            actualPage : newActualPage
-
-        })
         fetch('http://51.255.175.118:2000/post/' + id+'/delete', {
-        method: 'DELETE',
-        })
+          method: 'DELETE',
+          }).then(()=>{
+
+            let asyncUpdate = async()=>{
+              await this.props.fetchPosts()
+              await this.props.fetchPostCategories()
+              this.getData()
+              this.search()
+           
+            
+             }
+             asyncUpdate()
+
+          })
+       
+        
         
 
     }
@@ -214,6 +203,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchPosts: fetchPosts,
+  fetchPostCategories:fetchPostCategories
+
   
 }, dispatch)
  

@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
+import { bindActionCreators } from "redux";
+import fetchPostCategories from "../../../fetch/fetchPostCategories";
+import fetchPosts from '../../../fetch/fetchPosts'
+
 
 
 
@@ -46,7 +50,7 @@ class BackOfficeEditPostCategory extends Component {
 
   getData(){
 
-    var data = this.props.categoriePost.categories.find(element => element.post_category_id === this.state.id);
+    var data = this.props.categoriePost.categories.find(element => element.post_category_id == this.state.id);
     if(data != null){
       this.setState({
         valueDescription:data.description,
@@ -73,7 +77,14 @@ class BackOfficeEditPostCategory extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/postCategories"; 
+            let asyncUpdate = async()=>{
+        
+              await this.props.fetchPostCategories()
+              
+              window.location = "/#/backoffice/postCategories"; 
+             }
+             asyncUpdate()
+           
           }
         
       })
@@ -127,20 +138,23 @@ class BackOfficeEditPostCategory extends Component {
   }
 }
 
+
+ 
+
 const mapStateToProps = (state) => {
   return {
-    categoriePost: state.categoriePost
+    categoriePost:state.categoriePost
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    
-
-  }
-}
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchPostCategories:fetchPostCategories,
+  fetchPosts: fetchPosts,
+  
+},dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditPostCategory);
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditPostCategory);
+
 
 
 
