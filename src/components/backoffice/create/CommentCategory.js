@@ -60,6 +60,9 @@ class BackOfficeCreateCommentCategory extends Component {
 
   render() {
     return (
+      <div class="columns">
+      <div class="column is-one-quarter"></div>
+      <div class="column is-half">
       <div>
         <form onSubmit={this.handleSubmit}>
           <div className="field">
@@ -87,6 +90,9 @@ class BackOfficeCreateCommentCategory extends Component {
         <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/commentCategories'}>Back</button></p>
 
 
+      </div>
+      </div>
+      <div class="column is-one-quarter"></div>
       </div>
     );
   }

@@ -62,7 +62,10 @@ class BackOfficeCreatePostCategory extends Component {
 
   render() {
     return (
-      <div>
+      <div class="columns">
+  <div class="column is-one-quarter"></div>
+  <div class="column is-half">
+  <div>
         <form onSubmit={this.handleSubmit}>
           <div class="field">
             <label class="label">Description</label>
@@ -95,6 +98,11 @@ class BackOfficeCreatePostCategory extends Component {
 
 
       </div>
+
+  </div>
+  <div class="column is-one-quarter"></div>
+</div>
+
     );
   }
 }

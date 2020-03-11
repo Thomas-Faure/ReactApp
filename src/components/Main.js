@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import fetchPosts from '../fetch/fetchPosts'
+import fetchComments from '../fetch/fetchComments'
 import {
   Route,
   HashRouter
@@ -25,8 +28,22 @@ import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
 import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import { login, logoff, setUser, unSetUser } from '../actions';
+
+import fetchCommentCategories from "../fetch/fetchCommentCategories";
+import fetchPostCategories from "../fetch/fetchPostCategories";
 class Main extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      dataLoaded: false
+
+
+    }
+
+
+  }
 
   verifLogin() {
     const token = localStorage.token;
@@ -61,8 +78,20 @@ class Main extends Component {
       })
 
   }
-  componentDidMount() {
+  
+  async componentDidMount() {
     this.verifLogin()
+    
+
+    await this.props.fetchPosts()
+
+    await this.props.fetchComments()
+
+    await this.props.fetchCommentCategories()
+
+    await this.props.fetchPostCategories()
+
+    this.setState({dataLoaded: true})
   }
   logoff() {
     this.props.logoff();
@@ -73,9 +102,9 @@ class Main extends Component {
 
   render() {
     return (
-
+      (this.state.dataLoaded !== true) ? null :
       <HashRouter>
-        <nav className="navbar " role="navigation" aria-label="main navigation">
+        <nav className="navbar" style={{backgroundColor: '#BBDCF2'}}role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="/#/">
 
@@ -101,8 +130,6 @@ class Main extends Component {
               <a className="navbar-item" href="/#/informations">
                 Informations
       </a>
-
-
             </div>
 
             <div className="navbar-end">
@@ -147,6 +174,7 @@ class Main extends Component {
         </section>
 
       </HashRouter>
+      
     );
   }
 }
@@ -154,17 +182,24 @@ class Main extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.isLogged
+    isLogged: state.isLogged,
+    post : state.post,
+    comment : state.comment
   }
 }
-const mapDispatchToProps = () => {
-  return {
-    logoff,
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  logoff,
     login,
     setUser,
-    unSetUser
+    unSetUser,
+  fetchPosts: fetchPosts,
+  fetchComments: fetchComments,
+  fetchCommentCategories: fetchCommentCategories,
+  fetchPostCategories:fetchPostCategories
 
-  }
-}
+}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps())(Main);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

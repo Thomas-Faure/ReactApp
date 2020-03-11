@@ -122,6 +122,9 @@ class BackOfficeEditUser extends Component {
 
   render() {
     return (
+      <div class="columns">
+      <div class="column is-one-quarter"></div>
+      <div class="column is-half">
       <div>
 
 
@@ -182,7 +185,6 @@ class BackOfficeEditUser extends Component {
               <select value={this.state.valueSexe} onChange={this.handleChangeSexe}>
             <option value="M">Man</option>
             <option value="F">Woman</option>
-
           </select>
           </div>
             </div>
@@ -198,6 +200,9 @@ class BackOfficeEditUser extends Component {
         <p style={{marginTop:"10px"}}><button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice/users'}>Back</button></p>
 
 
+      </div>
+      </div>
+      <div class="column is-one-quarter"></div>
       </div>
     );
   }

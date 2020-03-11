@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
 import Moment from 'react-moment';
 class PostDetails extends Component {
@@ -8,7 +9,7 @@ class PostDetails extends Component {
     super(props)
 
     this.state = {
-      id: 0,
+      id: this.props.match.params.id,
       post: null,
       comments: null,
       alreadyReported: false,
@@ -21,9 +22,7 @@ class PostDetails extends Component {
 
 
     }
-    this.getPost = this.getPost.bind(this)
-    this.getComments = this.getComments.bind(this)
-    this.getData = this.getData.bind(this)
+    this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
     this.verifAlreadyCommented = this.verifAlreadyCommented.bind(this)
     this.pushNextButton = this.pushNextButton.bind(this)
@@ -33,6 +32,10 @@ class PostDetails extends Component {
     this.sendData = this.sendData.bind(this)
 
   }
+
+componentDidMount(){
+  this.getData()
+}
 
   pushPrevButton() {
     if (this.state.actualPage > 0) {
@@ -45,7 +48,7 @@ class PostDetails extends Component {
   }
 
   pushNextButton() {
-    if (this.state.actualPage != this.state.maxPage) {
+    if (this.state.actualPage !== this.state.maxPage) {
       this.setState({
         actualPage: this.state.actualPage + 1
 
@@ -53,11 +56,26 @@ class PostDetails extends Component {
     }
 
   }
-  componentDidMount() {
-    this.getData()
-    this.getCategories()
 
-  }
+
+
+
+
+getData(){
+
+  var data = this.props.post.posts.find(element => element.post_id === this.state.id);
+  
+  var comments = this.props.comment.comments.filter(element => element.post === this.state.id)
+  
+
+  this.setState({ 
+    post: data,
+    comments:comments,
+    maxPage: (Math.ceil(comments.length/this.state.elementsByPage)-1)
+
+   }, () => { this.verifAlreadyCommented() })
+}
+
   handleChangeComment(event) {
     this.setState({ valueComment: event.target.value })
   }
@@ -65,18 +83,7 @@ class PostDetails extends Component {
     this.setState({ valueCategory: event.target.value })
   }
 
-  getPost() {
-    fetch("http://51.255.175.118:2000/post/" + this.state.id, {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
 
-        this.setState({ post: data[0] }, () => { this.verifAlreadyCommented() })
-
-      })
-
-  }
   async getComments() {
 
     let x = await fetch("http://51.255.175.118:2000/post/" + this.state.id + "/comments", {
@@ -84,7 +91,7 @@ class PostDetails extends Component {
     })
     let y = await  x.json()
 
-    let z = await  this.setState(
+    await  this.setState(
           {
             comments: y,
             maxPage: (Math.ceil(y.length / this.state.elementsByPage)-1)
@@ -134,37 +141,10 @@ class PostDetails extends Component {
       })
 
   }
-  getCategories() {
-    fetch("http://51.255.175.118:2000/commentCategory", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-
-        this.setState({ categories: data },
-          this.setState({ valueCategory: data[0].comment_category_id }))
-
-      })
-
-  }
+ 
 
 
-  getData() {
-    {
-      if (this.state.id !== this.props.match.params.id) {
-        this.setState({ id: this.props.match.params.id },
-          () => {
-            this.getPost()
-            this.getComments()
-
-          });
-      }
-    }
-  }
+ 
 
   sendData() {
     const token = localStorage.token;
@@ -183,10 +163,10 @@ class PostDetails extends Component {
         if (data.result === true) {
          
          let asyncChangepage = async()=>{
-           console.log("oui")
-           let x = await this.getComments()
-           console.log(this.state.comments.length)
-           let y = await this.setState({actualPage: this.state.maxPage,valueComment: ""})
+       
+           await this.getComments()
+    
+           await this.setState({actualPage: this.state.maxPage,valueComment: ""})
 
          }
          asyncChangepage()
@@ -197,8 +177,6 @@ class PostDetails extends Component {
   }
 
   render() {
-
-
     return (
       <div>
         {this.state.post != null ?
@@ -240,13 +218,21 @@ class PostDetails extends Component {
             </div>
             {(this.state.maxPage == 0 ) || (this.state.maxPage + 1 == 0 )? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
-
+            <div class="columns">
+            <div class="column is-one-quarter"></div>
+            <div class="column is-half">
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
                 <CommentModel comment={val}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
+
+            </div>
+            <div class="column is-one-quarter"></div>
+          </div>
+
+            
 
           </div>
           :
@@ -259,7 +245,7 @@ class PostDetails extends Component {
               <div class="add_bottom">
                 <div className="select" class="select">
                   <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                    {(this.state.categories.length != 0) ?
+                    {(this.state.categories.length !== 0) ?
                       this.state.categories.map((val, index) =>
                         <option value={val.comment_category_id}>{val.description}</option>
                       )
@@ -282,10 +268,22 @@ class PostDetails extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    isLogged: state.isLogged
+    isLogged: state.isLogged,
+    post: state.post,
+    comment: state.comment,
+    error: state.post.error,
+    posts: state.post.posts,
+    pending: state.post.pending
+
   }
 }
 
-export default connect(mapStateToProps, null)(PostDetails);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails);
+
+

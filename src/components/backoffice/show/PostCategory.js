@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class BackOfficeShowPostCategories extends Component {
@@ -29,20 +30,13 @@ class BackOfficeShowPostCategories extends Component {
     }
 
     getData(){
-        fetch("http://51.255.175.118:2000/postCategory", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-  
 
+      var data =this.props.categoriePost.categories
         this.setState({
           data: data,
           dataFixed: data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
-        },)
-
-      })
+        })
 
     }
 
@@ -125,7 +119,6 @@ class BackOfficeShowPostCategories extends Component {
         }
 
     }
-
 
 
     render() {
@@ -211,4 +204,17 @@ class BackOfficeShowPostCategories extends Component {
   }
 }
  
-export default BackOfficeShowPostCategories;
+
+const mapStateToProps = state => {
+  return {
+    categoriePost : state.categoriePost
+
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  
+}, dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowPostCategories);
+
