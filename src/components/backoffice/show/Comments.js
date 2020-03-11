@@ -139,7 +139,7 @@ class BackOfficeShowComments extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/comments/create'}>+</button>
+
             </div>
             <div className="column is-one-quarter">
 

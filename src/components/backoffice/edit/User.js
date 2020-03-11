@@ -111,53 +111,53 @@ valueBirthday:data.birthday.slice(0,10)})
 
   render() {
     return (
-      <div class="columns">
-      <div class="column is-one-quarter"></div>
-      <div class="column is-half">
+      <div className="columns">
+      <div className="column is-one-quarter"></div>
+      <div className="column is-half">
       <div>
 
 
         <form onSubmit={this.handleSubmit}>
-          <div class="field">
-            <label class="label">Username</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Username" value={this.state.valueUsername} onChange={this.handleChangeUsername} />
+          <div className="field">
+            <label className="label">Username</label>
+            <div className="control">
+              <input className="input" type="text" placeholder="Username" value={this.state.valueUsername} onChange={this.handleChangeUsername} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Firstname</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Firstname" value={this.state.valueFirstname} onChange={this.handleChangeFirstname} />
+          <div className="field">
+            <label className="label">Firstname</label>
+            <div className="control">
+              <input className="input" type="text" placeholder="Firstname" value={this.state.valueFirstname} onChange={this.handleChangeFirstname} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">LastName</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Lastname" value={this.state.valueLastname} onChange={this.handleChangeLastname} />
+          <div className="field">
+            <label className="label">LastName</label>
+            <div className="control">
+              <input className="input" type="text" placeholder="Lastname" value={this.state.valueLastname} onChange={this.handleChangeLastname} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Password <strong style={{color: "red"}}>empty to avoid modification</strong></label>
-            <div class="control">
-              <input class="input" type="password" placeholder="Password" value={this.state.valuePassword} onChange={this.handleChangePassword} />
+          <div className="field">
+            <label className="label">Password <strong style={{color: "red"}}>empty to avoid modification</strong></label>
+            <div className="control">
+              <input className="input" type="password" placeholder="Password" value={this.state.valuePassword} onChange={this.handleChangePassword} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Mail</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Mail" value={this.state.valueMail} onChange={this.handleChangeMail} />
+          <div className="field">
+            <label className="label">Mail</label>
+            <div className="control">
+              <input className="input" type="text" placeholder="Mail" value={this.state.valueMail} onChange={this.handleChangeMail} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Birthday</label>
-            <div class="control">
+          <div className="field">
+            <label className="label">Birthday</label>
+            <div className="control">
         
-              <input class="input" type="date" placeholder="Birthday" value={this.state.valueBirthday} onChange={this.handleChangeBirthday} />
+              <input className="input" type="date" placeholder="Birthday" value={this.state.valueBirthday} onChange={this.handleChangeBirthday} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Admin</label>
-            <div class="control">
+          <div className="field">
+            <label className="label">Admin</label>
+            <div className="control">
               <div className="select">
               <select value={this.state.valueAdmin} onChange={this.handleChangeAdmin}>
             <option value="1">Oui</option>
@@ -167,9 +167,9 @@ valueBirthday:data.birthday.slice(0,10)})
           </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Sexe</label>
-            <div class="control">
+          <div className="field">
+            <label className="label">Sexe</label>
+            <div className="control">
               <div className="select">
               <select value={this.state.valueSexe} onChange={this.handleChangeSexe}>
             <option value="M">Man</option>
@@ -179,19 +179,19 @@ valueBirthday:data.birthday.slice(0,10)})
             </div>
           </div>
 
-          <div class="control">
-            <input class="button is-link" type="submit" value="submit"></input>
+          <div className="control">
+            <input className="button is-link" type="submit" value="submit"></input>
 
           </div>
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice/users'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/users'}>Back</button></p>
 
 
       </div>
       </div>
-      <div class="column is-one-quarter"></div>
+      <div className="column is-one-quarter"></div>
       </div>
     );
   }

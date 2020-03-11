@@ -216,11 +216,10 @@ getData(){
             <div className="column is-half">
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                <CommentModel key={val.comment_id}comment={val}></CommentModel>
+                <CommentModel key={val.comment_id} comment={val}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
-
             </div>
             <div className="column is-one-quarter"></div>
           </div>
@@ -240,7 +239,7 @@ getData(){
                   <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
                     {(this.props.categorieComment.categories.length !== 0) ?
                       this.props.categorieComment.categories.map((val, index) =>
-                        <option value={val.comment_category_id}>{val.description}</option>
+                        <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
                       )
                       :
                       null

@@ -4,7 +4,7 @@ class Informations extends Component {
     render() {
         return (
             <div>
-                <h1 class="title">Les remarques sexistes, quelles sont les peines?</h1>
+                <h1 className="title">Les remarques sexistes, quelles sont les peines?</h1>
                 <p>Le contenu de cet article est à jour au regard du droit applicable au 28.09.2018. Il intègre notamment les modifications apportées par la loi n° 2018-703 du 3 août 2018 renforçant la lutte contre les violences sexuelles et sexistes.
         L’outrage sexiste est une manifestation du sexisme, qui s’exprime par des comportements à connotation sexuelle ou sexiste, qui, quel que soit l’espace où il s’exprime ou les formes qu’il prend, porte atteinte à la dignité de la personne en raison de son caractère dégradant ou humiliant, et crée une situation intimidante, hostile ou offensante. Ces comportements n’ont pas besoin d’être répétés pour que l’infraction soit caractérisée.
         Matériellement, il peut s’agir :

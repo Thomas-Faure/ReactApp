@@ -85,9 +85,9 @@ class BackOfficeEditCommentCategory extends Component {
 
   render() {
     return (
-      <div class="columns">
-      <div class="column is-one-quarter"></div>
-      <div class="column is-half">
+      <div className="columns">
+      <div className="column is-one-quarter"></div>
+      <div className="column is-half">
       <div>
 
 
@@ -119,7 +119,7 @@ class BackOfficeEditCommentCategory extends Component {
 
       </div>
       </div>
-      <div class="column is-one-quarter"></div>
+      <div className="column is-one-quarter"></div>
       </div>
     );
   }

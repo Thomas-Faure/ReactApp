@@ -29,7 +29,7 @@ import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
 import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import { login, logoff, setUser, unSetUser } from '../actions';
-
+import sha256 from 'sha256'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 class Main extends Component {
@@ -46,44 +46,46 @@ class Main extends Component {
 
   }
 
-  verifLogin() {
+  async verifLogin() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/user/verify", {
-      method: "GET",
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then(response => response.json())
-      .then(json => {
-        if (json) {
-          if (!this.props.isLogged) {
-            if (!json.error) {
-              this.props.login()
-              fetch("http://51.255.175.118:2000/user/" + json.id, {
-                method: "GET",
-                headers: {
-                  'Authorization': 'Bearer ' + token
-                }
-              })
-                .then(res => res.json())
-                .then((data) => {
-
-                  this.props.setUser(data[0])
-
-                })
-            }
-          }
-
+    if(token != "null"){
+      var response = await fetch("http://51.255.175.118:2000/user/verify", {
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + token
         }
       })
+        response = await response.json()
+        
+          if (response) {
+            if (!this.props.isLogged) {
+              if (!response.error) {
+                this.props.login()
+                var res = await fetch("http://51.255.175.118:2000/user/" + response.id, {
+                  method: "GET",
+                  headers: {
+                    'Authorization': 'Bearer ' + token
+                  }
+                })
+                  res = await res.json()
+              
+                 this.props.setUser(res[0])
+
+                  
+              }
+            }
+
+          }
+        }else{
+          this.props.setUser(null)
+        }
+    
 
   }
   
   async componentDidMount() {
-    this.verifLogin()
-  
-
+   await this.verifLogin()
+    
     await this.props.fetchPosts()
 
     await this.props.fetchComments()
@@ -133,6 +135,16 @@ class Main extends Component {
               <a className="navbar-item" href="/#/informations">
                 Informations
       </a>
+      {this.props.user != null ?  
+      (this.props.user.admin == 1)? 
+        <a className="navbar-item" href="/#/backoffice">
+                Backoffice
+      </a>
+        :
+         null
+      :
+      null
+      }
             </div>
 
             <div className="navbar-end">

@@ -76,27 +76,27 @@ class CommentModel extends Component {
     
     return (
 
-      <div class="card">
+      <div className="card">
 
-      <div class="card-content" style={{backgroundColor: this.state.color}}>
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
+      <div className="card-content" style={{backgroundColor: this.state.color}}>
+        <div className="media">
+          <div className="media-left">
+            <figure className="image is-48x48">
               <img src="https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png" alt="image48"/>
             </figure>
           </div>
-          <div class="media-content">
-            <p class="title is-4">{this.state.comment.description}</p>
-            <p class="subtitle is-6">@ {this.state.comment.username} </p>
+          <div className="media-content">
+            <p className="title is-4">{this.state.comment.description}</p>
+            <p className="subtitle is-6">@ {this.state.comment.username} </p>
           </div>
         </div>
-        <footer class="card-footer" >
-        <a href="" class="card-footer-item"  style={{color:"black"}}>Like</a>
+        <footer className="card-footer" >
+        <a href="" className="card-footer-item"  style={{color:"black"}}>Like</a>
         {this.state.alreadyReported === true ?
-         <a onClick={this.report} class="card-footer-item"  style={{color:"black"}}>Report✅</a>
+         <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report✅</a>
         
          :
-         <a onClick={this.report} class="card-footer-item"  style={{color:"black"}}>Report</a>
+         <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report</a>
          }
 
     

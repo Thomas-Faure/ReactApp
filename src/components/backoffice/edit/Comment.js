@@ -96,21 +96,21 @@ class BackOfficeEditComment extends Component {
 
   render() {
     return (
-      <div class="columns">
-      <div class="column is-one-quarter"></div>
-      <div class="column is-half">
+      <div className="columns">
+      <div className="column is-one-quarter"></div>
+      <div className="column is-half">
       <div>
         <form onSubmit={this.handleSubmit}>
          
-          <div class="field">
-            <label class="label">Description</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+          <div className="field">
+            <label className="label">Description</label>
+            <div className="control">
+              <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
-          <div class="field">
-            <label class="label">Category</label>
-            <div class="control">
+          <div className="field">
+            <label className="label">Category</label>
+            <div className="control">
             <div className="select">
             
               <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
@@ -126,16 +126,16 @@ class BackOfficeEditComment extends Component {
           </div>
             </div>
           </div>
-          <div class="control">
-            <input class="button is-link" type="submit" value="submit"></input>
+          <div className="control">
+            <input className="button is-link" type="submit" value="submit"></input>
           </div>
         </form>
-        <p style={{marginTop:"10px"}}><button class="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
 
 
       </div>
       </div>
-      <div class="column is-one-quarter"></div>
+      <div className="column is-one-quarter"></div>
       </div>
     );
   }
