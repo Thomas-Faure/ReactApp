@@ -65,6 +65,7 @@ getData(){
 
   var data = this.props.post.posts.find(element => element.post_id === this.state.id);
   
+  console.log(data)
   var comments = this.props.comment.comments.filter(element => element.post === this.state.id)
   
 
@@ -83,28 +84,10 @@ getData(){
     this.setState({ valueCategory: event.target.value })
   }
 
-
-  async getComments() {
-
-    let x = await fetch("http://51.255.175.118:2000/post/" + this.state.id + "/comments", {
-      method: "GET"
-    })
-    let y = await  x.json()
-
-    await  this.setState(
-          {
-            comments: y,
-            maxPage: (Math.ceil(y.length / this.state.elementsByPage)-1)
-          }
-        )
-        
-        
-    return
-
-  }
+ 
   verifAlreadyCommented() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/reportpost/" + this.state.post.post_id + "/byToken", {
+    fetch("http://51.255.175.118:2000/reportpost/" + this.state.id + "/byToken", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token
