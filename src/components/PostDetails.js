@@ -208,7 +208,7 @@ getData(){
                     (this.state.alreadyReported === true ?
                       <a  onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
-                      <a  onClick={this.report}><p className="infosRate"> {this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p></a>)
+                      <a  onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
                     : <p className="infosRate">{this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p>}
                   </div>
                 </div>

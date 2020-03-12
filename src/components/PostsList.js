@@ -50,7 +50,6 @@ class PostsList extends Component {
   filtreDate(value) {
     let newList = [];
     newList = this.state.posts
-    console.log(newList)
     switch (value) {
       case "populaire":
       
@@ -79,7 +78,8 @@ class PostsList extends Component {
     if ((this.state.search !== "") && (this.state.search !== null)) {
       if ((this.state.cat !== "") && (this.state.cat !== null)) {
         currentList = this.state.list.filter(item => {
-          if (this.state.cat === item.post_category) {
+
+          if (this.state.cat == item.post_category) {
             return item
           }
         });
@@ -97,7 +97,7 @@ class PostsList extends Component {
     } else {
       if ((this.state.cat !== "") && (this.state.cat !== null)) {
         currentList = this.state.list.filter(item => {
-          if (this.state.cat === item.post_category) {
+          if (this.state.cat == item.post_category) {
             return item
           }
         })
@@ -129,7 +129,7 @@ class PostsList extends Component {
       
       <div className="columns ">
         {this.state.currentPostId == null ? null :
-        <div className={(!this.state.commentIsOpen) ? 'modal' : 'modal is-active'}>
+        <div className={(!this.state.commentIsOpen) ? 'modal animated  fadeIn' : 'modal is-active animated  fadeIn'}>
   <div className="modal-background"></div>
   <div className="modal-card">
     <header className="modal-card-head">
@@ -146,15 +146,11 @@ class PostsList extends Component {
 </div>    
   }
         <div className="column is-7-desktop is-full-mobile is-offset-1">
-        
           {((this.state.posts !== null )&& (this.state.posts !== ""))?
             this.state.posts.map((val,index) =>
-            <div style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => { this.setState({currentPostId: val.post_id,commentIsOpen:true}) }}>
+            <div key={val.post_id}  style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => {this.setState({currentPostId: val.post_id,commentIsOpen:true})}}>
                   <PostModel key={val.post_id} post={val}/>
             </div>
-              
-     
-
             )
             :
             <h1>Aucune publication trouvée</h1>

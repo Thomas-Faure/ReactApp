@@ -29,7 +29,10 @@ class BackOfficeShowUsers extends Component {
       }
 
     componentDidMount() {
+      this.props.fetchUsers().then(()=>{
         this.getData()
+      })
+       
     }
 
     getData(){
