@@ -6,6 +6,7 @@ import userListReducer from './userList';
 import commentReducer from './comment';
 import categorieCommentReducer from './commentCategorie';
 import categoriePostReducer from './postCategorie';
+import loginPopUpReducer from './loginPopUp'
 
 import { combineReducers } from 'redux';
 
@@ -19,7 +20,8 @@ const allReducers = combineReducers({
     user:userReducer,
     comment:commentReducer,
     categorieComment:categorieCommentReducer,
-    categoriePost:categoriePostReducer
+    categoriePost:categoriePostReducer,
+    loginPopUp:loginPopUpReducer
 
 })
 

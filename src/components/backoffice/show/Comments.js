@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import fetchComments from '../../../fetch/fetchComments'
+import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class BackOfficeShowComments extends Component {
@@ -28,6 +28,12 @@ class BackOfficeShowComments extends Component {
       }
 
     componentDidMount() {
+      let asyncUpdate = async()=>{
+        await this.props.fetchCommentsByPostId()
+        this.getData()
+       }
+       asyncUpdate()
+
         this.getData()
     }
 
@@ -82,14 +88,12 @@ class BackOfficeShowComments extends Component {
 
 
     }
-
     deletePost(id){
-
       fetch('http://51.255.175.118:2000/comment/' + id+'/delete', {
         method: 'DELETE',
         }).then(()=>{
           let asyncUpdate = async()=>{
-            await this.props.fetchComments()
+            await this.props.fetchCommentsByPostId()
             this.getData()
             this.search()
            }
@@ -194,8 +198,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchComments: fetchComments,
+const mapDispatchToProps = (dispatch,own) => bindActionCreators({
+  fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id)
   
 }, dispatch)
  

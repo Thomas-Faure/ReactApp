@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import fetchComments from '../fetch/fetchComments'
+import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 class PostDetails extends Component {
 
@@ -11,7 +11,7 @@ class PostDetails extends Component {
     super(props)
 
     this.state = {
-      id: this.props.match.params.id,
+      id: this.props.post_id,
       post: null,
       comments: null,
       alreadyReported: false,
@@ -36,8 +36,15 @@ class PostDetails extends Component {
   }
 
 componentDidMount(){
+ 
+    this.props.fetchCommentsByPostId().then(()=>{
+      this.getData()
+    })
+    
+
   
-  this.getData()
+  
+ 
 }
 
   pushPrevButton() {
@@ -199,7 +206,7 @@ getData(){
                   <div className="liked"> 
                   {this.props.isLogged ?
                     (this.state.alreadyReported === true ?
-                      <a  onClick={this.report} > <p className="infosRate">{this.state.post.report}</p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
+                      <a  onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
                       <a  onClick={this.report}><p className="infosRate"> {this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p></a>)
                     : <p className="infosRate">{this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p>}
@@ -272,8 +279,8 @@ const mapStateToProps = state => {
 
   }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchComments: fetchComments,
+const mapDispatchToProps = (dispatch,own) => bindActionCreators({
+  fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.post_id),
   fetchCommentCategories: fetchCommentCategories,
   
 }, dispatch)

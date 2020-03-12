@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
+import Login from './Login'
 import fetchUsers from '../fetch/fetchUsers'
-import fetchComments from '../fetch/fetchComments'
+
 import {
   Route,
   HashRouter
 } from "react-router-dom";
 import Contact from "./Contact";
-import Login from "./Login";
+
 import PostsList from "./PostsList";
 import PostDetails from "./PostDetails";
 import Informations from "./Informations";
@@ -28,7 +29,7 @@ import BackOfficeEditPostCategory from './backoffice/edit/PostCategory'
 import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
 import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
-import { login, logoff, setUser, unSetUser } from '../actions';
+import { login, logoff, setUser, unSetUser,openPopUp,closePopUp } from '../actions';
 import sha256 from 'sha256'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
@@ -38,9 +39,7 @@ class Main extends Component {
     super(props)
     
     this.state = {
-      dataLoaded: false
-
-
+      dataLoaded: false,
     }
 
 
@@ -48,7 +47,8 @@ class Main extends Component {
 
   async verifLogin() {
     const token = localStorage.token;
-    if(token != "null"){
+    console.log(token)
+    if(token != "null" && token != undefined){
       var response = await fetch("http://51.255.175.118:2000/user/verify", {
         method: "GET",
         headers: {
@@ -87,14 +87,10 @@ class Main extends Component {
    await this.verifLogin()
     
     await this.props.fetchPosts()
-
-    await this.props.fetchComments()
-
     await this.props.fetchCommentCategories()
-
     await this.props.fetchPostCategories()
 
-    await this.props.fetchUsers()
+  //  await this.props.fetchUsers()
 
     this.setState({dataLoaded: true})
   }
@@ -108,7 +104,25 @@ class Main extends Component {
   render() {
     return (
       (this.state.dataLoaded !== true) ? null :
+      <div>
       <HashRouter>
+      {!this.props.isLogged ?   
+      <div className={(!this.props.loginPopUp)  && (this.state.currentPostId == null) ? 'modal' : 'modal is-active'}>
+  <div className="modal-background"></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">lOGIN</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.closePopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+        <Login></Login>
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button" onClick={()=>{this.props.closePopUp()}}>Cancel</button>
+    </footer>
+  </div>
+</div> : null}
+
         <nav className="navbar" style={{backgroundColor: '#BBDCF2'}}role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <a className="navbar-item" href="/#/">
@@ -150,7 +164,7 @@ class Main extends Component {
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons">
-                  {!this.props.isLogged ? <a href="/#/login" className="navbar-item">
+                  {!this.props.isLogged ? <a onClick={()=>{this.props.openPopUp()}} className="navbar-item">
                     Login
                   </a> : <a className="navbar-item" onClick={() => this.logoff()}>Logout</a>}
                 </div>
@@ -187,6 +201,7 @@ class Main extends Component {
         </section>
 
       </HashRouter>
+      </div>
       
     );
   }
@@ -198,7 +213,8 @@ const mapStateToProps = (state) => {
     isLogged: state.isLogged,
     post : state.post,
     comment : state.comment,
-    user: state.user
+    user: state.user,
+    loginPopUp : state.loginPopUp
   }
 }
 
@@ -207,8 +223,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     login,
     setUser,
     unSetUser,
+    openPopUp,
+    closePopUp,
   fetchPosts: fetchPosts,
-  fetchComments: fetchComments,
   fetchCommentCategories: fetchCommentCategories,
   fetchPostCategories:fetchPostCategories,
   fetchUsers: fetchUsers

@@ -2,16 +2,20 @@ import React, { Component } from "react";
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
+import PostDetails from './PostDetails'
+
 class PostsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      posts: null,
-      list: null,
+      posts: this.props.post.posts,
+      list: this.props.post.posts,
       mainfilter: null,
       category: null,
       cat: null,
-      search: null
+      search: null,
+      commentIsOpen: false,
+      currentPostId: null
     }
  
     this.handleChange = this.handleChange.bind(this);
@@ -21,6 +25,7 @@ class PostsList extends Component {
     this.categoryFilter = this.categoryFilter.bind(this);
   }
 
+  
 
 
   seePost(id) {
@@ -44,29 +49,27 @@ class PostsList extends Component {
 
   filtreDate(value) {
     let newList = [];
+    newList = this.state.posts
+    console.log(newList)
     switch (value) {
       case "populaire":
-        newList = this.state.posts
+      
         newList.sort((a, b) => b.like - a.like)
-        this.setState({
-          posts: newList
-        })
+        
         break;
       case "commente":
-        newList = this.state.posts
         newList.sort((a, b) => b.comment - a.comment)
-        this.setState({
-          posts: newList
-        })
+        
         break;
       default:
-        newList = this.state.posts
         newList.sort((a, b) => new Date(b.date) - new Date(a.date))
-        this.setState({
-          posts: newList
-        })
+        
         break;
     }
+    this.setState({
+      posts: newList
+    })
+
   }
 
   async search() {
@@ -123,13 +126,32 @@ class PostsList extends Component {
   render() {
  
     return (
+      
       <div className="columns ">
-       
+        {this.state.currentPostId == null ? null :
+        <div className={(!this.state.commentIsOpen) ? 'modal' : 'modal is-active'}>
+  <div className="modal-background"></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Comments</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></button>
+    </header>
+    <section className="modal-card-body">
+        <PostDetails key={this.state.currentPostId} post_id={this.state.currentPostId}></PostDetails>
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}>Close</button>
+    </footer>
+  </div>
+</div>    
+  }
         <div className="column is-7-desktop is-full-mobile is-offset-1">
         
-          {((this.props.post.posts !== null )&& (this.props.post.posts !== ""))?
-            this.props.post.posts.map((val,index) =>
+          {((this.state.posts !== null )&& (this.state.posts !== ""))?
+            this.state.posts.map((val,index) =>
+            <div style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => { this.setState({currentPostId: val.post_id,commentIsOpen:true}) }}>
                   <PostModel key={val.post_id} post={val}/>
+            </div>
               
      
 
@@ -152,8 +174,8 @@ class PostsList extends Component {
               <select id="category">
                 <option value=""></option>
                 {
-                  this.state.category != null ?
-                    this.state.category.map((val, index) =>
+                  this.props.categoryPost.categories != null ?
+                    this.props.categoryPost.categories.map((val, index) =>
                       <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
                     ) :
                     null
@@ -172,6 +194,7 @@ class PostsList extends Component {
 const mapStateToProps = state => {
   return {
     post: state.post,
+    categoryPost: state.categoriePost,
     error: state.post.error,
     posts: state.post.posts,
     pending: state.post.pending
@@ -181,7 +204,6 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  
 }, dispatch)
 
 

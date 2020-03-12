@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login, setUser } from '../actions';
+import { login, setUser,closePopUp } from '../actions';
 import sha256 from 'sha256';
 class Login extends Component {
   constructor(props) {
@@ -8,7 +8,8 @@ class Login extends Component {
     this.state = {
       valueP: "",
       valueU: "",
-      errorLogin: false
+      errorLogin: false,
+    
     }
     this.login = this.login.bind(this)
     this.handleChangePassword = this.handleChangePassword.bind(this)
@@ -17,9 +18,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isLogged) {
-      window.location.href = '/#/';
-    }
+    
   }
 
   handleChangeUsername(event) {
@@ -63,7 +62,7 @@ class Login extends Component {
             .then(res => res.json())
             .then((data) => {
               this.props.setUser(data[0])
-              window.location.href = '/#/'
+              this.props.closePopUp()
 
             })
         } else {
@@ -76,10 +75,10 @@ class Login extends Component {
   render() {
     return (
 
-      <section className="hero is-success is-fullheight">
-        <div className="hero-body">
+      <section className=" is-fullheight" style={{backgroundColor: "#BBDCF2",borderRadius:"5px"}}>
+        <div className="">
           <div className="container has-text-centered">
-            <div className="column is-4 is-offset-4">
+            <div className="column">
               <h3 className="title has-text-black">Login</h3>
               <hr className="login-hr" />
               <p className="subtitle has-text-black">Please login to proceed.</p>
@@ -119,7 +118,8 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    user: state.userInfo
+    user: state.userInfo,
+    loginPopUp : state.loginPopUp
 
   }
 }
@@ -127,7 +127,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = () => {
   return {
     login,
-    setUser
+    setUser,
+    closePopUp
 
   }
 }

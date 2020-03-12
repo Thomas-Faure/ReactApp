@@ -12,6 +12,11 @@ const commentReducer = (state = initialState, action)=>{
                 pending: true
             }
         case FETCH_COMMENTS_SUCCESS:
+          //  var commentsTemp = {}
+          //  commentsTemp.allIds = action.payload.map(function(val, index){ 
+          //      return val.comment_id; 
+         //   }) 
+         //   commentsTemp.byId = action.payload
             return {
                 ...state,
                 pending: false,

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class PostModel extends Component {
 
@@ -46,7 +47,7 @@ class PostModel extends Component {
   render() {
 
     return (
-        <div style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => { this.seePost(this.state.post.post_id) }}>
+        
         
         <div className="">
           <div >
@@ -67,7 +68,6 @@ class PostModel extends Component {
             <div className="rating" style={{backgroundColor: '#BBDCF2',width:"95%"}}>
               <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt= "img1"className="icon"></img></div>
               <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
-              <div className="liked"><p className="infosRate">{this.state.post.report}</p><img src="warning.png" alt="img3" className="icon"></img></div>
               
             </div>
             <div className="bestanswer" style={{backgroundColor: '#EBEBEC'}}>
@@ -76,9 +76,24 @@ class PostModel extends Component {
           </div>
 
         </div>
-      </div>
+      
     );
   }
 }
  
-export default PostModel;
+
+const mapStateToProps = (state) => {
+  return {
+    comment : state.comment,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+
+
+}, dispatch)
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostModel);

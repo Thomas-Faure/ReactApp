@@ -144,3 +144,15 @@ export const unSetUser = () =>{
         type: "UNSETUSER"
     }
 }
+//////////////////////////////////////////
+//popup-up login
+export const openPopUp = () =>{
+    return {
+        type: "OPEN_POPUP"
+    }
+}
+export const closePopUp = () =>{
+    return {
+        type: "CLOSE_POPUP"
+    }
+}
