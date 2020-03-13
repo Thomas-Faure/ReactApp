@@ -6,13 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import   fetchPosts from '../fetch/fetchPosts'
+import { unsetPopUp } from '../actions';
 class PostDetails extends Component {
 
   constructor(props) {
     super(props)
-
+   
     this.state = {
-      id: this.props.post_id,
+      id: this.props.popUp.id,
       post: null,
       comments: null,
       alreadyReported: false,
@@ -37,8 +38,8 @@ class PostDetails extends Component {
   }
 
 componentDidMount(){
- 
-    this.props.fetchCommentsByPostId().then(()=>{
+
+    this.props.fetchCommentsByPostId(this.props.popUp.id).then(()=>{
       this.getData()
     })
     
@@ -160,17 +161,12 @@ getData(){
     })
       .then(res => res.json())
       .then((data) => {
-        if (data.result === true) {
-         
-         let asyncChangepage = async()=>{
-       
-          await this.props.fetchCommentsByPostId()
-
+        if (data.result === true) {       
+         let asyncChangepage = async()=>{  
+          await this.props.fetchCommentsByPostId(this.props.popUp.id)
           await this.props.fetchCommentCategories()
           await this.props.fetchPosts()
-
-          this.setComments()
-    
+          this.setComments()    
            await this.setState({actualPage: this.state.maxPage,valueComment: ""})
 
          }
@@ -183,7 +179,17 @@ getData(){
 
   render() {
     return (
-      <div>
+
+ 
+        <div className={'modal is-active animated  fadeIn'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card" >
+    <header className="modal-card-head">
+      <p className="modal-card-title">Comments</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div>
         {this.state.post != null ?
           <div>
             <div className="card-content">
@@ -245,6 +251,40 @@ getData(){
           :
           <div><p>Aucun post avec cet identifiant</p></div>}
       </div>
+       
+    </section>
+    <footer className="modal-card-foot">
+      {this.props.isLogged ?
+          <div className="field addpost">
+            <label className="label add_top">Add a comment</label>
+            <div className="control is-flex add">
+              <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
+              <div className="add_bottom">
+                <div className="select" className="select">
+                  <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
+                    {(this.props.categorieComment.categories.length !== 0) ?
+                      this.props.categorieComment.categories.map((val, index) =>
+                        <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
+                      )
+                      :
+                      null
+                    }
+                  </select>
+                </div>
+                <button className="button is-link" onClick={this.sendData}>send</button>
+              </div>
+            </div>
+          </div>
+          :
+          <div className="field card addpost">
+            <label className="label add_top">Merci de vous connecter pour commenter</label>
+          </div>
+        }
+    </footer>
+  </div>
+  </div>
+  
+      
     );
   }
 }
@@ -257,14 +297,17 @@ const mapStateToProps = state => {
     comment: state.comment,
     error: state.post.error,
     posts: state.post.posts,
-    pending: state.post.pending
-
+    pending: state.post.pending,
+    popUp: state.popUp
+  
   }
 }
-const mapDispatchToProps = (dispatch,own) => bindActionCreators({
-  fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.post_id),
+const mapDispatchToProps = (dispatch,own) =>bindActionCreators({
+  
+  fetchCommentsByPostId: fetchCommentsByPostId,
   fetchCommentCategories: fetchCommentCategories,
   fetchPosts: fetchPosts,
+  unsetPopUp
   
 }, dispatch)
  

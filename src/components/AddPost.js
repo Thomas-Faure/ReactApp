@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {unsetPopUp } from '../actions';
+import { bindActionCreators } from 'redux';
 
 class AddPost extends Component {
   constructor(props) {
@@ -70,6 +72,7 @@ class AddPost extends Component {
     })
       .then(res => res.json())
       .then((data) => {
+        this.props.unsetPopUp()
         
       })
 
@@ -78,13 +81,22 @@ class AddPost extends Component {
   render() {
     return (
 
-      <section className=" is-fullheight" style={{backgroundColor: "#BBDCF2",borderRadius:"5px"}}>
+
+        <div className='modal is-active animated  fadeIn'>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card" >
+    <header className="modal-card-head">
+      <p className="modal-card-title">AddPost</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <section className=" is-fullheight" style={{backgroundColor: "#BBDCF2",borderRadius:"5px"}}>
         <div className="">
           <div className="container has-text-centered">
             <div className="column">
               <h3 className="title has-text-black"></h3>
               <hr className="login-hr" />
-              <p className="subtitle has-text-black">Please login to proceed.</p>
+              <p className="subtitle has-text-black"></p>
               <div className="box">     
         </div>
                 <form onSubmit={this.handleSubmit}>
@@ -118,6 +130,16 @@ class AddPost extends Component {
           </div>
         </div>
       </section>
+        
+    </section>
+    <footer className="modal-card-foot">
+     
+    </footer>
+  </div>
+  </div>
+  
+
+      
     );
   }
 }
@@ -125,17 +147,20 @@ class AddPost extends Component {
 const mapStateToProps = (state) => {
   return {
     categoriePost:state.categoriePost
-
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-  }
-}
+const mapDispatchToProps = dispatch => bindActionCreators({
+  unsetPopUp
+
+}, dispatch)
 
 
-export default connect(mapStateToProps, mapDispatchToProps())(AddPost);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
+
+
+
 
 
 

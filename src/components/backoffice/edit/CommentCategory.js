@@ -75,7 +75,7 @@ class BackOfficeEditCommentCategory extends Component {
             let asyncUpdate = async()=>{
         
               await this.props.fetchCommentCategories()
-              window.location = "/#/backoffice/commentCategories"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
           }
@@ -86,6 +86,17 @@ class BackOfficeEditCommentCategory extends Component {
 
   render() {
     return (
+
+      <div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Edit Post Category</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+        
+
       <div className="columns">
       <div className="column is-one-quarter"></div>
       <div className="column is-half">
@@ -115,13 +126,22 @@ class BackOfficeEditCommentCategory extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/commentCategories'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
       </div>
       <div className="column is-one-quarter"></div>
       </div>
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.state.IdpostCategorySelected);this.setState({isOpen:false,IdpostCategorySelected:null})}}>Delete</button>
+      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+    </footer>
+  </div>
+</div>
+
+
     );
   }
 }
@@ -136,7 +156,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    fetchCommentCategories: fetchCommentCategories
+    fetchCommentCategories: fetchCommentCategories,
 
   }
 }

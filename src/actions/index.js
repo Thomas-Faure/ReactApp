@@ -154,14 +154,15 @@ export const unSetUser = () =>{
     }
 }
 //////////////////////////////////////////
-//popup-up login
-export const openPopUp = () =>{
+//popup-up
+export const setPopUp = (page,id) =>{
     return {
-        type: "OPEN_POPUP"
+        type: "SET_POPUP",
+        payload: {page:page,id:id}
     }
 }
-export const closePopUp = () =>{
+export const unsetPopUp = () =>{
     return {
-        type: "CLOSE_POPUP"
+        type: "UNSET_POPUP"
     }
 }

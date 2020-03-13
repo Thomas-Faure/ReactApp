@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import BackOfficeEditComment from "../edit/Comment"
+import {setPopUp} from '../../../actions';
 class BackOfficeShowComments extends Component {
 
     constructor(props) {
@@ -120,6 +121,11 @@ class BackOfficeShowComments extends Component {
     render() {
         return (
             <div>
+          
+            {this.props.popUp.page != "BOCommentEdit" ? null 
+            :
+            <BackOfficeEditComment></BackOfficeEditComment>
+            }
 
 <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
   <div className="modal-background"></div>
@@ -205,7 +211,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch,own) => bindActionCreators({
-  fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id)
+  fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id),
+  setPopUp
   
 }, dispatch)
  

@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchComments from '../../../fetch/fetchComments'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
+import BackOfficeEditCommentCategory from '../edit/CommentCategory'
+import {setPopUp} from '../../../actions';
+import BackOfficeCreateCommentCategory from "../create/CommentCategory"
 class BackOfficeShowCommentCategories extends Component {
 
     constructor(props) {
@@ -25,6 +28,9 @@ class BackOfficeShowCommentCategories extends Component {
 
       }
 
+      componentWillReceiveProps(newprops){
+        this.getData()
+      }
     componentDidMount() {
         this.getData()
     }
@@ -119,6 +125,14 @@ class BackOfficeShowCommentCategories extends Component {
     render() {
         return (
             <div>
+{this.props.popUp.page != "BOCommentCatCreate" ? null 
+            :
+            <BackOfficeCreateCommentCategory></BackOfficeCreateCommentCategory>
+            }
+            {this.props.popUp.page != "BOCommentCatEdit" ? null 
+            :
+            <BackOfficeEditCommentCategory></BackOfficeEditCommentCategory>
+            }
 
 <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
   <div className="modal-background"></div>
@@ -201,7 +215,8 @@ class BackOfficeShowCommentCategories extends Component {
 
 const mapStateToProps = state => {
   return {
-    categorieComment : state.categorieComment
+    categorieComment : state.categorieComment,
+    popUp: state.popUp
 
   }
 }
@@ -209,6 +224,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCommentCategories: fetchCommentCategories,
   fetchComments: fetchComments,
+  setPopUp
   
 }, dispatch)
  

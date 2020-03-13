@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
+import {unsetPopUp} from '../../../actions'
 
 class BackOfficeEditPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
+      id:this.props.popUp.id,
       valueTitle: "",
       valueDescription: "",
       categories: [],
@@ -76,7 +77,7 @@ class BackOfficeEditPost extends Component {
             let asyncUpdate = async()=>{
               await this.props.fetchPosts()
               await this.props.fetchPostCategories()
-              window.location = "/#/backoffice/posts"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
            
@@ -86,7 +87,15 @@ class BackOfficeEditPost extends Component {
 
   render() {
     return (
-      <div className="columns">
+      <div className={'modal is-active'}>
+  <div className="modal-background"  onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Edit Post</p>
+      <button className="delete" aria-label="close"  onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div className="columns">
       <div className="column is-one-quarter"></div>
       <div className="column is-half">
       <div>
@@ -109,7 +118,7 @@ class BackOfficeEditPost extends Component {
           <div className="field">
             <label className="label">Category</label>
             <div className="control">
-            <div className="select">
+            <div className="select" style={{width:"100%"}}>
             
               <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
               {(this.state.categories.length !== 0 )?
@@ -134,13 +143,19 @@ class BackOfficeEditPost extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  this.props.unsetPopUp()}>Back</button></p>
 
 
       </div>
       </div>
       <div className="column is-one-quarter"></div>
       </div>
+    </section>
+
+  </div>
+</div>
+
+
     );
   }
 }
@@ -150,13 +165,15 @@ class BackOfficeEditPost extends Component {
 const mapStateToProps = (state) => {
   return {
     post: state.post,
-    categoriePost:state.categoriePost
+    categoriePost:state.categoriePost,
+    popUp: state.popUp
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
   fetchPosts: fetchPosts,
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  unsetPopUp
   
 },dispatch)
  

@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
+import BackOfficeCreatePost from "../create/Post"
+import BackOfficeEditPost from "../edit/Post"
+import {setPopUp} from '../../../actions';
 class BackOfficeShowPosts extends Component {
 
     constructor(props) {
@@ -26,6 +29,10 @@ class BackOfficeShowPosts extends Component {
 
       }
 
+      componentWillReceiveProps(newprops){
+        this.getData()
+
+      }
     componentDidMount(){
    
       this.getData()
@@ -114,6 +121,14 @@ class BackOfficeShowPosts extends Component {
    
         return (
             <div>
+              {this.props.popUp.page != "BOPostCreate" ? null 
+            :
+            <BackOfficeCreatePost></BackOfficeCreatePost>
+            }
+            {this.props.popUp.page != "BOPostEdit" ? null 
+            :
+            <BackOfficeEditPost></BackOfficeEditPost>
+            }
 
 <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
   <div className="modal-background"></div>
@@ -143,7 +158,7 @@ class BackOfficeShowPosts extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/posts/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={() => {this.props.setPopUp("BOPostCreate",null)}}>+</button>
             </div>
             <div className="column is-one-quarter">
 
@@ -173,7 +188,7 @@ class BackOfficeShowPosts extends Component {
             <th style={{height:50,width:30}}>{val.post_id}</th>
             <td style={{height:50,width:150}} >{val.title}</td>
             <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-primary" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}><FontAwesomeIcon icon="long-arrow-alt-right" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostSelected:val.post_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-primary" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}><FontAwesomeIcon icon="long-arrow-alt-right" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={event => this.props.setPopUp("BOPostEdit",val.post_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostSelected:val.post_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -200,14 +215,16 @@ const mapStateToProps = state => {
     post: state.post,
     error: state.post.error,
     posts: state.post.posts,
-    pending: state.post.pending
+    pending: state.post.pending,
+    popUp: state.popUp
 
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  setPopUp,
 
   
 }, dispatch)

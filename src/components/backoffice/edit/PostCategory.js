@@ -5,15 +5,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
-
-
-
+import {unsetPopUp} from '../../../actions'
 
 class BackOfficeEditPostCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
+      id:this.props.popUp.id,
       valueDescription: "",
       valueCouleur: "",
       valueUrl: ""
@@ -26,7 +24,6 @@ class BackOfficeEditPostCategory extends Component {
     this.sendData = this.sendData.bind(this)
     this.getData = this.getData.bind(this)
   }
-
   componentDidMount() {
       this.getData();
   }
@@ -80,7 +77,7 @@ class BackOfficeEditPostCategory extends Component {
         
               await this.props.fetchPostCategories()
               
-              window.location = "/#/backoffice/postCategories"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
            
@@ -92,12 +89,19 @@ class BackOfficeEditPostCategory extends Component {
 
   render() {
     return (
-      <div className="columns">
+
+      <div className={'modal is-active'}>
+  <div className="modal-background " onClick={()=>{ this.props.unsetPopUp()}}></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Delete Post Category</p>
+      <button className="delete" aria-label="close" onClick={()=>{ this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div className="columns">
       <div className="column is-one-quarter"></div>
       <div className="column is-half">
       <div>
-
-
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <label className="label">Description</label>
@@ -114,7 +118,7 @@ class BackOfficeEditPostCategory extends Component {
           <div className="field">
             <label className="label">Url</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Lastname" value={this.state.valueUrl} onChange={this.handleChangeUrl} />
+              <input className="input" type="text" placeholder="Url" value={this.state.valueUrl} onChange={this.handleChangeUrl} />
             </div>
           </div>
        
@@ -126,13 +130,18 @@ class BackOfficeEditPostCategory extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/postCategories'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>   this.props.unsetPopUp()}>Back</button></p>
 
 
       </div>
       </div>
       <div className="column is-one-quarter"></div>
       </div>
+    </section>
+   
+  </div>
+</div>
+
     );
   }
 }
@@ -142,13 +151,15 @@ class BackOfficeEditPostCategory extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    categoriePost:state.categoriePost
+    categoriePost:state.categoriePost,
+    popUp: state.popUp
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
   fetchPostCategories:fetchPostCategories,
   fetchPosts: fetchPosts,
+  unsetPopUp
   
 },dispatch)
  

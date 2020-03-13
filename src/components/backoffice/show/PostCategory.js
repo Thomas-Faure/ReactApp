@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import {setPopUp} from '../../../actions';
+import BackOfficeEditPostCategory from '../edit/PostCategory'
+import BackOfficeCreatePostCategory from "../create/PostCategory"
 class BackOfficeShowPostCategories extends Component {
 
     constructor(props) {
@@ -31,6 +33,9 @@ class BackOfficeShowPostCategories extends Component {
         this.getData()
     }
 
+    componentWillReceiveProps(newprops){
+      this.getData()
+    }
     getData(){
 
       var data = this.props.categoriePost.categories
@@ -122,6 +127,15 @@ class BackOfficeShowPostCategories extends Component {
         return (
             <div>
 
+{this.props.popUp.page != "BOPostCatCreate" ? null 
+            :
+            <BackOfficeCreatePostCategory></BackOfficeCreatePostCategory>
+            }
+            {this.props.popUp.page != "BOPostCatEdit" ? null 
+            :
+            <BackOfficeEditPostCategory></BackOfficeEditPostCategory>
+            }
+
 <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
   <div className="modal-background"></div>
   <div className="modal-card">
@@ -150,7 +164,7 @@ class BackOfficeShowPostCategories extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/postCategories/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={() =>  this.props.setPopUp("BOPostCatCreate",null)}>+</button>
             </div>
             <div className="column is-one-quarter">
 
@@ -180,7 +194,7 @@ class BackOfficeShowPostCategories extends Component {
             <th style={{height:50,width:30}}>{val.post_category_id}</th>
             <td style={{height:50,width:150}} >{val.description}</td>
             <td style={{height:50,width:150}} >{val.couleur}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/postCategories/'+val.post_category_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostCategorySelected:val.post_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOPostCatEdit",val.post_category_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostCategorySelected:val.post_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -204,14 +218,16 @@ class BackOfficeShowPostCategories extends Component {
 
 const mapStateToProps = state => {
   return {
-    categoriePost : state.categoriePost
+    categoriePost : state.categoriePost,
+    popUp: state.popUp
 
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  setPopUp
 
   
 }, dispatch)

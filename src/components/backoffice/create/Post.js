@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
+import {unsetPopUp} from '../../../actions'
 
 class BackOfficeCreatePost extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class BackOfficeCreatePost extends Component {
             let asyncUpdate = async()=>{
               await this.props.fetchPosts()
               await this.props.fetchPostCategories()
-              window.location = "/#/backoffice/posts"; 
+              this.props.unsetPopUp()
              }
             asyncUpdate()
            
@@ -79,7 +80,15 @@ class BackOfficeCreatePost extends Component {
 
   render() {
     return (
-      <div className="columns">
+      <div className={'modal is-active'}>
+  <div className="modal-background"  onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">New Post</p>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div className="columns">
   <div className="column is-one-quarter"></div>
   <div className="column is-half">
       <div>
@@ -99,8 +108,7 @@ class BackOfficeCreatePost extends Component {
           <div className="field">
             <label className="label">Category</label>
             <div className="control">
-            <div className="select">
-            
+            <div className="select" style={{width:"100%"}}>
               <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
               {(this.state.categories.length !== 0 )?
             this.state.categories.map((val,index) =>
@@ -130,6 +138,12 @@ class BackOfficeCreatePost extends Component {
       
   <div className="column is-one-quarter"></div>
   </div>
+    </section>
+   
+  </div>
+</div>
+ 
+ 
     );
   }
 }
@@ -144,7 +158,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
   fetchPosts: fetchPosts,
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  unsetPopUp
   
 },dispatch)
  

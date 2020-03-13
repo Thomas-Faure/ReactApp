@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login, setUser,closePopUp } from '../actions';
+import { login, setUser,unsetPopUp } from '../actions';
 import sha256 from 'sha256';
 class Login extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ class Login extends Component {
             .then(res => res.json())
             .then((data) => {
               this.props.setUser(data[0])
-              this.props.closePopUp()
+              this.props.unsetPopUp()
 
             })
         } else {
@@ -128,7 +128,7 @@ const mapDispatchToProps = () => {
   return {
     login,
     setUser,
-    closePopUp
+    unsetPopUp
 
   }
 }

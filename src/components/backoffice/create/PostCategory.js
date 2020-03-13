@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
+import {unsetPopUp} from '../../../actions'
 
 class BackOfficeCreatePostCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
       valueDescription: "",
       valueCouleur: "#ffffff",
       valueUrl: ""
@@ -39,7 +39,6 @@ class BackOfficeCreatePostCategory extends Component {
     event.preventDefault();
   }
 
-
   sendData() {
     
     const token = localStorage.token;
@@ -57,7 +56,7 @@ class BackOfficeCreatePostCategory extends Component {
           if(data.result===true){
             let asyncUpdate = async()=>{
               await this.props.fetchPostCategories()
-              window.location = "/#/backoffice/postCategories"; 
+              this.props.unsetPopUp()
              }
             asyncUpdate()
             
@@ -69,7 +68,16 @@ class BackOfficeCreatePostCategory extends Component {
 
   render() {
     return (
-      <div className="columns">
+
+      <div className={'modal is-active'}>
+  <div className="modal-background"  onClick={()=>{this.props.unsetPopUp()}}></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">New Post Category</p>
+      <button className="delete" aria-label="close"  onClick={()=>{this.props.unsetPopUp()}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div className="columns">
   <div className="column is-one-quarter"></div>
   <div className="column is-half">
   <div>
@@ -101,7 +109,7 @@ class BackOfficeCreatePostCategory extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/postCategories'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger"  onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
@@ -109,6 +117,11 @@ class BackOfficeCreatePostCategory extends Component {
   </div>
   <div className="column is-one-quarter"></div>
 </div>
+    </section>
+
+  </div>
+</div>
+ 
 
     );
   }
@@ -116,12 +129,14 @@ class BackOfficeCreatePostCategory extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    categoriePost:state.categoriePost
+    categoriePost:state.categoriePost,
+    popUp: state.popUp
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
-  fetchPostCategories:fetchPostCategories
+  fetchPostCategories:fetchPostCategories,
+  unsetPopUp
   
 },dispatch)
  

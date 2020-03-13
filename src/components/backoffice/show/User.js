@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchUsers from '../../../fetch/fetchUsers'
-
-
+import BackOfficeCreateUser from "../create/User"
+import BackOfficeEditUser from "../edit/User"
+import {setPopUp} from '../../../actions';
 
 class BackOfficeShowUsers extends Component {
 
@@ -26,6 +27,10 @@ class BackOfficeShowUsers extends Component {
         this.deleteUser= this.deleteUser.bind(this)
 
 
+      }
+
+      componentWillReceiveProps(newprops){
+        this.getData()
       }
 
     componentDidMount() {
@@ -110,6 +115,14 @@ class BackOfficeShowUsers extends Component {
     render() {
         return (
             <div>
+                            {this.props.popUp.page != "BOUserCreate" ? null 
+            :
+            <BackOfficeCreateUser></BackOfficeCreateUser>
+            }
+            {this.props.popUp.page != "BOUserEdit" ? null 
+            :
+            <BackOfficeEditUser></BackOfficeEditUser>
+            }
 
 <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
   <div className="modal-background"></div>
@@ -202,6 +215,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchUsers: fetchUsers,
+  setPopUp
 
   
 }, dispatch)

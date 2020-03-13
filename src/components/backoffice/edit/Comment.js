@@ -96,7 +96,16 @@ class BackOfficeEditComment extends Component {
 
   render() {
     return (
-      <div className="columns">
+      
+<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
+  <div className="modal-background"></div>
+  <div className="modal-card">
+    <header className="modal-card-head">
+      <p className="modal-card-title">Edit Comment </p>
+      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+    </header>
+    <section className="modal-card-body">
+    <div className="columns">
       <div className="column is-one-quarter"></div>
       <div className="column is-half">
       <div>
@@ -137,6 +146,14 @@ class BackOfficeEditComment extends Component {
       </div>
       <div className="column is-one-quarter"></div>
       </div>
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
+      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+    </footer>
+  </div>
+</div>
+    
     );
   }
 }

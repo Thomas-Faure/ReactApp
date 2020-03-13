@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
 import PostDetails from './PostDetails'
-
+import AddPost from './AddPost'
+import {setPopUp } from '../actions';
 class PostsList extends Component {
   constructor(props) {
     super(props)
@@ -14,8 +15,7 @@ class PostsList extends Component {
       category: null,
       cat: null,
       search: null,
-      commentIsOpen: false,
-      currentPostId: null,
+      actualPopup: null,
       actualValueFilter: null,
       valueCategory: this.props.categorieComment.categories[0].comment_category_id,
       categories: []
@@ -137,53 +137,11 @@ class PostsList extends Component {
   render() {
  
     return (
-      <div className="columns ">
-        {this.state.currentPostId == null ? null :
-        <div className={(!this.state.commentIsOpen) ? 'modal animated  fadeIn' : 'modal is-active animated  fadeIn'}>
-  <div className="modal-background" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></div>
-  <div className="modal-card" >
-    <header className="modal-card-head">
-      <p className="modal-card-title">Comments</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></button>
-    </header>
-    <section className="modal-card-body">
-        <PostDetails key={this.state.currentPostId} post_id={this.state.currentPostId}></PostDetails>
-    </section>
-    <footer className="modal-card-foot">
-      {this.props.isLogged ?
-          <div className="field addpost">
-            <label className="label add_top">Add a comment</label>
-            <div className="control is-flex add">
-              <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
-              <div className="add_bottom">
-                <div className="select" className="select">
-                  <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                    {(this.props.categorieComment.categories.length !== 0) ?
-                      this.props.categorieComment.categories.map((val, index) =>
-                        <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
-                      )
-                      :
-                      null
-                    }
-                  </select>
-                </div>
-                <button className="button is-link" onClick={this.sendData}>send</button>
-              </div>
-            </div>
-          </div>
-          :
-          <div className="field card addpost">
-            <label className="label add_top">Merci de vous connecter pour commenter</label>
-          </div>
-        }
-    </footer>
-  </div>
-  </div>
-  }
+      <div className="columns ">     
         <div className="column is-7-desktop is-full-mobile is-offset-1">
           {((this.state.posts !== null )&& (this.state.posts !== ""))?
             this.state.posts.map((val,index) =>
-            <div key={val.post_id}  style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => {this.setState({currentPostId: val.post_id,commentIsOpen:true})}}>
+            <div key={val.post_id}  style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => {this.props.setPopUp("postDetails",val.post_id)}}>
                   <PostModel key={val.post_id} post={val}/>
             </div>
             )
@@ -215,7 +173,7 @@ class PostsList extends Component {
             </div>
           </div>
         </div>
-        <div className="addPost"> <button>+</button></div>
+        <div className="addPost"> <button onClick={()=>{this.props.setPopUp("addPost",null)}} class="button is-info">+</button></div>
       </div>
 
     );
@@ -238,6 +196,7 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  setPopUp
 }, dispatch)
 
 
