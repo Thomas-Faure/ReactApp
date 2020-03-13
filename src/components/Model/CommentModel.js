@@ -37,19 +37,15 @@ class CommentModel extends Component {
         headers: {
           'Authorization': 'Bearer ' + token
         }
-        
       }
       ).then(res => res.json())
-      .then(res => {
-         
+      .then(res => {  
           if(res.length>0){
             this.setState({alreadyReported : true})
-
           }else{
             this.setState({alreadyReported : false})
           }
       })
-
   }
   report(){
     const token = localStorage.token;
@@ -66,18 +62,11 @@ class CommentModel extends Component {
      .then(res => {
          this.setState({alreadyReported : res.result})
      })
-
    }
-
-
-
- 
   render() {
     console.log(this.state.comment)
     return (
-
       <div className="card">
-
       <div className="card-content" style={{backgroundColor: this.state.color}}>
         <div className="media">
           <div className="media-left">
@@ -86,24 +75,20 @@ class CommentModel extends Component {
             </figure>
           </div>
           <div className="media-content">
-            <p className="title is-4">{this.state.comment.description}</p>
-            <p className="subtitle is-6">@ {this.state.comment.username} </p>
+          <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
+            <p className="title is-4">{this.state.comment.description}</p>       
           </div>
         </div>
         <footer className="card-footer" >
         <a href="" className="card-footer-item"  style={{color:"black"}}>Like</a>
         {this.state.alreadyReported === true ?
-         <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report✅</a>
-        
+         <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report✅</a>  
          :
          <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report</a>
          }
       </footer>
       </div>
-    </div>
-
-
-    );
+    </div>);
   }
 }
 

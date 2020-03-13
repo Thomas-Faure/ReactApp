@@ -1,11 +1,20 @@
 /////////////////CATEGORIES COMMENT/////////////////////////////////
 export const FETCH_USERS_PENDING = 'FETCH_USERS_PENDING';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
+export const FETCH_USER_BY_ID_SUCCESS = 'FETCH_USER_BY_ID_SUCCESS';
 export const FETCH_USERS_ERROR = 'FETCH_USERS_ERROR';
 
 export const  fetchUsersPending = ()=> {
     return {
         type: FETCH_USERS_PENDING
+    }
+}
+
+export const fetchUsersByIdSuccess = (user) =>{
+
+    return {
+        type: FETCH_USER_BY_ID_SUCCESS,
+        payload: user
     }
 }
 

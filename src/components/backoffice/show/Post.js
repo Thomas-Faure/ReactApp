@@ -31,11 +31,10 @@ class BackOfficeShowPosts extends Component {
       this.getData()
     }
     getData(){
-      var data = this.props.post.posts
         this.setState({
-          data: data,
-          dataFixed:data,
-          maxPage: Math.floor(data.length/this.state.elementsByPage)
+          data: this.props.post.posts,
+          dataFixed:this.props.post.posts,
+          maxPage: Math.floor(this.props.post.posts.length/this.state.elementsByPage)
         })
     }
 

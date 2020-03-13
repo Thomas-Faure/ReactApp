@@ -1,4 +1,5 @@
-import {FETCH_USERS_PENDING, FETCH_USERS_SUCCESS, FETCH_USERS_ERROR} from '../actions';
+
+import {FETCH_USERS_PENDING, FETCH_USERS_SUCCESS, FETCH_USERS_ERROR,FETCH_USER_BY_ID_SUCCESS} from '../actions';
 const initialState = {
     pending: false,
     users: [],
@@ -11,12 +12,19 @@ const userListReducer = (state = initialState, action)=>{
                 ...state,
                 pending: true
             }
+        case FETCH_USER_BY_ID_SUCCESS:
+            return {
+                ...state,
+                pending: false,
+                users: action.payload
+            }
         case FETCH_USERS_SUCCESS:
 
             return {
                 ...state,
                 pending: false,
-                users: action.payload
+                users: action.payload,
+               
             }
         case FETCH_USERS_ERROR:
             return {

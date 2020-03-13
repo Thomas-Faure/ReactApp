@@ -72,7 +72,6 @@ class BackOfficeEditComment extends Component {
           
         })
   }
-
   sendData() {
     const token = localStorage.token;
   

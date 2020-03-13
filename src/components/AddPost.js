@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class Test extends Component {
+class AddPost extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -135,7 +135,7 @@ const mapDispatchToProps = () => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps())(Test);
+export default connect(mapStateToProps, mapDispatchToProps())(AddPost);
 
 
 

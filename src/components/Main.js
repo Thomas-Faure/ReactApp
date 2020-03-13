@@ -5,12 +5,13 @@ import fetchPosts from '../fetch/fetchPosts'
 import Login from './Login'
 import fetchUsers from '../fetch/fetchUsers'
 
+
 import {
   Route,
   HashRouter
 } from "react-router-dom";
 import Contact from "./Contact";
-import Test from "./Test";
+
 import PostsList from "./PostsList";
 import PostDetails from "./PostDetails";
 import Informations from "./Informations";
@@ -33,6 +34,8 @@ import { login, logoff, setUser, unSetUser,openPopUp,closePopUp } from '../actio
 import sha256 from 'sha256'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
+import AddPost from "./AddPost";
+ 
 class Main extends Component {
 
   constructor(props) {
@@ -47,7 +50,7 @@ class Main extends Component {
 
   async verifLogin() {
     const token = localStorage.token;
-    console.log(token)
+    
     if(token != "null" && token != undefined){
       var response = await fetch("http://51.255.175.118:2000/user/verify", {
         method: "GET",
@@ -92,8 +95,19 @@ class Main extends Component {
     await this.props.fetchPostCategories()
 
   //  await this.props.fetchUsers()
+  await navigator.geolocation.getCurrentPosition( (position)=> {
+    let lat = position.coords.latitude;
+    let long = position.coords.longitude;
 
+    fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
+      method: "GET"
+    }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
+    console.log(lat.toFixed(2));
+    console.log(long.toFixed(2));
     this.setState({dataLoaded: true})
+  });
+   
+    
   }
   logoff() {
     this.props.logoff();
@@ -179,7 +193,7 @@ class Main extends Component {
             <Route path="/posts" component={PostsList} />
             <Route path="/post/:id" component={PostDetails} />
             <Route path="/login" component={Login} />
-            <Route exact path="/test" component={Test} />
+            <Route exact path="/addPost" component={AddPost} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
             <Route exact path="/backoffice" component={BackOfficeIndex} />

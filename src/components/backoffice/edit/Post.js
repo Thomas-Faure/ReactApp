@@ -55,12 +55,8 @@ class BackOfficeEditPost extends Component {
 
   }
   getCategories(){
-    
       var data = this.props.categoriePost.categories
       this.setState({categories:data})
-        
-      
-
   }
 
   sendData() {
