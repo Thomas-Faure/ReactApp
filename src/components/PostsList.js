@@ -16,7 +16,9 @@ class PostsList extends Component {
       search: null,
       commentIsOpen: false,
       currentPostId: null,
-      actualValueFilter: null
+      actualValueFilter: null,
+      valueCategory: this.props.categorieComment.categories[0].comment_category_id,
+      categories: []
     }
  
     this.handleChange = this.handleChange.bind(this);
@@ -135,12 +137,11 @@ class PostsList extends Component {
   render() {
  
     return (
-      
       <div className="columns ">
         {this.state.currentPostId == null ? null :
         <div className={(!this.state.commentIsOpen) ? 'modal animated  fadeIn' : 'modal is-active animated  fadeIn'}>
-  <div className="modal-background"></div>
-  <div className="modal-card" style={{width:"50%"}}>
+  <div className="modal-background" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></div>
+  <div className="modal-card" >
     <header className="modal-card-head">
       <p className="modal-card-title">Comments</p>
       <button className="delete" aria-label="close" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></button>
@@ -149,10 +150,35 @@ class PostsList extends Component {
         <PostDetails key={this.state.currentPostId} post_id={this.state.currentPostId}></PostDetails>
     </section>
     <footer className="modal-card-foot">
-      <button className="button" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}>Close</button>
+      {this.props.isLogged ?
+          <div className="field addpost">
+            <label className="label add_top">Add a comment</label>
+            <div className="control is-flex add">
+              <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
+              <div className="add_bottom">
+                <div className="select" className="select">
+                  <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
+                    {(this.props.categorieComment.categories.length !== 0) ?
+                      this.props.categorieComment.categories.map((val, index) =>
+                        <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
+                      )
+                      :
+                      null
+                    }
+                  </select>
+                </div>
+                <button className="button is-link" onClick={this.sendData}>send</button>
+              </div>
+            </div>
+          </div>
+          :
+          <div className="field card addpost">
+            <label className="label add_top">Merci de vous connecter pour commenter</label>
+          </div>
+        }
     </footer>
   </div>
-</div>    
+  </div>
   }
         <div className="column is-7-desktop is-full-mobile is-offset-1">
           {((this.state.posts !== null )&& (this.state.posts !== ""))?
@@ -189,6 +215,7 @@ class PostsList extends Component {
             </div>
           </div>
         </div>
+        <div className="addPost"> <button>+</button></div>
       </div>
 
     );
@@ -198,10 +225,12 @@ class PostsList extends Component {
 
 const mapStateToProps = state => {
   return {
+    categorieComment: state.categorieComment,
     post: state.post,
     categoryPost: state.categoriePost,
     error: state.post.error,
     posts: state.post.posts,
+    isLogged: state.isLogged,
     pending: state.post.pending
 
   }
