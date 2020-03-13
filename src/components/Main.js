@@ -10,7 +10,7 @@ import {
   HashRouter
 } from "react-router-dom";
 import Contact from "./Contact";
-
+import Test from "./Test";
 import PostsList from "./PostsList";
 import PostDetails from "./PostDetails";
 import Informations from "./Informations";
@@ -67,6 +67,7 @@ class Main extends Component {
                     'Authorization': 'Bearer ' + token
                   }
                 })
+                console.log(token)
                   res = await res.json()
               
                  this.props.setUser(res[0])
@@ -178,6 +179,7 @@ class Main extends Component {
             <Route path="/posts" component={PostsList} />
             <Route path="/post/:id" component={PostDetails} />
             <Route path="/login" component={Login} />
+            <Route exact path="/test" component={Test} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
             <Route exact path="/backoffice" component={BackOfficeIndex} />

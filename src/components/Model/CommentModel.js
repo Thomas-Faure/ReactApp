@@ -73,7 +73,7 @@ class CommentModel extends Component {
 
  
   render() {
-    
+    console.log(this.state.comment)
     return (
 
       <div className="card">
@@ -98,11 +98,7 @@ class CommentModel extends Component {
          :
          <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report</a>
          }
-
-    
       </footer>
-    
-    
       </div>
     </div>
 

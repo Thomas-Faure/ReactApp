@@ -15,7 +15,8 @@ class PostsList extends Component {
       cat: null,
       search: null,
       commentIsOpen: false,
-      currentPostId: null
+      currentPostId: null,
+      actualValueFilter: null
     }
  
     this.handleChange = this.handleChange.bind(this);
@@ -28,6 +29,13 @@ class PostsList extends Component {
   
 
 
+  async componentWillReceiveProps(nprops){
+    console.log("new")
+    console.log(nprops.post.posts)
+    await this.setState({list:nprops.post.posts,post:nprops.post.posts})
+    this.search()
+    this.filtreDate(this.state.actualValueFilter)
+  }
   seePost(id) {
     window.location.href = '/#/post/' + id;
   }
@@ -50,6 +58,7 @@ class PostsList extends Component {
   filtreDate(value) {
     let newList = [];
     newList = this.state.posts
+    this.setState({actualValueFilter:value})
     switch (value) {
       case "populaire":
       
@@ -131,7 +140,7 @@ class PostsList extends Component {
         {this.state.currentPostId == null ? null :
         <div className={(!this.state.commentIsOpen) ? 'modal animated  fadeIn' : 'modal is-active animated  fadeIn'}>
   <div className="modal-background"></div>
-  <div className="modal-card">
+  <div className="modal-card" style={{width:"50%"}}>
     <header className="modal-card-head">
       <p className="modal-card-title">Comments</p>
       <button className="delete" aria-label="close" onClick={()=>{this.setState({commentIsOpen:false,currentPostId:null})}}></button>

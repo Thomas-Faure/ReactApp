@@ -22,7 +22,6 @@ class BackOfficeCreateUser extends Component {
     this.handleChangeUsername= this.handleChangeUsername.bind(this)
     this.handleChangeLastname= this.handleChangeLastname.bind(this)
     this.handleChangeSexe= this.handleChangeSexe.bind(this)
-    this.handleChangeAdmin= this.handleChangeAdmin.bind(this)
     this.handleChangeMail= this.handleChangeMail.bind(this)
     this.handleChangeBirthday= this.handleChangeBirthday.bind(this)
     this.handleChangePassword= this.handleChangePassword.bind(this)
@@ -43,9 +42,6 @@ class BackOfficeCreateUser extends Component {
   }
   handleChangeSexe(event) {
     this.setState({ valueSexe: event.target.value })
-  }
-  handleChangeAdmin(event) {
-    this.setState({ valueAdmin: event.target.value })
   }
   handleChangeMail(event) {
     this.setState({ valueMail: event.target.value })
@@ -79,7 +75,6 @@ class BackOfficeCreateUser extends Component {
          birthday:this.state.valueBirthday,
          mail: this.state.valueMail,
          sexe: this.state.valueSexe,
-         admin:this.state.valueAdmin,
          password: sha256(this.state.valuePassword)})
     })
       .then(res => res.json())
@@ -126,7 +121,7 @@ class BackOfficeCreateUser extends Component {
             </div>
           </div>
           <div className="field">
-            <label className="label">Password <strong style={{color: "red"}}>empty to avoid modification</strong></label>
+            <label className="label">Password</label>
             <div className="control">
               <input className="input" type="password" placeholder="Password" value={this.state.valuePassword} onChange={this.handleChangePassword} />
             </div>
@@ -144,18 +139,7 @@ class BackOfficeCreateUser extends Component {
               <input className="input" type="date" placeholder="Birthday" value={this.state.valueBirthday} onChange={this.handleChangeBirthday} />
             </div>
           </div>
-          <div className="field">
-            <label className="label">Admin</label>
-            <div className="control">
-              <div className="select">
-              <select value={this.state.valueAdmin} onChange={this.handleChangeAdmin}>
-            <option value="1">Oui</option>
-            <option value="0">Non</option>
-
-          </select>
-          </div>
-            </div>
-          </div>
+      
           <div className="field">
             <label className="label">Sexe</label>
             <div className="control">

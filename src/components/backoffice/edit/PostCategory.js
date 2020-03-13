@@ -62,15 +62,14 @@ class BackOfficeEditPostCategory extends Component {
           
 
   }
-
   sendData() {
-    
-  
+    const token = localStorage.token;
     fetch("http://51.255.175.118:2000/postCategory/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({description: this.state.valueDescription, couleur: this.state.valueCouleur})
     })

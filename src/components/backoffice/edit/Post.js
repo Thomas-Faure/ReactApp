@@ -64,12 +64,13 @@ class BackOfficeEditPost extends Component {
   }
 
   sendData() {
-  
+    const token = localStorage.token;
     fetch("http://51.255.175.118:2000/post/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({ category: this.state.valueCategory, title: this.state.valueTitle, description: this.state.valueDescription})
     })

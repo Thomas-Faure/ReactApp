@@ -74,13 +74,14 @@ class BackOfficeEditComment extends Component {
   }
 
   sendData() {
-    
+    const token = localStorage.token;
   
     fetch("http://51.255.175.118:2000/comment/"+this.state.comment_id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({comment_category: this.state.valueCategory, description: this.state.valueDescription})
     })

@@ -5,6 +5,7 @@ import CommentModel from './Model/CommentModel'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
+import   fetchPosts from '../fetch/fetchPosts'
 class PostDetails extends Component {
 
   constructor(props) {
@@ -163,9 +164,10 @@ getData(){
          
          let asyncChangepage = async()=>{
        
-          await this.props.fetchComments()
+          await this.props.fetchCommentsByPostId()
 
           await this.props.fetchCommentCategories()
+          await this.props.fetchPosts()
 
           this.setComments()
     
@@ -197,6 +199,12 @@ getData(){
                   </div>
                   <div className="description">
                     <p>{this.state.post.description}</p>
+                    {this.state.post.url_image.length > 0 ?
+              
+              <img src={'http://51.255.175.118:2000/'+this.state.post.url_image}   />
+         
+              :
+               null}
                   </div>
                  
                 </div>
@@ -282,6 +290,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch,own) => bindActionCreators({
   fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.post_id),
   fetchCommentCategories: fetchCommentCategories,
+  fetchPosts: fetchPosts,
   
 }, dispatch)
  

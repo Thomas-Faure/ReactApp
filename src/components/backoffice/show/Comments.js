@@ -89,8 +89,14 @@ class BackOfficeShowComments extends Component {
 
     }
     deletePost(id){
+      const token = localStorage.token;
       fetch('http://51.255.175.118:2000/comment/' + id+'/delete', {
         method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
         }).then(()=>{
           let asyncUpdate = async()=>{
             await this.props.fetchCommentsByPostId()

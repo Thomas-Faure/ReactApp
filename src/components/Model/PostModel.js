@@ -13,33 +13,16 @@ class PostModel extends Component {
          
 
         }     
-        this.getReport = this.getReport.bind(this) 
-    }
 
+    }
     
     UNSAFE_componentWillReceiveProps(nextProps) {
        this.setState({
            post : nextProps.post
        })
       }
-  componentDidMount() {
-    this.getReport()
-  }
-    getReport(){
-        fetch("http://51.255.175.118:2000/reportpost/"+this.props.post.post_id+"/count", {
-      method: "GET"
-    })
-      .then(res => res.json())
-      .then((data) => {
-        var postTemp = this.state.post
-        postTemp.report = data
-        this.setState({
-          post: postTemp,
-        })
-      })
-
-
-    }
+ 
+    
     seePost(id) {
         window.location.href = '/#/post/' + id;
       }
@@ -62,6 +45,13 @@ class PostModel extends Component {
               </div>
               <div className="description animated  fadeIn delay-1s">
                 <p>{this.state.post.description}</p>
+                {this.state.post.url_image.length > 0 ?
+              
+                 <img style={{imageOrientation:"from-image"}}src={'http://51.255.175.118:2000/'+this.state.post.url_image}   />
+            
+                 :
+                  null}
+               
               </div>
              
             </div>

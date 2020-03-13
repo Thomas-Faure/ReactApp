@@ -74,8 +74,12 @@ class BackOfficeShowPosts extends Component {
     }
 
     deletePost(id){
+      const token = localStorage.token;
         fetch('http://51.255.175.118:2000/post/' + id+'/delete', {
           method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
           }).then(()=>{
 
             let asyncUpdate = async()=>{
