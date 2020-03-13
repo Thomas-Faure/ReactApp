@@ -244,32 +244,6 @@ getData(){
           </div>
           :
           <div><p>Aucun post avec cet identifiant</p></div>}
-        {this.props.isLogged ?
-          <div className="field card addpost">
-            <label className="label add_top">Add a comment</label>
-            <div className="control is-flex add">
-              <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
-              <div className="add_bottom">
-                <div className="select" className="select">
-                  <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                    {(this.props.categorieComment.categories.length !== 0) ?
-                      this.props.categorieComment.categories.map((val, index) =>
-                        <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
-                      )
-                      :
-                      null
-                    }
-                  </select>
-                </div>
-                <button className="button is-link" onClick={this.sendData}>send</button>
-              </div>
-            </div>
-          </div>
-          :
-          <div className="field card addpost">
-            <label className="label add_top">Merci de vous connecter pour commenter</label>
-          </div>
-        }
       </div>
     );
   }
