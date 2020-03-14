@@ -255,7 +255,7 @@ getData(){
     </section>
     <footer className="modal-card-foot">
       {this.props.isLogged ?
-          <div className="field addpost">
+          <div className="field addcomment">
             <label className="label add_top">Add a comment</label>
             <div className="control is-flex add">
               <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
@@ -277,7 +277,7 @@ getData(){
           </div>
           :
           <div className="field card addpost">
-            <label className="label add_top">Merci de vous connecter pour commenter</label>
+            <label className="label add_top">You need to be connected to add a comment</label>
           </div>
         }
     </footer>

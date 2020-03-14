@@ -96,17 +96,17 @@ class Main extends Component {
     await this.props.fetchPostCategories()
 
   //  await this.props.fetchUsers()
-  await navigator.geolocation.getCurrentPosition( (position)=> {
-    let lat = position.coords.latitude;
-    let long = position.coords.longitude;
+  // await navigator.geolocation.getCurrentPosition( (position)=> {
+  //   let lat = position.coords.latitude;
+  //   let long = position.coords.longitude;
 
-    fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
-      method: "GET"
-    }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
-    console.log(lat.toFixed(2));
-    console.log(long.toFixed(2));
+  //   fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
+  //     method: "GET"
+  //   }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
+  //   console.log(lat.toFixed(2));
+  //   console.log(long.toFixed(2));
     this.setState({dataLoaded: true})
-  });
+  // });
    
     
   }
@@ -141,7 +141,7 @@ class Main extends Component {
                 <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <p className="modal-card-title">lOGIN</p>
+                    <p className="modal-card-title">Login</p>
                     <button className="delete" aria-label="close" onClick={() => { this.props.unsetPopUp() }}></button>
                   </header>
                   <section className="modal-card-body">
@@ -155,7 +155,7 @@ class Main extends Component {
               </div>
                : null}
             <nav className="navbar" style={{ backgroundColor: '#BBDCF2' }} role="navigation" aria-label="main navigation">
-              <div className="navbar-brand">
+              <div className="navbar-brand navbar-start">
                 <a className="navbar-item" href="/#/">
 
                   <img src="logo1.png" alt="logo" />
@@ -194,7 +194,7 @@ class Main extends Component {
 
                 <div className="navbar-end">
                   <div className="navbar-item">
-                    <div className="buttons">
+                    <div>
                       {!this.props.isLogged ? <a onClick={() => { this.props.setPopUp("login",null) }} className="navbar-item">
                         Login
                   </a> : <a className="navbar-item" onClick={() => this.logoff()}>Logout</a>}

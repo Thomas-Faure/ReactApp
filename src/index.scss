@@ -147,7 +147,7 @@
   min-height: 100px;
 }
 
-.addpost{
+.addcomment{
   padding: 0px 0px 25px 25px;
   flex-direction: row;
   width: 100%;
@@ -186,4 +186,36 @@
 .add_top{
   text-align: center;
   font-weight: bold;
+}
+
+@media(max-width: 768px) { 
+  .reverse-columns {
+    flex-direction: column-reverse;
+    display: flex;
+  }
+}
+
+.addPost{
+  position: fixed;
+  bottom: 25px;
+  right: 20%;
+  z-index: 1;
+}
+
+.addPost>button{
+  border-radius: 50%;
+  text-align: center;
+  font-size: 20px;
+  background-color: orangered !important;
+}
+
+.flex-space{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textarea{
+  width: 100%;
 }

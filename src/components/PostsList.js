@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
 import PostDetails from './PostDetails'
 import AddPost from './AddPost'
-import {setPopUp } from '../actions';
+import { setPopUp } from '../actions';
 class PostsList extends Component {
   constructor(props) {
     super(props)
@@ -20,7 +20,7 @@ class PostsList extends Component {
       valueCategory: this.props.categorieComment.categories[0].comment_category_id,
       categories: []
     }
- 
+
     this.handleChange = this.handleChange.bind(this);
     this.mainfilter = this.mainfilter.bind(this);
     this.search = this.search.bind(this)
@@ -28,13 +28,11 @@ class PostsList extends Component {
     this.categoryFilter = this.categoryFilter.bind(this);
   }
 
-  
 
 
-  async componentWillReceiveProps(nprops){
-    console.log("new")
-    console.log(nprops.post.posts)
-    await this.setState({list:nprops.post.posts,post:nprops.post.posts})
+
+  async componentWillReceiveProps(nprops) {
+    await this.setState({ list: nprops.post.posts, post: nprops.post.posts })
     this.search()
     this.filtreDate(this.state.actualValueFilter)
   }
@@ -60,20 +58,20 @@ class PostsList extends Component {
   filtreDate(value) {
     let newList = [];
     newList = this.state.posts
-    this.setState({actualValueFilter:value})
+    this.setState({ actualValueFilter: value })
     switch (value) {
       case "populaire":
-      
+
         newList.sort((a, b) => b.like - a.like)
-        
+
         break;
       case "commente":
         newList.sort((a, b) => b.comment - a.comment)
-        
+
         break;
       default:
         newList.sort((a, b) => new Date(b.date) - new Date(a.date))
-        
+
         break;
     }
     this.setState({
@@ -84,7 +82,7 @@ class PostsList extends Component {
 
   async search() {
     let currentList = this.state.list
-    let newList = [];
+    let newList = null;
     // If the search bar isn't empty
     if ((this.state.search !== "") && (this.state.search !== null)) {
       if ((this.state.cat !== "") && (this.state.cat !== null)) {
@@ -121,7 +119,6 @@ class PostsList extends Component {
           posts: this.state.list
         })
       }
-
     }
 
   }
@@ -135,47 +132,48 @@ class PostsList extends Component {
   }
 
   render() {
- 
-    return (
-      <div className="columns ">     
-        <div className="column is-7-desktop is-full-mobile is-offset-1">
-          {((this.state.posts !== null )&& (this.state.posts !== ""))?
-            this.state.posts.map((val,index) =>
-            <div key={val.post_id}  style={{marginBottom:"10px"}}className=" animated  fadeIn" onClick={() => {this.props.setPopUp("postDetails",val.post_id)}}>
-                  <PostModel key={val.post_id} post={val}/>
-            </div>
-            )
-            :
-            <h1>Aucune publication trouvée</h1>
-          }
 
-        </div>
-        <div className="column is-3-desktop is-desktop filter">
-          <img src="filter.png" alt="img" className="icon"></img>
-          <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
-          <div className="filtre">
-            <div className="mainfilter" onChange={this.mainfilter}>
-              <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
-              <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
-              <div><label><input type="radio" name="time" value="commente" />Plus commenté</label></div>
-            </div>
-            <div className="categoryfilter" onChange={this.categoryFilter}>
-              <select id="category">
-                <option value=""></option>
-                {
-                  this.props.categoryPost.categories != null ?
-                    this.props.categoryPost.categories.map((val, index) =>
-                      <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
-                    ) :
-                    null
-                }
-              </select>
+    return (
+      <div>
+        <div className="addPost"> <button onClick={() => { this.props.setPopUp("addPost", null) }} class="button is-info"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+        <div className="columns reverse-columns">
+          <div className="column is-7-desktop is-full-mobile is-offset-1">
+            {((this.state.posts == null) || (this.state.posts.length == 0)) ?
+              <h1>Aucune publication trouvée</h1>
+              :
+              this.state.posts.map((val, index) =>
+                <div key={val.post_id} style={{ marginBottom: "10px" }} className=" animated  fadeIn" onClick={() => { this.props.setPopUp("postDetails", val.post_id) }}>
+                  <PostModel key={val.post_id} post={val} />
+                </div>
+              )
+            }
+
+          </div>
+          <div className="column is-3-desktop is-desktop filter">
+            <img src="filter.png" alt="img" className="icon"></img>
+            <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
+            <div className="filtre filtres">
+              <div className="mainfilter" onChange={this.mainfilter}>
+                <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
+                <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
+                <div><label><input type="radio" name="time" value="commente" />Plus commenté</label></div>
+              </div>
+              <div className="categoryfilter" onChange={this.categoryFilter}>
+                <select id="category">
+                  <option value=""></option>
+                  {
+                    this.props.categoryPost.categories != null ?
+                      this.props.categoryPost.categories.map((val, index) =>
+                        <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
+                      ) :
+                      null
+                  }
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div className="addPost"> <button onClick={()=>{this.props.setPopUp("addPost",null)}} class="button is-info">+</button></div>
       </div>
-
     );
   }
 }
