@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
+import fetchComments from '../../../fetch/fetchComments'
+import {unsetPopUp} from '../../../actions'
 
 class BackOfficeEditComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      comment_id:this.props.match.params.comment_id,
-      post_id: this.props.match.params.post_id,
+      comment_id:this.props.popUp.id.comment_id,
+      post_id: this.props.popUp.id.post_id,
       valueDescription: "",
       categories: [],
       valueCategory: ""
@@ -16,6 +21,7 @@ class BackOfficeEditComment extends Component {
     this.handleChangeCategory=this.handleChangeCategory.bind(this)
     this.sendData = this.sendData.bind(this)
     this.getData = this.getData.bind(this)
+    //this.props.unsetPopUp()
   }
 
   componentDidMount() {
@@ -87,7 +93,7 @@ class BackOfficeEditComment extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
-            window.location = "/#/backoffice/posts/"+this.state.post_id+"/comments"; 
+            this.props.unsetPopUp()
           }
         
       })
@@ -97,12 +103,12 @@ class BackOfficeEditComment extends Component {
   render() {
     return (
       
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+<div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Edit Comment </p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
     <div className="columns">
@@ -139,7 +145,7 @@ class BackOfficeEditComment extends Component {
             <input className="button is-link" type="submit" value="submit"></input>
           </div>
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
@@ -147,10 +153,7 @@ class BackOfficeEditComment extends Component {
       <div className="column is-one-quarter"></div>
       </div>
     </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
+
   </div>
 </div>
     
@@ -159,7 +162,21 @@ class BackOfficeEditComment extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+  return {
+    post: state.post,
+    categoriePost:state.categoriePost,
+    popUp: state.popUp
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators( {
+  fetchComments: fetchComments,
+  fetchCommentCategories:fetchCommentCategories,
+  unsetPopUp
+  
+},dispatch)
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditComment);
 
 
-
-export default BackOfficeEditComment;

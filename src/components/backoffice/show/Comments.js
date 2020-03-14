@@ -116,7 +116,6 @@ class BackOfficeShowComments extends Component {
               
             })
         }
-
     }
     render() {
         return (
@@ -181,7 +180,7 @@ class BackOfficeShowComments extends Component {
             <tr key={val.comment_id}>
             <th style={{height:50,width:30}}>{val.comment_id}</th>
             <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/posts/'+this.state.post_id+'/comments/'+val.comment_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentSelected:val.comment_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{console.log(this.state.post_id);this.props.setPopUp("BOCommentEdit",{comment_id:val.comment_id,post_id: this.state.post_id})}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentSelected:val.comment_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -206,7 +205,8 @@ class BackOfficeShowComments extends Component {
 
 const mapStateToProps = state => {
   return {
-    comment: state.comment
+    comment: state.comment,
+    popUp: state.popUp
   }
 }
 

@@ -58,8 +58,7 @@ class PostModel extends Component {
             </div>
             <div className="rating" style={{backgroundColor: '#BBDCF2',width:"95%"}}>
               <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt= "img1"className="icon"></img></div>
-              <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
-              
+              <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div> 
             </div>
             <div className="bestanswer" style={{backgroundColor: '#EBEBEC'}}>
               <p ><strong style={{color: "yellow"}}><FontAwesomeIcon icon="star" /></strong>Best:</p>
@@ -71,7 +70,6 @@ class PostModel extends Component {
     );
   }
 }
- 
 
 const mapStateToProps = (state) => {
   return {
@@ -79,10 +77,7 @@ const mapStateToProps = (state) => {
     user: state.user
   }
 }
-
 const mapDispatchToProps = dispatch => bindActionCreators({
-
-
 }, dispatch)
 
 

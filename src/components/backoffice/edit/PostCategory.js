@@ -106,13 +106,13 @@ class BackOfficeEditPostCategory extends Component {
           <div className="field">
             <label className="label">Description</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Username" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+              <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
             <label className="label">Couleur</label>
             <div className="control">
-              <input className="input" type="color" placeholder="Firstname" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
+              <input className="input" type="color" placeholder="Couleur" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
             </div>
           </div>
           <div className="field">

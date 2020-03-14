@@ -152,7 +152,7 @@ class BackOfficeShowUsers extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/users/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={()=>{this.props.setPopUp("BOUserCreate")}}>+</button>
             </div>
             <div className="column is-one-quarter">
 
@@ -182,7 +182,7 @@ class BackOfficeShowUsers extends Component {
             <th style={{height:50,width:30}}>{val.user_id}</th>
             <td style={{height:50,width:150}} >{val.username}</td>
             <td style={{height:50,width:250}} >{val.firstname.length>10 ? val.firstname.substring(0,10)+"...": val.firstname}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/users/'+val.user_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdUserSelected:val.user_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOUserEdit",val.user_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdUserSelected:val.user_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -207,7 +207,8 @@ class BackOfficeShowUsers extends Component {
 
 const mapStateToProps = state => {
   return {
-    userList: state.userList
+    userList: state.userList,
+    popUp: state.popUp
 
 
   }

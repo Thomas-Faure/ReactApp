@@ -162,7 +162,7 @@ class BackOfficeShowCommentCategories extends Component {
             <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice'}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
-                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={event =>  window.location.href='/#/backoffice/commentCategories/create'}>+</button>
+                <button className="button is-primary" style={{marginBottom: "10px"}}  onClick={() => this.props.setPopUp("BOCommentCatCreate")}>+</button>
             </div>
             <div className="column is-one-quarter">
 
@@ -192,7 +192,7 @@ class BackOfficeShowCommentCategories extends Component {
             <th style={{height:50,width:30}}>{val.comment_category_id}</th>
             <td style={{height:50,width:150}} >{val.description}</td>
             <td style={{height:50,width:150}} >{val.color}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={event =>  window.location.href='/#/backoffice/commentCategories/'+val.comment_category_id+"/edit"}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentCategorySelected:val.comment_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={() =>  this.props.setPopUp("BOCommentCatEdit",val.comment_category_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentCategorySelected:val.comment_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :

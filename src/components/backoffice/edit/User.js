@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchUsers from '../../../fetch/fetchUsers'
 import sha256 from 'sha256';
+import { queryAllByTestId } from "@testing-library/react";
+import {unsetPopUp} from '../../../actions'
 class BackOfficeEditUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
+      id:this.props.popUp.id,
       valueUsername: "",
       valueFirstname: "",
       valueLastname: "",
@@ -100,7 +102,7 @@ valueBirthday:data.birthday.slice(0,10)})
           if(data.affectedRows===1){
             let asyncUpdate = async()=>{
               await this.props.fetchUsers()
-              window.location = "/#/backoffice/users"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
   
@@ -113,12 +115,12 @@ valueBirthday:data.birthday.slice(0,10)})
   render() {
     return (
 
-      <div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+      <div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Edit User</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
     <div className="columns">
@@ -196,7 +198,7 @@ valueBirthday:data.birthday.slice(0,10)})
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/users'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
@@ -204,10 +206,7 @@ valueBirthday:data.birthday.slice(0,10)})
       <div className="column is-one-quarter"></div>
       </div>
     </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
+
   </div>
 </div>
 
@@ -218,11 +217,13 @@ valueBirthday:data.birthday.slice(0,10)})
 const mapStateToProps = (state) => {
   return {
     userList: state.userList,
+    popUp: state.popUp
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
-  fetchUsers: fetchUsers
+  fetchUsers: fetchUsers,
+  unsetPopUp
   
 },dispatch)
  

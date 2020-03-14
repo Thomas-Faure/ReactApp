@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchUsers from '../../../fetch/fetchUsers'
 import sha256 from 'sha256';
+import {unsetPopUp} from '../../../actions'
 class BackOfficeCreateUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
       valueUsername: "",
       valueFirstname: "",
       valueLastname: "",
@@ -82,7 +82,7 @@ class BackOfficeCreateUser extends Component {
           if(data.result===true){
             let asyncUpdate = async()=>{
               await this.props.fetchUsers()
-              window.location = "/#/backoffice/users"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
            
@@ -96,11 +96,11 @@ class BackOfficeCreateUser extends Component {
     return (
 
       <div className={'modal is-active'}>
-  <div className="modal-background"></div>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Create User </p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
     <div className="columns">
@@ -168,7 +168,7 @@ class BackOfficeCreateUser extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/users'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
@@ -176,10 +176,7 @@ class BackOfficeCreateUser extends Component {
       <div className="column is-one-quarter"></div>
       </div>
     </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
+
   </div>
 </div>
       
@@ -194,7 +191,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
-  fetchUsers: fetchUsers
+  fetchUsers: fetchUsers,
+  unsetPopUp
   
 },dispatch)
  

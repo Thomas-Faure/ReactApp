@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-
+import {unsetPopUp} from '../../../actions'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 class BackOfficeEditCommentCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
+      id:this.props.popUp.id,
       valueDescription: "",
       valueCouleur: ""
 
@@ -107,13 +107,13 @@ class BackOfficeEditCommentCategory extends Component {
           <div className="field">
             <label className="label">Description</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Username" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+              <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
             <label className="label">Couleur</label>
             <div className="control">
-              <input className="input" type="color" placeholder="Firstname" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
+              <input className="input" type="color" placeholder="Couleur" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
             </div>
           </div>
 
@@ -134,10 +134,7 @@ class BackOfficeEditCommentCategory extends Component {
       <div className="column is-one-quarter"></div>
       </div>
     </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.state.IdpostCategorySelected);this.setState({isOpen:false,IdpostCategorySelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
+
   </div>
 </div>
 
@@ -150,13 +147,15 @@ class BackOfficeEditCommentCategory extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    categorieComment: state.categorieComment
+    categorieComment: state.categorieComment,
+    popUp: state.popUp
   }
 }
 
 const mapDispatchToProps = () => {
   return {
     fetchCommentCategories: fetchCommentCategories,
+    unsetPopUp
 
   }
 }

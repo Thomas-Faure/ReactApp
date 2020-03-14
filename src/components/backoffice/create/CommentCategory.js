@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import {unsetPopUp} from '../../../actions'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 class BackOfficeCreateCommentCategory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:this.props.match.params.id,
+
       valueDescription: "",
       valueCouleur: "#ffffff"
 
@@ -56,7 +56,7 @@ class BackOfficeCreateCommentCategory extends Component {
             let asyncUpdate = async()=>{
         
               await this.props.fetchCommentCategories()
-              window.location = "/#/backoffice/commentCategories"; 
+              this.props.unsetPopUp()
              }
              asyncUpdate()
           }
@@ -69,11 +69,11 @@ class BackOfficeCreateCommentCategory extends Component {
     return (
 
       <div className={'modal is-active'}>
-  <div className="modal-background"></div>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Create Comment Category</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
     <div className="columns">
@@ -84,13 +84,13 @@ class BackOfficeCreateCommentCategory extends Component {
           <div className="field">
             <label className="label">Description</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Username" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+              <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
             <label className="label">Couleur</label>
             <div className="control">
-              <input className="input" type="color" placeholder="Firstname" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
+              <input className="input" type="color" placeholder="Couleur" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
             </div>
           </div>
 
@@ -103,7 +103,7 @@ class BackOfficeCreateCommentCategory extends Component {
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/commentCategories'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
 
 
       </div>
@@ -111,10 +111,7 @@ class BackOfficeCreateCommentCategory extends Component {
       <div className="column is-one-quarter"></div>
       </div>
     </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
+
   </div>
 </div>
  
@@ -132,7 +129,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = () => {
   return {
-    fetchCommentCategories: fetchCommentCategories
+    fetchCommentCategories: fetchCommentCategories,
+    unsetPopUp
 
   }
 }
