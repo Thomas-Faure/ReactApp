@@ -64,7 +64,7 @@ class CommentModel extends Component {
      })
    }
   render() {
-    console.log(this.state.comment)
+  
     return (
       <div className="card">
       <div className="card-content" style={{backgroundColor: this.state.color}}>

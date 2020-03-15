@@ -28,8 +28,7 @@ class PostModel extends Component {
       }
  
   render() {
-    console.log("oui")
-    console.log(this.state.post)
+
     return (
         
         

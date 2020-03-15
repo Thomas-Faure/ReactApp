@@ -75,7 +75,7 @@ class Main extends Component {
                 'Authorization': 'Bearer ' + token
               }
             })
-            console.log(token)
+        
             res = await res.json()
 
             this.props.setUser(res[0])

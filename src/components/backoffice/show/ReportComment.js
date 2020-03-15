@@ -41,7 +41,7 @@ class BackOfficeShowReportComments extends Component {
 
         axios.get('http://51.255.175.118:2000/reportComment')
       .then(res => {
-         
+    
        this.setState({
             data: res.data,
             dataFixed:res.data,
