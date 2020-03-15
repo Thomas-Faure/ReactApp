@@ -40,7 +40,10 @@ class PostDetails extends Component {
 componentDidMount(){
 
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(()=>{
-      this.getData()
+     
+        this.getData()
+      
+      
     })
     
 

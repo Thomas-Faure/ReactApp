@@ -15,8 +15,8 @@ class BackOfficeIndex extends Component {
         <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/postCategories'}>Post Category</button></p>
         <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/commentCategories'}>Comment Category</button></p>
         <h2 style={{fontWeight: "bold",fontSize:"20px"}}>Manage Reports:</h2>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={event =>  window.location.href='/#/backoffice/users'}>Comment report</button></p>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={event =>  window.location.href='/#/backoffice/users'}>Post report</button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={event =>  window.location.href='/#/backoffice/reportComments'}>Comment report</button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={event =>  window.location.href='/#/backoffice/reportPosts'}>Post report</button></p>
 
 
         </div>

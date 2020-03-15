@@ -30,6 +30,8 @@ import BackOfficeEditPostCategory from './backoffice/edit/PostCategory'
 import BackOfficeCreatePostCategory from './backoffice/create/PostCategory'
 import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory'
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
+import BackOfficeShowReportComments from './backoffice/show/ReportComment'
+import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp } from '../actions';
 import sha256 from 'sha256'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
@@ -49,6 +51,8 @@ class Main extends Component {
   }
 
   async verifLogin() {
+    if (localStorage.getItem("token") !== null) {
+      
     const token = localStorage.token;
     
     if(token != "null" && token != undefined){
@@ -84,16 +88,17 @@ class Main extends Component {
     } else {
       this.props.setUser(null)
     }
+  }
 
 
   }
 
   async componentDidMount() {
-    await this.verifLogin()
+     await this.verifLogin()
 
-    await this.props.fetchPosts()
-    await this.props.fetchCommentCategories()
-    await this.props.fetchPostCategories()
+     await this.props.fetchPosts()
+     await this.props.fetchPostCategories()
+     await this.props.fetchCommentCategories()
 
   //  await this.props.fetchUsers()
   // await navigator.geolocation.getCurrentPosition( (position)=> {
@@ -105,7 +110,7 @@ class Main extends Component {
   //   }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
   //   console.log(lat.toFixed(2));
   //   console.log(long.toFixed(2));
-    this.setState({dataLoaded: true})
+   this.setState({dataLoaded: true})
   // });
    
     
@@ -227,6 +232,8 @@ class Main extends Component {
             <Route exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory}/>
             <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
             <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
+            <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments}/>
+            <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts}/>
 
 
           </div>

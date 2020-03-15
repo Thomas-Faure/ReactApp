@@ -17,7 +17,6 @@ class PostsList extends Component {
       search: null,
       actualPopup: null,
       actualValueFilter: null,
-      valueCategory: this.props.categorieComment.categories[0].comment_category_id,
       categories: []
     }
 
