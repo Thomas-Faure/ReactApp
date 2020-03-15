@@ -38,8 +38,12 @@ class BackOfficeShowReportComments extends Component {
       this.getData()
     }
     getData(){
+      const token = localStorage.token;
+      const config = {
+        headers: { Authorization: 'Bearer '+token }
+      };
 
-        axios.get('http://51.255.175.118:2000/reportComment')
+        axios.get('http://51.255.175.118:2000/reportComment',config)
       .then(res => {
     
        this.setState({

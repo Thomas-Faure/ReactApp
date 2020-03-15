@@ -38,8 +38,11 @@ class BackOfficeShowReportPosts extends Component {
       this.getData()
     }
     getData(){
-
-        axios.get('http://51.255.175.118:2000/reportPost')
+      const token = localStorage.token;
+      const config = {
+        headers: { Authorization: 'Bearer '+token }
+      };
+        axios.get('http://51.255.175.118:2000/reportPost',config)
       .then(res => {
          
        this.setState({
