@@ -67,7 +67,9 @@ class BackOfficeEditUser extends Component {
   }
 
   getData(){
-    var data = this.props.userList.users.find(element => element.user_id == this.state.id);
+    let usersList = this.props.userList.allIds.map(id => this.props.userList.byId[id])
+
+    var data = usersList.find(element => element.user_id == this.state.id);
     this.setState({
         valueUsername:data.username,
         valueFirstname:data.firstname,
@@ -170,7 +172,7 @@ valueBirthday:data.birthday.slice(0,10)})
           <div className="field">
             <label className="label">Admin</label>
             <div className="control">
-              <div className="select">
+              <div className="select"  style={{width:"100%"}}>
               <select value={this.state.valueAdmin} onChange={this.handleChangeAdmin}>
             <option value="1">Oui</option>
             <option value="0">Non</option>
@@ -182,7 +184,7 @@ valueBirthday:data.birthday.slice(0,10)})
           <div className="field">
             <label className="label">Sexe</label>
             <div className="control">
-              <div className="select">
+              <div className="select"  style={{width:"100%"}}>
               <select value={this.state.valueSexe} onChange={this.handleChangeSexe}>
             <option value="M">Man</option>
             <option value="F">Woman</option>

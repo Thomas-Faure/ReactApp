@@ -38,10 +38,11 @@ class BackOfficeShowPosts extends Component {
       this.getData()
     }
     getData(){
+      let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
         this.setState({
-          data: this.props.post.posts,
-          dataFixed:this.props.post.posts,
-          maxPage: Math.floor(this.props.post.posts.length/this.state.elementsByPage)
+          data: postsList,
+          dataFixed:postsList,
+          maxPage: Math.floor(postsList.length/this.state.elementsByPage)
         })
     }
 
@@ -54,7 +55,8 @@ class BackOfficeShowPosts extends Component {
     }
     }
     search(){
-      var temp = this.props.posts.filter((n)=>{
+      let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
+      var temp = postsList.filter((n)=>{
         var properties = ["post_id","title","description"]
         var exist = false
  

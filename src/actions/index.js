@@ -1,3 +1,32 @@
+/////////////////BEST ANSWER/////////////////////////////////
+export const FETCH_BEST_ANSWER_PENDING = 'FETCH_BEST_ANSWER_PENDING';
+export const FETCH_BEST_ANSWER_SUCCESS = 'FETCH_BEST_ANSWER_SUCCESS';
+export const FETCH_BEST_ANSWER_ERROR = 'FETCH_BEST_ANSWER_ERROR';
+
+export const  fetchBestAnswerPending = ()=> {
+    return {
+        type: FETCH_BEST_ANSWER_PENDING
+    }
+}
+
+
+export const fetchBestAnswerSuccess = (answers) =>{
+
+    return {
+        type: FETCH_BEST_ANSWER_SUCCESS,
+        payload: answers
+    }
+}
+export const  fetchBestAnswerError = (error)=> {
+    return {
+        type: FETCH_BEST_ANSWER_ERROR,
+        payload: error
+    }
+}
+
+
+
+
 /////////////////CATEGORIES COMMENT/////////////////////////////////
 export const FETCH_USERS_PENDING = 'FETCH_USERS_PENDING';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
@@ -82,6 +111,7 @@ export const  fetchCommentCategoriesError = (error)=> {
 export const FETCH_COMMENTS_PENDING = 'FETCH_COMMENTS_PENDING';
 export const FETCH_COMMENTS_SUCCESS = 'FETCH_COMMENTS_SUCCESS';
 export const FETCH_COMMENTS_ERROR = 'FETCH_COMMENTS_ERROR';
+export const UPDATE_COMMENTS_REPORT = 'UPDATE_COMMENTS_REPORT'
 
 export const  fetchCommentsPending = ()=> {
     return {
@@ -89,6 +119,12 @@ export const  fetchCommentsPending = ()=> {
     }
 }
 
+export const updateCommentReport= (id,data) =>{
+    return{
+        type: UPDATE_COMMENTS_REPORT,
+        payload: {id:id,data:data}
+    }
+}
 export const fetchCommentsSuccess = (comments) =>{
     
     return {

@@ -41,12 +41,14 @@ class BackOfficeShowUsers extends Component {
     }
 
     getData(){
-      
-        var data = this.props.userList.users
+      console.log(this.props.userList)
+      let usersList = this.props.userList.allIds.map(id => this.props.userList.byId[id])
+      console.log(usersList)
+    
         this.setState({
-          data: data,
-          dataFixed: data,
-          maxPage: Math.floor(data.length/this.state.elementsByPage)
+          data: usersList,
+          dataFixed: usersList,
+          maxPage: Math.floor(usersList.length/this.state.elementsByPage)
         })
 
      

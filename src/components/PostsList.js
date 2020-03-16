@@ -8,9 +8,10 @@ import { setPopUp } from '../actions';
 class PostsList extends Component {
   constructor(props) {
     super(props)
+    
     this.state = {
-      posts: this.props.post.posts,
-      list: this.props.post.posts,
+      posts: this.props.post.allIds.map(id => this.props.post.byId[id]),
+      list: this.props.post.allIds.map(id => this.props.post.byId[id]),
       mainfilter: null,
       category: null,
       cat: null,
@@ -31,7 +32,9 @@ class PostsList extends Component {
 
 
   async componentWillReceiveProps(nprops) {
-    await this.setState({ list: nprops.post.posts, post: nprops.post.posts })
+    let postsList = nprops.post.allIds.map(id => nprops.post.byId[id])
+
+    await this.setState({ list: postsList, post: postsList })
     this.search()
     this.filtreDate(this.state.actualValueFilter)
   }

@@ -33,7 +33,8 @@ import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp } from '../actions';
-import sha256 from 'sha256'
+import sha256 from 'sha256';
+import fetchBestAnswer from "../fetch/fetchBestAnswer";
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 import AddPost from "./AddPost";
@@ -63,6 +64,9 @@ class Main extends Component {
           'Authorization': 'Bearer ' + token
         }
       })
+      if(response.status == 500){
+        localStorage.removeItem("token")
+      }else{
       response = await response.json()
 
       if (response) {
@@ -83,7 +87,7 @@ class Main extends Component {
 
           }
         }
-
+      }
       }
     } else {
       this.props.setUser(null)
@@ -99,6 +103,7 @@ class Main extends Component {
      await this.props.fetchPosts()
      await this.props.fetchPostCategories()
      await this.props.fetchCommentCategories()
+     await this.props.fetchBestAnswer()
 
   //  await this.props.fetchUsers()
   // await navigator.geolocation.getCurrentPosition( (position)=> {
@@ -267,7 +272,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchCommentCategories: fetchCommentCategories,
   fetchPostCategories: fetchPostCategories,
-  fetchUsers: fetchUsers
+  fetchUsers: fetchUsers,
+  fetchBestAnswer : fetchBestAnswer
 
 }, dispatch)
 

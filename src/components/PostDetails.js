@@ -15,6 +15,7 @@ class PostDetails extends Component {
     this.state = {
       id: this.props.popUp.id,
       post: null,
+      bestAnswer: null,
       comments: null,
       alreadyReported: false,
       actualPage: 0,
@@ -40,8 +41,9 @@ class PostDetails extends Component {
 componentDidMount(){
 
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(()=>{
-     
+
         this.getData()
+        console.log(this.props.comment.comments)
       
       
     })
@@ -75,25 +77,35 @@ componentDidMount(){
 
 
 setComments(){
-  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
+  let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+
   this.setState({ 
-    comments:comments,
-    maxPage: (Math.ceil(comments.length/this.state.elementsByPage)-1)
+    comments:commentsList,
+    maxPage: (Math.ceil(commentsList.length/this.state.elementsByPage)-1)
    }, () => { this.verifAlreadyCommented() })
 }
 
 getData(){
 
-
-  var data = this.props.post.posts.find(element => element.post_id == this.state.id);
-
-  var comments = this.props.comment.comments.filter(element => element.post == this.state.id)
+  let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
+  var data = postsList.find(element => element.post_id == this.state.id);
+  let bestAnswerId = this.props.bestAnswer.answers.find(element => element.post == this.state.id)
+  let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+  if(bestAnswerId != undefined){
+    this.setState({
+      bestAnswer : commentsList.find(element => element.comment_id == bestAnswerId.comment_id)
+    })
+    console.log(this.state.bestAnswer)
+  }
+ 
+  
+  
   
 
   this.setState({ 
     post: data,
-    comments:comments,
-    maxPage: (Math.ceil(comments.length/this.state.elementsByPage)-1)
+    comments:commentsList,
+    maxPage: (Math.ceil(commentsList.length/this.state.elementsByPage)-1)
 
    }, () => { this.verifAlreadyCommented() })
 }
@@ -233,11 +245,16 @@ getData(){
               </div>
 
             </div>
+            {this.state.bestAnswer == null ? null
+               :
+               <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer}></CommentModel>
+              }
             {(this.state.maxPage == 0 ) || (this.state.maxPage + 1 == 0 )? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half">
+  
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
                 <CommentModel key={val.comment_id} comment={val}></CommentModel>
@@ -301,7 +318,8 @@ const mapStateToProps = state => {
     error: state.post.error,
     posts: state.post.posts,
     pending: state.post.pending,
-    popUp: state.popUp
+    popUp: state.popUp,
+    bestAnswer: state.bestAnswer
   
   }
 }

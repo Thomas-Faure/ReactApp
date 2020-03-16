@@ -6,6 +6,23 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
   dispatch(fetchCommentsPending());
 
     const res = await axios.get("http://51.255.175.118:2000/post/"+id+"/comments")
+    const token = localStorage.token;
+    const config = {
+      headers: { Authorization: 'Bearer '+token }
+    };
+
+    for(var i =0;i< res.data.length;++i){
+      const resBis = await axios.get("http://51.255.175.118:2000/reportcomment/" + res.data[i].comment_id + "/byToken",config)
+      console.log("iiiiiiiiiiiiiiiiiiiiii")
+      console.log(resBis.data)
+      if(resBis.data.length > 0){
+
+        res.data[i].reported=true
+      }else{
+        res.data[i].reported=false
+      }
+    }
+
  
     dispatch(fetchCommentsSuccess(res.data));           
       return res;

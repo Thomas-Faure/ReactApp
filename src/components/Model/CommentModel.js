@@ -4,12 +4,14 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-
+import {updateCommentReport} from '../../actions'
 class CommentModel extends Component {
 
     constructor(props){
+
         super(props)
 
+        console.log(props)
         this.props.comment.report=0
 
         var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
@@ -61,10 +63,12 @@ class CommentModel extends Component {
      ).then(res => res.json())
      .then(res => {
          this.setState({alreadyReported : res.result})
+         this.props.updateCommentReport(this.state.comment.comment_id,res.result)
      })
    }
   render() {
-  
+    console.log("my state")
+  console.log(this.props.commentState.byId[this.state.comment.comment_id])
     return (
       <div className="card">
       <div className="card-content" style={{backgroundColor: this.state.color}}>
@@ -81,7 +85,7 @@ class CommentModel extends Component {
         </div>
         <footer className="card-footer" >
         <a href="" className="card-footer-item"  style={{color:"black"}}>Like</a>
-        {this.state.alreadyReported === true ?
+        {this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
          <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report✅</a>  
          :
          <a onClick={this.report} className="card-footer-item"  style={{color:"black"}}>Report</a>
@@ -96,10 +100,12 @@ class CommentModel extends Component {
 const mapStateToProps = state => {
   return {
     categorieComment: state.categorieComment,
+    commentState : state.comment
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  updateCommentReport:updateCommentReport
   
 }, dispatch)
  

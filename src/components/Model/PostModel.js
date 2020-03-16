@@ -10,7 +10,7 @@ class PostModel extends Component {
         this.props.post.report=0
         this.state = {
             post : this.props.post,
-         
+            bestAnswer: this.props.bestAnswer.answers.find(element=>element.post==this.props.post.post_id)
 
         }     
 
@@ -59,9 +59,11 @@ class PostModel extends Component {
               <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt= "img1"className="icon"></img></div>
               <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div> 
             </div>
+            {this.state.bestAnswer == null ? null : 
             <div className="bestanswer" style={{backgroundColor: '#EBEBEC'}}>
-              <p ><strong style={{color: "yellow"}}><FontAwesomeIcon icon="star" /></strong>Best:</p>
+              <p ><strong style={{color: "yellow"}}><FontAwesomeIcon icon="star" /></strong>Best:<br/>{this.state.bestAnswer.description}</p>
             </div>
+  }
           </div>
 
         </div>
@@ -73,7 +75,8 @@ class PostModel extends Component {
 const mapStateToProps = (state) => {
   return {
     comment : state.comment,
-    user: state.user
+    user: state.user,
+    bestAnswer: state.bestAnswer
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({

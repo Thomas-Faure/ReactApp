@@ -37,24 +37,20 @@ class BackOfficeShowComments extends Component {
 
         this.getData()
     }
-
     getData(){
-
-      
-      var data = this.props.comment.comments.filter(element => element.post == this.state.post_id)
+;
+      let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+      var data = commentsList.filter(element => element.post == this.state.post_id)
         this.setState({
           data: data,
           dataFixed: data,
           maxPage: Math.floor(data.length/this.state.elementsByPage)
         })
-
     }
-
     pushNextButton(){
         if(this.state.actualPage < this.state.maxPage){
         this.setState({
-            actualPage : this.state.actualPage+1
-           
+            actualPage : this.state.actualPage+1   
         })
     }
 

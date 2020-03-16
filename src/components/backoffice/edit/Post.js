@@ -46,7 +46,8 @@ class BackOfficeEditPost extends Component {
   }
 
   getData(){
-    var post = this.props.post.posts.find(element => element.post_id == this.state.id);
+    let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
+    var post = postsList.find(element => element.post_id == this.state.id);
     this.setState({
       valueTitle:post.title,
       valueDescription:post.description,

@@ -151,7 +151,7 @@ class BackOfficeCreateUser extends Component {
           <div className="field">
             <label className="label">Sexe</label>
             <div className="control">
-              <div className="select">
+              <div className="select"  style={{width:"100%"}}>
               <select value={this.state.valueSexe} onChange={this.handleChangeSexe}>
             <option value="M">Man</option>
             <option value="F">Woman</option>
