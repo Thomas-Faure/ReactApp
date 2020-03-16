@@ -60,7 +60,7 @@ class PostModel extends Component {
               <div className="liked"><p className="infosRate">{this.state.post.comment}</p><img src="comment.png" alt="img2" className="icon"></img></div> 
             </div>
             {this.state.bestAnswer == null ? null : 
-            <div className="bestanswer" style={{backgroundColor: '#EBEBEC'}}>
+            <div className="bestanswer" style={{backgroundColor: 'orangered'}}>
               <p ><strong style={{color: "yellow"}}><FontAwesomeIcon icon="star" /></strong>Best:<br/>{this.state.bestAnswer.description}</p>
             </div>
   }
