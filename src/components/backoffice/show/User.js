@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchUsers from '../../../fetch/fetchUsers'
 import BackOfficeCreateUser from "../create/User"
 import BackOfficeEditUser from "../edit/User"
-import {setPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp} from '../../../actions';
 
 class BackOfficeShowUsers extends Component {
 
@@ -124,22 +124,24 @@ class BackOfficeShowUsers extends Component {
             <BackOfficeEditUser></BackOfficeEditUser>
             }
 
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+{this.props.popUp.page != "deleteUser" ? null
+            :
+<div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Delete User</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
         <p>Are you sure to delete this user ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deleteUser(this.state.IdUserSelected);this.setState({isOpen:false,IdUserSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
     </footer>
   </div>
-</div>
+</div>}
  
 
             <div className="columns">
@@ -182,7 +184,7 @@ class BackOfficeShowUsers extends Component {
             <th style={{height:50,width:30}}>{val.user_id}</th>
             <td style={{height:50,width:150}} >{val.username}</td>
             <td style={{height:50,width:250}} >{val.firstname.length>10 ? val.firstname.substring(0,10)+"...": val.firstname}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOUserEdit",val.user_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdUserSelected:val.user_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOUserEdit",val.user_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteUser",val.user_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -216,7 +218,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchUsers: fetchUsers,
-  setPopUp
+  setPopUp,
+  unsetPopUp
 
   
 }, dispatch)

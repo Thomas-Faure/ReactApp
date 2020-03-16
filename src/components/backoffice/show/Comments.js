@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
-import {setPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp} from '../../../actions';
 class BackOfficeShowComments extends Component {
 
     constructor(props) {
@@ -125,23 +125,24 @@ class BackOfficeShowComments extends Component {
             :
             <BackOfficeEditComment></BackOfficeEditComment>
             }
-
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+ {this.props.popUp.page != "deleteComment" ? null
+            :
+<div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Delete Post</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
         <p>Are you sure to delete this comment ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdcommentSelected);this.setState({isOpen:false,IdcommentSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
     </footer>
   </div>
-</div>
+</div>}
  
 
             <div className="columns">
@@ -180,7 +181,7 @@ class BackOfficeShowComments extends Component {
             <tr key={val.comment_id}>
             <th style={{height:50,width:30}}>{val.comment_id}</th>
             <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOCommentEdit",{comment_id:val.comment_id,post_id: this.state.post_id})}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentSelected:val.comment_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOCommentEdit",{comment_id:val.comment_id,post_id: this.state.post_id})}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteComment",val.comment_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -212,7 +213,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch,own) => bindActionCreators({
   fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id),
-  setPopUp
+  setPopUp,
+  unsetPopUp
   
 }, dispatch)
  

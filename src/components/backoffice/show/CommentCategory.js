@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchComments from '../../../fetch/fetchComments'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import BackOfficeEditCommentCategory from '../edit/CommentCategory'
-import {setPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp} from '../../../actions';
 import BackOfficeCreateCommentCategory from "../create/CommentCategory"
 class BackOfficeShowCommentCategories extends Component {
 
@@ -133,23 +133,24 @@ class BackOfficeShowCommentCategories extends Component {
             :
             <BackOfficeEditCommentCategory></BackOfficeEditCommentCategory>
             }
-
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+ {this.props.popUp.page != "deleteCommentCategory" ? null
+            :
+<div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Delete Comment Category</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close"onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
         <p>Are you sure to delete this Comment category ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.state.IdcommentCategorySelected);this.setState({isOpen:false,IdcommentCategorySelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
     </footer>
   </div>
-</div>
+</div>}
  
 
             <div className="columns">
@@ -192,7 +193,7 @@ class BackOfficeShowCommentCategories extends Component {
             <th style={{height:50,width:30}}>{val.comment_category_id}</th>
             <td style={{height:50,width:150}} >{val.description}</td>
             <td style={{height:50,width:150}} >{val.color}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={() =>  this.props.setPopUp("BOCommentCatEdit",val.comment_category_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdcommentCategorySelected:val.comment_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={() =>  this.props.setPopUp("BOCommentCatEdit",val.comment_category_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteCommentCategory",val.comment_category_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -224,7 +225,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCommentCategories: fetchCommentCategories,
   fetchComments: fetchComments,
-  setPopUp
+  setPopUp,
+  unsetPopUp
   
 }, dispatch)
  

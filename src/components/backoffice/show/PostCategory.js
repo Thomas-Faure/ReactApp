@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {setPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp} from '../../../actions';
 import BackOfficeEditPostCategory from '../edit/PostCategory'
 import BackOfficeCreatePostCategory from "../create/PostCategory"
 class BackOfficeShowPostCategories extends Component {
@@ -135,23 +135,24 @@ class BackOfficeShowPostCategories extends Component {
             :
             <BackOfficeEditPostCategory></BackOfficeEditPostCategory>
             }
-
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
+ {this.props.popUp.page != "deletePostCategory" ? null
+            :
+<div className={'modal is-active'}>
+  <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
       <p className="modal-card-title">Delete Post Category</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
+      <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
         <p>Are you sure to delete this post category ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.state.IdpostCategorySelected);this.setState({isOpen:false,IdpostCategorySelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
     </footer>
   </div>
-</div>
+</div>}
  
 
             <div className="columns">
@@ -194,7 +195,7 @@ class BackOfficeShowPostCategories extends Component {
             <th style={{height:50,width:30}}>{val.post_category_id}</th>
             <td style={{height:50,width:150}} >{val.description}</td>
             <td style={{height:50,width:150}} >{val.couleur}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOPostCatEdit",val.post_category_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostCategorySelected:val.post_category_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOPostCatEdit",val.post_category_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deletePostCategory",val.post_category_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -227,7 +228,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchPostCategories:fetchPostCategories,
-  setPopUp
+  setPopUp,
+  unsetPopUp
 
   
 }, dispatch)

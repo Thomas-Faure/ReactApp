@@ -6,7 +6,7 @@ import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import BackOfficeCreatePost from "../create/Post"
 import BackOfficeEditPost from "../edit/Post"
-import {setPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp} from '../../../actions';
 class BackOfficeShowPosts extends Component {
 
     constructor(props) {
@@ -129,23 +129,27 @@ class BackOfficeShowPosts extends Component {
             :
             <BackOfficeEditPost></BackOfficeEditPost>
             }
+            {this.props.popUp.page != "deletePost" ? null
+            :
+                      <div className={'modal is-active'}>
+            <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
+            <div className="modal-card">
+              <header className="modal-card-head">
+                <p className="modal-card-title">Delete Post</p>
+                <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
+              </header>
+              <section className="modal-card-body">
+                  <p>Are you sure to delete this post ?</p>
+              </section>
+              <footer className="modal-card-foot">
+                <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
+                <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+              </footer>
+            </div>
+          </div>
+            }
 
-<div className={!this.state.isOpen ? 'modal' : 'modal is-active'}>
-  <div className="modal-background"></div>
-  <div className="modal-card">
-    <header className="modal-card-head">
-      <p className="modal-card-title">Delete Post</p>
-      <button className="delete" aria-label="close" onClick={()=>{this.setState({isOpen:false})}}></button>
-    </header>
-    <section className="modal-card-body">
-        <p>Are you sure to delete this post ?</p>
-    </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.state.IdpostSelected);this.setState({isOpen:false,IdpostSelected:null})}}>Delete</button>
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
-    </footer>
-  </div>
-</div>
+
  
 
             <div className="columns">
@@ -188,7 +192,7 @@ class BackOfficeShowPosts extends Component {
             <th style={{height:50,width:30}}>{val.post_id}</th>
             <td style={{height:50,width:150}} >{val.title}</td>
             <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-primary" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}><FontAwesomeIcon icon="long-arrow-alt-right" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={event => this.props.setPopUp("BOPostEdit",val.post_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.setState({isOpen:true,IdpostSelected:val.post_id})}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-primary" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}><FontAwesomeIcon icon="long-arrow-alt-right" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={event => this.props.setPopUp("BOPostEdit",val.post_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deletePost",val.post_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :
@@ -225,6 +229,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchPostCategories:fetchPostCategories,
   setPopUp,
+  unsetPopUp
 
   
 }, dispatch)
