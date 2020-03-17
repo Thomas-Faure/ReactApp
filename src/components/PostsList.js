@@ -155,7 +155,7 @@ class PostsList extends Component {
             <div className="filtres">
             <img src="filter.png" alt="img" className="icon"></img>
             <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
-            <div className="filtres">
+            <div className="filtres filtre">
               <div className="mainfilter" onChange={this.mainfilter}>
                 <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
                 <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
