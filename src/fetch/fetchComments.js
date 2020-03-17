@@ -13,8 +13,7 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
 
     for(var i =0;i< res.data.length;++i){
       const resBis = await axios.get("http://51.255.175.118:2000/reportcomment/" + res.data[i].comment_id + "/byToken",config)
-      console.log("iiiiiiiiiiiiiiiiiiiiii")
-      console.log(resBis.data)
+
       if(resBis.data.length > 0){
 
         res.data[i].reported=true

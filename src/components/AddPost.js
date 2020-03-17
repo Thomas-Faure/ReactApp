@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { unsetPopUp } from '../actions';
 import { bindActionCreators } from 'redux';
-
+import fetchPosts from '../fetch/fetchPosts'
+import fetchPostCategories from '../fetch/fetchPostCategories'
 class AddPost extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +33,6 @@ class AddPost extends Component {
   handleChangeCategory(event) {
     this.setState({ category: event.target.value })
   }
-
 
 
   async handleSubmit(event) {
@@ -68,6 +68,8 @@ class AddPost extends Component {
       .then(res => res.json())
       .then((data) => {
         this.props.unsetPopUp()
+        this.props.fetchPosts()
+        this.props.fetchPostCategories()
       })
 
   }
@@ -145,6 +147,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchPosts: fetchPosts,
+  fetchPostCategories: fetchPostCategories,
   unsetPopUp
 
 }, dispatch)

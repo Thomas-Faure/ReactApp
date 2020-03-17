@@ -218,7 +218,7 @@ class BackOfficeShowReportPosts extends Component {
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.comment}</th>
             <td style={{height:50,width:150}} >{val.nbReport}</td>
-            <td style={{height:50,width:250}} >{val.title.length>10 ? val.title.substring(0,10)+"...": val.title}</td>
+            <td style={{height:50,width:250}} >{val.title.length>30 ? val.title.substring(0,10)+"...": val.title}</td>
             <td style={{height:50,width:200}} ><p>
                 <button className="button is-success" onClick={()=>{this.setState({isOpen:true,idPostSelected:val.post,action:"validate"})}}><FontAwesomeIcon icon="check" /></button>
                 <button className="button is-danger" onClick={()=>{this.setState({isOpen:true,idPostSelected:val.post,action:"unvalidate"})}}><FontAwesomeIcon icon="trash" /></button>

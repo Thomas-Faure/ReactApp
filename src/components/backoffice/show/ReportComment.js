@@ -219,7 +219,7 @@ class BackOfficeShowReportComments extends Component {
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.comment}</th>
             <td style={{height:50,width:150}} >{val.nbReport}</td>
-            <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
+            <td style={{height:50,width:250}} >{val.description.length>30 ? val.description.substring(0,10)+"...": val.description}</td>
             <td style={{height:50,width:200}} ><p>
                 <button className="button is-success" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"validate"})}}><FontAwesomeIcon icon="check" /></button>
                 <button className="button is-danger" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"unvalidate"})}}><FontAwesomeIcon icon="trash" /></button>

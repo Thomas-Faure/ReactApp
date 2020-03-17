@@ -15,7 +15,7 @@ const userListReducer = (state = initialState, action)=>{
             }
      
         case FETCH_USERS_SUCCESS:
-            console.log("coucou")
+
             var usersTemp = {byId: {},allIds : []}
             usersTemp.allIds = action.payload.map(function(val, index){ 
             return val.user_id; 

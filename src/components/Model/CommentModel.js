@@ -11,7 +11,6 @@ class CommentModel extends Component {
 
         super(props)
 
-        console.log(props)
         this.props.comment.report=0
 
         var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
@@ -67,8 +66,7 @@ class CommentModel extends Component {
      })
    }
   render() {
-    console.log("my state")
-  console.log(this.props.commentState.byId[this.state.comment.comment_id])
+
     return (
       <div className="card">
       <div className="card-content" style={{backgroundColor: this.state.color}}>

@@ -41,9 +41,9 @@ class BackOfficeShowUsers extends Component {
     }
 
     getData(){
-      console.log(this.props.userList)
+
       let usersList = this.props.userList.allIds.map(id => this.props.userList.byId[id])
-      console.log(usersList)
+   
     
         this.setState({
           data: usersList,

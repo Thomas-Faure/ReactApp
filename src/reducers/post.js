@@ -1,4 +1,4 @@
-import {FETCH_POSTS_PENDING, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR} from '../actions';
+import {FETCH_POSTS_PENDING,UPDATE_POSTS_REPORT, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR,UPDATE_POST_LIKE} from '../actions';
 const initialState = {
     pending: false,
     byId: {},
@@ -7,11 +7,35 @@ const initialState = {
 }
 const postReducer = (state = initialState, action)=>{
     switch(action.type) {
+        case UPDATE_POSTS_REPORT:
+            return{
+                ...state,
+                byId:{
+                    ...state.byId,
+                    [action.payload.id]:{
+                        ...state.byId[action.payload.id],
+                        reported: action.payload.data
+                    }
+                }       
+            }
         case FETCH_POSTS_PENDING: 
             return {
                 ...state,
                 pending: true
             }
+        
+        case UPDATE_POST_LIKE:
+            return{
+                ...state,
+                byId:{
+                    ...state.byId,
+                    [action.payload.id]:{
+                        ...state.byId[action.payload.id],
+                        like: action.payload.data
+                    }
+                }       
+            }
+
         case FETCH_POSTS_SUCCESS:
             var postsTemp = {byId: {},allIds : []}
             postsTemp.allIds = action.payload.map(function(val, index){ 
