@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
-import Index from './index.scss'
+import Index from './css/index.scss'
+import Post from './css/post.scss'
 import thunk from 'redux-thunk';
 import App from './App';
 import {IntlProvider} from "react-intl";
