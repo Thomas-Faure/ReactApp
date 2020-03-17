@@ -53,10 +53,9 @@ class AddPost extends Component {
     await this.send(data, extension)
     event.preventDefault();
   }
-
   send(data, extension) {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:80/post/create", {
+    fetch("https://thomasfaure.fr/post/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -71,9 +70,7 @@ class AddPost extends Component {
         this.props.fetchPosts()
         this.props.fetchPostCategories()
       })
-
   }
-
   render() {
     return (
 

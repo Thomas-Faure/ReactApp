@@ -59,7 +59,7 @@ class BackOfficeEditCommentCategory extends Component {
   sendData() {
     
     const token = localStorage.token;
-    fetch("http://51.255.175.118:80/commentCategory/"+this.state.id+"/edit", {
+    fetch("https://thomasfaure.fr/commentCategory/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

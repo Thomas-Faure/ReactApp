@@ -10,7 +10,7 @@ export const fetchUsers= ()=> async dispatch => {
     };
   
     
-    const res = await axios.get("http://51.255.175.118:80/user/list",config)
+    const res = await axios.get("https://thomasfaure.fr/user/list",config)
     
     dispatch(fetchUsersSuccess(res.data));           
       return res;

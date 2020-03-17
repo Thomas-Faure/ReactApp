@@ -42,7 +42,7 @@ class Login extends Component {
   login() {
     var user_id = 0
 
-    fetch("http://51.255.175.118:80/user/login", {
+    fetch("https://thomasfaure.fr/user/login", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -58,7 +58,7 @@ class Login extends Component {
           user_id = data.id
           this.setState({ errorLogin: false })
 
-          fetch("http://51.255.175.118:80/user/" + user_id, {
+          fetch("https://thomasfaure.fr/user/" + user_id, {
             method: "GET",
             headers: {
               'Authorization': 'Bearer ' + data.token

@@ -47,6 +47,7 @@ class Main extends Component {
 
     this.state = {
       dataLoaded: false,
+      burgerOpen: false
     }
 
 
@@ -59,7 +60,7 @@ class Main extends Component {
 
       if (token != "null" && token != undefined) {
 
-        var response = await fetch("http://51.255.175.118:80/user/verify", {
+        var response = await fetch("https://thomasfaure.fr/user/verify", {
           method: "GET",
           headers: {
             'Authorization': 'Bearer ' + token
@@ -74,7 +75,7 @@ class Main extends Component {
             if (!this.props.isLogged) {
               if (!response.error) {
                 this.props.login()
-                var res = await fetch("http://51.255.175.118:80/user/" + response.id, {
+                var res = await fetch("https://thomasfaure.fr/user/" + response.id, {
                   method: "GET",
                   headers: {
                     'Authorization': 'Bearer ' + token
@@ -120,6 +121,10 @@ class Main extends Component {
     // });
 
 
+  }
+
+  clickBurger(){
+    this.setState({burgerOpen: (!this.state.burgerOpen)})
   }
   logoff() {
     this.props.logoff();
@@ -188,27 +193,40 @@ class Main extends Component {
 
                 </a>
 
-                <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                {this.state.burgerOpen != true ? 
+                <a role="button" className="navbar-burger burger"  onClick={()=>this.clickBurger()} onCliaria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+                
+                :
+                <a role="button" className="navbar-burger burger is-active"  onClick={()=>this.clickBurger()}  onCliaria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                   <span aria-hidden="true"></span>
                   <span aria-hidden="true"></span>
                   <span aria-hidden="true"></span>
                 </a>
-              </div>
 
-              <div id="navbarBasicExample" className="navbar-menu">
+                
+                }
+                
+              </div>
+              
+              <div id="navbarBasicExample"className={this.state.burgerOpen != true ?"navbar-menu" : "navbar-menu is-active" }>
                 <div className="navbar-start">
-                  <a className="navbar-item" href="/#/">
+                  <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/'}}>
                     Home
       </a>
-                  <a className="navbar-item" href="/#/contact" >
+                  <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/contact'}}>
                     Contact
       </a>
-                  <a className="navbar-item" href="/#/informations">
+                  <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/informations'}}>
                     Informations
       </a>
+
                   {this.props.user != null ?
                     (this.props.user.admin == 1) ?
-                      <a className="navbar-item" href="/#/backoffice">
+                      <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/backoffice'}}>
                         Backoffice
       </a>
                       :
@@ -221,9 +239,9 @@ class Main extends Component {
                 <div className="navbar-end">
                   <div className="navbar-item">
                     <div>
-                      {!this.props.isLogged ? <a onClick={() => { this.props.setPopUp("login", null) }} className="navbar-item">
+                      {!this.props.isLogged ? <a onClick={() => { this.setState({burgerOpen: false});this.props.setPopUp("login", null) }} className="navbar-item">
                         Login
-                  </a> : <a className="navbar-item" onClick={() => this.logoff()}>Logout</a>}
+                  </a> : <a className="navbar-item" onClick={() => {this.setState({burgerOpen: false});this.logoff()}}>Logout</a>}
                     </div>
                   </div>
                 </div>

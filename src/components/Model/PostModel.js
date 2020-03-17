@@ -50,7 +50,7 @@ class PostModel extends Component {
               <p>{this.state.post.description}</p>
               {this.state.post.url_image.length > 0 ?
 
-                <img style={{ imageOrientation: "from-image" }} src={'http://51.255.175.118:80/' + this.state.post.url_image} />
+                <img style={{ imageOrientation: "from-image" }} src={'https://thomasfaure.fr/' + this.state.post.url_image} />
 
                 :
                 null}

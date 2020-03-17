@@ -87,7 +87,7 @@ class BackOfficeShowPostCategories extends Component {
 
     deletePostCategory(id){
       const token = localStorage.token;
-      fetch('http://51.255.175.118:80/postCategory/' + id+'/delete', {
+      fetch('https://thomasfaure.fr/postCategory/' + id+'/delete', {
         method: 'DELETE',
         headers: {
           'Authorization': 'Bearer ' + token

@@ -88,7 +88,7 @@ class BackOfficeShowUsers extends Component {
     }
     deleteUser(id){
       const token = localStorage.token;
-        fetch('http://51.255.175.118:80/user/' + id+'/delete', {
+        fetch('https://thomasfaure.fr/user/' + id+'/delete', {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

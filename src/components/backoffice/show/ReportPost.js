@@ -42,7 +42,7 @@ class BackOfficeShowReportPosts extends Component {
       const config = {
         headers: { Authorization: 'Bearer '+token }
       };
-        axios.get('http://51.255.175.118:80/reportPost',config)
+        axios.get('https://thomasfaure.fr/reportPost',config)
       .then(res => {
          
        this.setState({
@@ -90,7 +90,7 @@ class BackOfficeShowReportPosts extends Component {
 
     delete(id){
       const token = localStorage.token;
-        fetch('http://51.255.175.118:80/post/' + id+'/delete', {
+        fetch('https://thomasfaure.fr/post/' + id+'/delete', {
           method: 'DELETE',
           headers: {
             'Authorization': 'Bearer ' + token
@@ -114,7 +114,7 @@ class BackOfficeShowReportPosts extends Component {
     }
     validate(id){
         const token = localStorage.token;
-          fetch('http://51.255.175.118:80/post/' + id+'/validate', {
+          fetch('https://thomasfaure.fr/post/' + id+'/validate', {
             method: 'PUT',
             headers: {
               'Authorization': 'Bearer ' + token

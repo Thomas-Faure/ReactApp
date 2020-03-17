@@ -83,7 +83,7 @@ valueBirthday:data.birthday.slice(0,10)})
   sendData() {
     
     const token = localStorage.token;
-    fetch("http://51.255.175.118:80/user/"+this.state.id+"/edit", {
+    fetch("https://thomasfaure.fr/user/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

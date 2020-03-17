@@ -29,7 +29,7 @@ class CommentModel extends Component {
 
   report() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:80/reportcomment/create", {
+    fetch("https://thomasfaure.fr/reportcomment/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

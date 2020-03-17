@@ -75,7 +75,7 @@ class Register extends Component {
     if (this.state.valueP != this.state.valuePC) {
       return false
     }
-    fetch("http://51.255.175.118:80/user/create", {
+    fetch("https://thomasfaure.fr/user/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -75,7 +75,7 @@ async like(){
   const config = {
     headers: { Authorization: 'Bearer '+token }
   };
-  const res = await axios.post("http://51.255.175.118:80/opinion/create",{ post: this.props.popUp.id },config)
+  const res = await axios.post("https://thomasfaure.fr/opinion/create",{ post: this.props.popUp.id },config)
 
   if(res.data.result == "liked"){
   await this.props.updatePostLike(this.props.post.byId[this.props.popUp.id].post_id,this.props.post.byId[this.props.popUp.id].like+1)
@@ -126,7 +126,7 @@ getData(){
 
  async report() {
     const token = localStorage.token;
-   var res = await fetch("http://51.255.175.118:80/reportpost/create", {
+   var res = await fetch("https://thomasfaure.fr/reportpost/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -151,7 +151,7 @@ getData(){
 
   sendData() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:80/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
+    fetch("https://thomasfaure.fr/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -209,7 +209,7 @@ getData(){
                     <p>{this.props.post.byId[this.props.popUp.id].description}</p>
                     {this.props.post.byId[this.props.popUp.id].url_image.length > 0 ?
               
-              <img src={'http://51.255.175.118:80/'+this.props.post.byId[this.props.popUp.id].url_image}   />
+              <img src={'https://thomasfaure.fr/'+this.props.post.byId[this.props.popUp.id].url_image}   />
          
               :
                null}
