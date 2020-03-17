@@ -102,10 +102,10 @@ class Main extends Component {
   async componentDidMount() {
     await this.verifLogin()
 
-    await this.props.fetchPosts()
-    await this.props.fetchPostCategories()
-    await this.props.fetchCommentCategories()
-    await this.props.fetchBestAnswer()
+    this.props.fetchPosts()
+    this.props.fetchPostCategories()
+    this.props.fetchCommentCategories()
+    this.props.fetchBestAnswer()
 
     //  await this.props.fetchUsers()
     // await navigator.geolocation.getCurrentPosition( (position)=> {
@@ -119,8 +119,6 @@ class Main extends Component {
     //   console.log(long.toFixed(2));
     this.setState({ dataLoaded: true })
     // });
-
-
   }
 
   clickBurger(){
@@ -235,7 +233,6 @@ class Main extends Component {
                     null
                   }
                 </div>
-
                 <div className="navbar-end">
                   <div className="navbar-item">
                     <div>
