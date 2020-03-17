@@ -15,6 +15,7 @@ class BackOfficeEditPost extends Component {
       valueDescription: "",
       categories: [],
       valueCategory: "",
+      valueImage: "",
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeDescription=this.handleChangeDescription.bind(this)
@@ -51,7 +52,8 @@ class BackOfficeEditPost extends Component {
     this.setState({
       valueTitle:post.title,
       valueDescription:post.description,
-      valueCategory:post.post_category})
+      valueCategory:post.post_category,
+      valueImage:post.url_image})
  
 
 
@@ -135,6 +137,17 @@ class BackOfficeEditPost extends Component {
           </div>
             </div>
           </div>
+          <div className="field">
+            <label className="label">Image</label>
+            <div className="control">
+            {this.state.valueImage.length >0 ? 
+              <img style={{imageOrientation:"from-image"}}src={'http://51.255.175.118:2000/'+this.state.valueImage}   />
+
+          :
+           null}
+            </div>
+          </div>
+         
 
 
           <div className="control">

@@ -28,7 +28,8 @@ class PostModel extends Component {
       }
  
   render() {
-
+    console.log(this.state.post.url_image)
+console.log(this.state.post.url_image.length)
     return (
         
         
