@@ -1,0 +1,93 @@
+.postModel {
+  background-color: #2c60a4;
+  width: 95%;
+  color: white;
+}
+.postModel:hover {
+  background-color: #2c60a4cc;
+  width: 95%;
+  color: white;
+}
+
+.red{
+    color: red;
+}
+
+.bleu{
+    color: #2c60a4   
+}
+
+.post_title {
+  background-color: #bbdcf2;
+  border-radius: 5px;
+}
+
+.bestDescription {
+  background-color: #bbdcf2;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
+.description {
+  padding-top: 5px;
+}
+
+.author {
+  text-align: right;
+  color: whitesmoke;
+}
+
+.author > strong {
+  color: whitesmoke;
+}
+
+.date {
+  color: whitesmoke;
+}
+
+.infos {
+  padding-bottom: 5px;
+}
+
+.rating {
+  border-radius: 0px 0px 0px 5px;
+  padding: 3px;
+  width: 95%;
+  background-color: #bbdcf2;
+  display: flex;
+  justify-content: space-around;
+}
+
+.like{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.commentRate {
+  border-radius: 0px 0px 5px 5px;
+  padding: 3px;
+  width: 100%;
+  background-color: #bbdcf2;
+  display: flex;
+  justify-content: space-around;
+}
+
+.bestanswer {
+  background-color: #f0b67f;
+  margin-left: 30%;
+  padding: 3px;
+  border-radius: 0px 5px 5px 5px;
+  width: 70%;
+}
+
+.bestanswerD {
+  background-color: #f0b67f;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.star {
+  color: yellow;
+}

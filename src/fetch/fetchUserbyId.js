@@ -10,7 +10,7 @@ export const fetchUsers= (id)=> async dispatch => {
     };
   
     
-    const res = await axios.get("http://51.255.175.118:2000/user/"+id,config)
+    const res = await axios.get("http://51.255.175.118:80/user/"+id,config)
     
     dispatch(fetchUsersSuccess(res.data));           
       return res;

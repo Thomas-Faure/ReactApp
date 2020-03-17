@@ -59,7 +59,7 @@ class Main extends Component {
 
       if (token != "null" && token != undefined) {
 
-        var response = await fetch("http://51.255.175.118:2000/user/verify", {
+        var response = await fetch("http://51.255.175.118:80/user/verify", {
           method: "GET",
           headers: {
             'Authorization': 'Bearer ' + token
@@ -74,7 +74,7 @@ class Main extends Component {
             if (!this.props.isLogged) {
               if (!response.error) {
                 this.props.login()
-                var res = await fetch("http://51.255.175.118:2000/user/" + response.id, {
+                var res = await fetch("http://51.255.175.118:80/user/" + response.id, {
                   method: "GET",
                   headers: {
                     'Authorization': 'Bearer ' + token

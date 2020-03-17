@@ -44,7 +44,7 @@ class BackOfficeEditComment extends Component {
   }
 
   getCategories(){
-    fetch("http://51.255.175.118:2000/commentCategory", {
+    fetch("http://51.255.175.118:80/commentCategory", {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -60,7 +60,7 @@ class BackOfficeEditComment extends Component {
   }
 
   getData(){
-    fetch("http://51.255.175.118:2000/comment/"+this.state.comment_id, {
+    fetch("http://51.255.175.118:80/comment/"+this.state.comment_id, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -81,7 +81,7 @@ class BackOfficeEditComment extends Component {
   sendData() {
     const token = localStorage.token;
   
-    fetch("http://51.255.175.118:2000/comment/"+this.state.comment_id+"/edit", {
+    fetch("http://51.255.175.118:80/comment/"+this.state.comment_id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

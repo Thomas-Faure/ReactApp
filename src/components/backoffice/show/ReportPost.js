@@ -42,7 +42,7 @@ class BackOfficeShowReportPosts extends Component {
       const config = {
         headers: { Authorization: 'Bearer '+token }
       };
-        axios.get('http://51.255.175.118:2000/reportPost',config)
+        axios.get('http://51.255.175.118:80/reportPost',config)
       .then(res => {
          
        this.setState({
@@ -90,7 +90,7 @@ class BackOfficeShowReportPosts extends Component {
 
     delete(id){
       const token = localStorage.token;
-        fetch('http://51.255.175.118:2000/post/' + id+'/delete', {
+        fetch('http://51.255.175.118:80/post/' + id+'/delete', {
           method: 'DELETE',
           headers: {
             'Authorization': 'Bearer ' + token
@@ -114,7 +114,7 @@ class BackOfficeShowReportPosts extends Component {
     }
     validate(id){
         const token = localStorage.token;
-          fetch('http://51.255.175.118:2000/post/' + id+'/validate', {
+          fetch('http://51.255.175.118:80/post/' + id+'/validate', {
             method: 'PUT',
             headers: {
               'Authorization': 'Bearer ' + token
@@ -218,7 +218,7 @@ class BackOfficeShowReportPosts extends Component {
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.comment}</th>
             <td style={{height:50,width:150}} >{val.nbReport}</td>
-            <td style={{height:50,width:250}} >{val.title.length>30 ? val.title.substring(0,10)+"...": val.title}</td>
+            <td style={{height:50,width:250}} >{val.title.length>30 ? val.title.substring(0,30)+"...": val.title}</td>
             <td style={{height:50,width:200}} ><p>
                 <button className="button is-success" onClick={()=>{this.setState({isOpen:true,idPostSelected:val.post,action:"validate"})}}><FontAwesomeIcon icon="check" /></button>
                 <button className="button is-danger" onClick={()=>{this.setState({isOpen:true,idPostSelected:val.post,action:"unvalidate"})}}><FontAwesomeIcon icon="trash" /></button>

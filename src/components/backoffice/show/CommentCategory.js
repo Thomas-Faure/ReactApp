@@ -83,7 +83,7 @@ class BackOfficeShowCommentCategories extends Component {
 
     deletePostCategory(id){
       const token = localStorage.token;
-      fetch('http://51.255.175.118:2000/commentCategory/' + id+'/delete', {
+      fetch('http://51.255.175.118:80/commentCategory/' + id+'/delete', {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

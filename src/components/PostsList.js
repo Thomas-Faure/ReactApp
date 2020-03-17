@@ -151,10 +151,11 @@ class PostsList extends Component {
             }
 
           </div>
-          <div className="column is-3-desktop is-desktop filter">
+          <div className="column is-3-desktop is-desktop filter ">
+            <div className="filtres">
             <img src="filter.png" alt="img" className="icon"></img>
             <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
-            <div className="filtre filtres">
+            <div className="filtres">
               <div className="mainfilter" onChange={this.mainfilter}>
                 <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
                 <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
@@ -171,6 +172,7 @@ class PostsList extends Component {
                       null
                   }
                 </select>
+              </div>
               </div>
             </div>
           </div>

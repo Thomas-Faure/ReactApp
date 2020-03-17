@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Moment from 'react-moment';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
@@ -7,6 +8,8 @@ import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
 import { unsetPopUp,updatePostLike,updatePostReport} from '../actions';
+import axios from 'axios'
+
 class PostDetails extends Component {
 
   constructor(props) {
@@ -68,14 +71,19 @@ componentDidMount(){
   }
 
 async like(){
+  const token = localStorage.token;
+  const config = {
+    headers: { Authorization: 'Bearer '+token }
+  };
+  const res = await axios.post("http://51.255.175.118:80/opinion/create",{ post: this.props.popUp.id },config)
+
+  if(res.data.result == "liked"){
   await this.props.updatePostLike(this.props.post.byId[this.props.popUp.id].post_id,this.props.post.byId[this.props.popUp.id].like+1)
-  let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
+  }else if(res.data.result == "deleted"){
+    await this.props.updatePostLike(this.props.post.byId[this.props.popUp.id].post_id,this.props.post.byId[this.props.popUp.id].like-1)
 
-  var data = postsList.find(element => element.post_id == this.state.id);
-  this.setState({ 
-    post: data,
+  }
 
-   })
 
 }
 
@@ -118,7 +126,7 @@ getData(){
 
  async report() {
     const token = localStorage.token;
-   var res = await fetch("http://51.255.175.118:2000/reportpost/create", {
+   var res = await fetch("http://51.255.175.118:80/reportpost/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -143,7 +151,7 @@ getData(){
 
   sendData() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
+    fetch("http://51.255.175.118:80/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -186,12 +194,14 @@ getData(){
           <div>
             <div className="card-content">
               <div >
-                <div className="media-content postModel"  style={{backgroundColor: '#D7D9D7'}}>
+                <div className="media-content postModel"  >
                 <div className="infos">
                   <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.props.post.byId[this.props.popUp.id].username}</strong></p>
-                  
+                  <p className="date"><Moment fromNow>
+                          {this.props.post.byId[this.props.popUp.id].date}
+                        </Moment></p>
                   </div>
-                  <div className="post_title" style={{backgroundColor: '#BBDCF2'}}>
+                  <div className="post_title" >
                     <h4 className="title is-4" id="post_title">{this.props.post.byId[this.props.popUp.id].title}</h4>
                     <h4 className="title is-4" id="post_id">#{this.props.post.byId[this.props.popUp.id].post_id}</h4>
                   </div>
@@ -199,15 +209,15 @@ getData(){
                     <p>{this.props.post.byId[this.props.popUp.id].description}</p>
                     {this.props.post.byId[this.props.popUp.id].url_image.length > 0 ?
               
-              <img src={'http://51.255.175.118:2000/'+this.props.post.byId[this.props.popUp.id].url_image}   />
+              <img src={'http://51.255.175.118:80/'+this.props.post.byId[this.props.popUp.id].url_image}   />
          
               :
                null}
                   </div>
                  
                 </div>
-                <div className="rating" style={{backgroundColor: '#BBDCF2'}}>
-                  <div className="liked"><a  onClick={()=>{this.like()}} ><p className="infosRate">{this.props.post.byId[this.props.popUp.id].like}</p><img src="ear.png" alt="img1" className="icon"></img></a></div>
+                <div className="rating" >
+                  <div className="liked"><a onClick={()=>this.like()}><p className="infosRate">{this.props.post.byId[this.props.popUp.id].like}</p><img src="ear.png" alt="img1" className="icon"></img></a></div>
                   <div className="liked"><p className="infosRate">{this.state.comments.length}</p><img src="comment.png" alt="img2" className="icon"></img></div>
                   <div className="liked"> 
                   {this.props.isLogged ?
@@ -224,22 +234,21 @@ getData(){
             </div>
             {this.state.bestAnswer == null ? null
                :
-               <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer}></CommentModel>
+               <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} best={true}></CommentModel>
               }
             {(this.state.maxPage == 0 ) || (this.state.maxPage + 1 == 0 )? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
             <div className="columns">
-            <div className="column is-one-quarter"></div>
-            <div className="column is-half">
+              <div className="column is-2"></div>
+            <div className="column is-8">
   
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                <CommentModel key={val.comment_id} comment={val}></CommentModel>
+                <CommentModel key={val.comment_id} comment={val} best={false}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
             </div>
-            <div className="column is-one-quarter"></div>
           </div>
 
             

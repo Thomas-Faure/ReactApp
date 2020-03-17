@@ -65,7 +65,7 @@ class BackOfficeEditPost extends Component {
 
   sendData() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/post/"+this.state.id+"/edit", {
+    fetch("http://51.255.175.118:80/post/"+this.state.id+"/edit", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -141,7 +141,7 @@ class BackOfficeEditPost extends Component {
             <label className="label">Image</label>
             <div className="control">
             {this.state.valueImage.length >0 ? 
-              <img style={{imageOrientation:"from-image"}}src={'http://51.255.175.118:2000/'+this.state.valueImage}   />
+              <img style={{imageOrientation:"from-image"}}src={'http://51.255.175.118:80/'+this.state.valueImage}   />
 
           :
            null}
