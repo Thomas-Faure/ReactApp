@@ -26,7 +26,9 @@ class Register extends Component {
     this.handleChangeLastname = this.handleChangeLastname.bind(this)
     this.handleChangeDate = this.handleChangeDate.bind(this)
     this.handleChangeMail = this.handleChangeMail.bind(this)
+    this.handleChangeSexe = this.handleChangeSexe.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    //this.login = this.login.bind(this)
   }
 
   componentDidMount() {
@@ -64,6 +66,11 @@ class Register extends Component {
     event.preventDefault();
   }
 
+  /*login(){
+    this.props.unsetPopUp()
+    this.props.setPopUp("login", null)
+  }*/
+
   register() {
     if (this.state.valueP != this.state.valuePC) {
       return false
@@ -99,51 +106,52 @@ class Register extends Component {
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="field">
+                  <label className=" is-large">Firstname</label>
                     <div className="control">
-                      <label className=" is-large">Firstname</label>
                       <input className="input" type="text" placeholder="Firstname" value={this.state.valueF} onChange={this.handleChangeFirstname} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Lastname</label>
                     <div className="control">
-                      <label className=" is-large">Lastname</label>
                       <input className="input" type="text" placeholder="Lastname" value={this.state.valueL} onChange={this.handleChangeLastname} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Mail</label>
                     <div className="control">
-                      <label className=" is-large">Mail</label>
                       <input className="input" type="email" placeholder="Mail" value={this.state.valueM} onChange={this.handleChangeMail} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Birthday</label>
                     <div className="control">
-                      <label className=" is-large">Birthday</label>
                       <input className="input" type="date" value={this.state.valueD} onChange={this.handleChangeDate} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label>Sexe</label>
                     <div className="control">
-                      <label class="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe}/>Male</label>
+                      <label class="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe} />Male</label>
                       <label class="radio">
-                        <input type="radio" name="sexe" value="F" checked onChange={this.handleChangeSexe}/>Female</label>
+                        <input type="radio" name="sexe" value="F" checked onChange={this.handleChangeSexe} />Female</label>
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Username</label>
                     <div className="control">
-                      <label className=" is-large">Username</label>
                       <input className="input" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Password</label>
                     <div className="control">
-                      <label className=" is-large">Password</label>
                       <input className="input" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} required />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large">Password confirmation</label>
                     <div className="control">
-                      <label className=" is-large">Password coonfirmation</label>
                       <input className="input" type="password" placeholder="Password confirmation" value={this.state.valuePC} onChange={this.handleChangePasswordC} required />
                     </div>
                   </div>
@@ -151,7 +159,7 @@ class Register extends Component {
                 </form>
               </div>
               <p className="has-text-grey">Already register?
-                <a href="../">Login</a> &nbsp;·&nbsp;
+                <a /*onClick={this.register()}*/>Login</a> &nbsp;·&nbsp;
               </p>
             </div>
           </div>
@@ -161,6 +169,20 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.isLogged,
+    user: state.userInfo,
+    registerPopUp: state.registerPopUp
+  }
+}
+
+const mapDispatchToProps = () => {
+  return {
+    unsetPopUp,
+
+  }
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps())(Register);

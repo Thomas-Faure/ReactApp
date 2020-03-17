@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
 import Login from './Login'
+import Register from './Register'
 import fetchUsers from '../fetch/fetchUsers'
 
 
@@ -38,7 +39,7 @@ import fetchBestAnswer from "../fetch/fetchBestAnswer";
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 import AddPost from "./AddPost";
- 
+
 class Main extends Component {
 
   constructor(props) {
@@ -53,72 +54,72 @@ class Main extends Component {
 
   async verifLogin() {
     if (localStorage.getItem("token") !== null) {
-      
-    const token = localStorage.token;
-    
-    if(token != "null" && token != undefined){
 
-      var response = await fetch("http://51.255.175.118:2000/user/verify", {
-        method: "GET",
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      })
-      if(response.status == 500){
-        localStorage.removeItem("token")
-      }else{
-      response = await response.json()
+      const token = localStorage.token;
 
-      if (response) {
-        if (!this.props.isLogged) {
-          if (!response.error) {
-            this.props.login()
-            var res = await fetch("http://51.255.175.118:2000/user/" + response.id, {
-              method: "GET",
-              headers: {
-                'Authorization': 'Bearer ' + token
+      if (token != "null" && token != undefined) {
+
+        var response = await fetch("http://51.255.175.118:2000/user/verify", {
+          method: "GET",
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        if (response.status == 500) {
+          localStorage.removeItem("token")
+        } else {
+          response = await response.json()
+
+          if (response) {
+            if (!this.props.isLogged) {
+              if (!response.error) {
+                this.props.login()
+                var res = await fetch("http://51.255.175.118:2000/user/" + response.id, {
+                  method: "GET",
+                  headers: {
+                    'Authorization': 'Bearer ' + token
+                  }
+                })
+
+                res = await res.json()
+
+                this.props.setUser(res[0])
+
+
               }
-            })
-        
-            res = await res.json()
-
-            this.props.setUser(res[0])
-
-
+            }
           }
         }
+      } else {
+        this.props.setUser(null)
       }
-      }
-    } else {
-      this.props.setUser(null)
     }
-  }
 
 
   }
 
   async componentDidMount() {
-     await this.verifLogin()
+    await this.verifLogin()
 
-     await this.props.fetchPosts()
-     await this.props.fetchPostCategories()
-     await this.props.fetchCommentCategories()
-     await this.props.fetchBestAnswer()
+    await this.props.fetchPosts()
+    await this.props.fetchPostCategories()
+    await this.props.fetchCommentCategories()
+    await this.props.fetchBestAnswer()
 
-  //  await this.props.fetchUsers()
-  // await navigator.geolocation.getCurrentPosition( (position)=> {
-  //   let lat = position.coords.latitude;
-  //   let long = position.coords.longitude;
+    //  await this.props.fetchUsers()
+    // await navigator.geolocation.getCurrentPosition( (position)=> {
+    //   let lat = position.coords.latitude;
+    //   let long = position.coords.longitude;
 
-  //   fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
-  //     method: "GET"
-  //   }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
-  //   console.log(lat.toFixed(2));
-  //   console.log(long.toFixed(2));
-   this.setState({dataLoaded: true})
-  // });
-   
-    
+    //   fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
+    //     method: "GET"
+    //   }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
+    //   console.log(lat.toFixed(2));
+    //   console.log(long.toFixed(2));
+    this.setState({ dataLoaded: true })
+    // });
+
+
   }
   logoff() {
     this.props.logoff();
@@ -132,38 +133,52 @@ class Main extends Component {
       (this.state.dataLoaded !== true) ? null :
         <div>
           <HashRouter>
-            {this.props.popUp.page != "addPost" ? null 
-            :
-            <AddPost></AddPost>
+            {this.props.popUp.page != "addPost" ? null
+              :
+              <AddPost></AddPost>
             }
 
-            {this.props.popUp.page != "postDetails" ? null 
-            :
-            <PostDetails></PostDetails>
+            {this.props.popUp.page != "postDetails" ? null
+              :
+              <PostDetails></PostDetails>
             }
 
             {!this.props.isLogged ?
               <div>
-
-              {this.props.popUp.page != "login" ? null :
-              
-              <div className={'modal is-active'}>
-                <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
-                <div className="modal-card">
-                  <header className="modal-card-head">
-                    <p className="modal-card-title">Login</p>
-                    <button className="delete" aria-label="close" onClick={() => { this.props.unsetPopUp() }}></button>
-                  </header>
-                  <section className="modal-card-body">
-                    <Login></Login>
-                  </section>
-                  <footer className="modal-card-foot">
-                    <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
-                  </footer>
-                </div>
-              </div>} 
+                {this.props.popUp.page != "register" ? null :
+                  <div className={'modal is-active'}>
+                    <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
+                    <div className="modal-card">
+                      <header className="modal-card-head">
+                        <p className="modal-card-title">Register</p>
+                        <button className="delete" aria-label="close" onClick={() => { this.props.unsetPopUp() }}></button>
+                      </header>
+                      <section className="modal-card-body">
+                        <Register></Register>
+                      </section>
+                      <footer className="modal-card-foot">
+                        <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
+                      </footer>
+                    </div>
+                  </div>}
+                {this.props.popUp.page != "login" ? null :
+                  <div className={'modal is-active'}>
+                    <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
+                    <div className="modal-card">
+                      <header className="modal-card-head">
+                        <p className="modal-card-title">Login</p>
+                        <button className="delete" aria-label="close" onClick={() => { this.props.unsetPopUp() }}></button>
+                      </header>
+                      <section className="modal-card-body">
+                        <Login></Login>
+                      </section>
+                      <footer className="modal-card-foot">
+                        <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
+                      </footer>
+                    </div>
+                  </div>}
               </div>
-               : null}
+              : null}
             <nav className="navbar" style={{ backgroundColor: '#BBDCF2' }} role="navigation" aria-label="main navigation">
               <div className="navbar-brand navbar-start">
                 <a className="navbar-item" href="/#/">
@@ -205,48 +220,49 @@ class Main extends Component {
                 <div className="navbar-end">
                   <div className="navbar-item">
                     <div>
-                      {!this.props.isLogged ? <a onClick={() => { this.props.setPopUp("login",null) }} className="navbar-item">
+                      {!this.props.isLogged ? <a onClick={() => { this.props.setPopUp("login", null) }} className="navbar-item">
                         Login
                   </a> : <a className="navbar-item" onClick={() => this.logoff()}>Logout</a>}
                     </div>
                   </div>
                 </div>
               </div>
-        </nav>
-        <section className="section">
-          <div className="container">
-            <Route exact path="/" component={PostsList} />
-            <Route path="/posts" component={PostsList} />
-            <Route path="/post/:id" component={PostDetails} />
-            <Route path="/login" component={Login} />
-            <Route exact path="/addPost" component={AddPost} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/informations" component={Informations} />
-            <Route exact path="/backoffice" component={BackOfficeIndex} />
-            <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
-            <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
-            <Route exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
-            <Route exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
-            <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
-            <Route exact path="/backoffice/users/create" component={BackOfficeCreateUser} />
-            <Route exact path="/backoffice/postCategories/create" component={BackOfficeCreatePostCategory} />
-            <Route exact path="/backoffice/commentCategories/create" component={BackOfficeCreateCommentCategory} />
-            <Route exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
-            <Route exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
-            <Route exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory}/>
-            <Route exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory}/>
-            <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
-            <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
-            <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments}/>
-            <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts}/>
+            </nav>
+            <section className="section">
+              <div className="container">
+                <Route exact path="/" component={PostsList} />
+                <Route path="/posts" component={PostsList} />
+                <Route path="/post/:id" component={PostDetails} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <Route exact path="/addPost" component={AddPost} />
+                <Route path="/contact" component={Contact} />
+                <Route path="/informations" component={Informations} />
+                <Route exact path="/backoffice" component={BackOfficeIndex} />
+                <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
+                <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
+                <Route exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
+                <Route exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
+                <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
+                <Route exact path="/backoffice/users/create" component={BackOfficeCreateUser} />
+                <Route exact path="/backoffice/postCategories/create" component={BackOfficeCreatePostCategory} />
+                <Route exact path="/backoffice/commentCategories/create" component={BackOfficeCreateCommentCategory} />
+                <Route exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
+                <Route exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
+                <Route exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory} />
+                <Route exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory} />
+                <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
+                <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
+                <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
+                <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
 
 
-          </div>
-        </section>
+              </div>
+            </section>
 
-      </HashRouter>
-      </div>
-      
+          </HashRouter>
+        </div>
+
     );
   }
 }
@@ -273,7 +289,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCommentCategories: fetchCommentCategories,
   fetchPostCategories: fetchPostCategories,
   fetchUsers: fetchUsers,
-  fetchBestAnswer : fetchBestAnswer
+  fetchBestAnswer: fetchBestAnswer
 
 }, dispatch)
 
