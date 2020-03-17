@@ -93,12 +93,13 @@ class AddPost extends Component {
                       <p className="subtitle has-text-black"></p>
                       <form onSubmit={this.handleSubmit}>
                         <div className="field">
+                        <label className="title">Post title: </label>
                           <div className="control">
-                            <label className="title">Post title: </label>
                             <input className="input " type="text" placeholder="Title" value={this.state.title} onChange={this.handleChangeTitle} />
                           </div>
                         </div>
                         <div className="field">
+                        <label>Description: </label>
                           <div className="control">
                             <textarea className="input textarea" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChangeDescription} />
                           </div>
