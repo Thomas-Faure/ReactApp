@@ -28,7 +28,7 @@ class Register extends Component {
     this.handleChangeMail = this.handleChangeMail.bind(this)
     this.handleChangeSexe = this.handleChangeSexe.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    //this.login = this.login.bind(this)
+    
   }
 
   componentDidMount() {
@@ -159,7 +159,7 @@ class Register extends Component {
                 </form>
               </div>
               <p className="has-text-grey">Already register?
-                <a /*onClick={this.register()}*/>Login</a> &nbsp;·&nbsp;
+                <a onClick={()=>{this.register()}}>Login</a> &nbsp;·&nbsp;
               </p>
             </div>
           </div>

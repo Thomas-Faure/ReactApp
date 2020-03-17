@@ -36,8 +36,7 @@ class Login extends Component {
   }
 
   register() {
-    this.props.unsetPopUp()
-    this.props.setPopUp("register", null)
+   this.props.setPopUp("register", null)
   }
 
   login() {
@@ -109,7 +108,7 @@ class Login extends Component {
                 </form>
               </div>
               <p className="has-text-grey">
-                <a onClick={this.register()}>Sign Up</a> &nbsp;·&nbsp;
+                <a onClick={()=>{this.register()}}>Sign Up</a> &nbsp;·&nbsp;
                         <a href="../">Forgot Password</a> &nbsp;·&nbsp;
                         <a href="../">Need Help?</a>
               </p>

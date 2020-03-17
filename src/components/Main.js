@@ -160,7 +160,8 @@ class Main extends Component {
                         <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
                       </footer>
                     </div>
-                  </div>}
+                  </div>
+                  }
                 {this.props.popUp.page != "login" ? null :
                   <div className={'modal is-active'}>
                     <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
