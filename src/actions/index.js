@@ -143,10 +143,24 @@ export const  fetchCommentsError = (error)=> {
 export const FETCH_POSTS_PENDING = 'FETCH_POSTS_PENDING';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
+export const UPDATE_POST_LIKE = 'UPDATE_POST_LIKE'
+export const UPDATE_POSTS_REPORT = 'UPDATE_POSTS_REPORT'
 
 export const  fetchPostsPending = ()=> {
     return {
         type: FETCH_POSTS_PENDING
+    }
+}
+export const updatePostReport= (id,data) =>{
+    return{
+        type: UPDATE_POSTS_REPORT,
+        payload: {id:id,data:data}
+    }
+}
+export const updatePostLike= (id,data) =>{
+    return{
+        type: UPDATE_POST_LIKE,
+        payload: {id:id,data:data}
     }
 }
 

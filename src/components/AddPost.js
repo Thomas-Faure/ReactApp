@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { unsetPopUp } from '../actions';
 import { bindActionCreators } from 'redux';
-
+import fetchPosts from '../fetch/fetchPosts'
+import fetchPostCategories from '../fetch/fetchPostCategories'
 class AddPost extends Component {
   constructor(props) {
     super(props)
@@ -34,7 +35,6 @@ class AddPost extends Component {
   }
 
 
-
   async handleSubmit(event) {
     const toBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -56,7 +56,7 @@ class AddPost extends Component {
 
   send(data, extension) {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/post/create", {
+    fetch("http://51.255.175.118:80/post/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -68,6 +68,8 @@ class AddPost extends Component {
       .then(res => res.json())
       .then((data) => {
         this.props.unsetPopUp()
+        this.props.fetchPosts()
+        this.props.fetchPostCategories()
       })
 
   }
@@ -146,6 +148,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchPosts: fetchPosts,
+  fetchPostCategories: fetchPostCategories,
   unsetPopUp
 
 }, dispatch)

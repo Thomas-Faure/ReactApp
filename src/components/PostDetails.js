@@ -6,8 +6,10 @@ import CommentModel from './Model/CommentModel'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
-import   fetchPosts from '../fetch/fetchPosts'
-import { unsetPopUp } from '../actions';
+import fetchPosts from '../fetch/fetchPosts'
+import { unsetPopUp,updatePostLike,updatePostReport} from '../actions';
+import axios from 'axios'
+
 class PostDetails extends Component {
 
   constructor(props) {
@@ -15,9 +17,8 @@ class PostDetails extends Component {
    
     this.state = {
       id: this.props.popUp.id,
-      post: null,
       bestAnswer: null,
-      comments: null,
+      comments: [],
       alreadyReported: false,
       actualPage: 0,
       maxPage: 1,
@@ -30,7 +31,6 @@ class PostDetails extends Component {
     }
     this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
-    this.verifAlreadyCommented = this.verifAlreadyCommented.bind(this)
     this.pushNextButton = this.pushNextButton.bind(this)
     this.pushPrevButton = this.pushPrevButton.bind(this)
     this.handleChangeComment = this.handleChangeComment.bind(this)
@@ -39,20 +39,15 @@ class PostDetails extends Component {
 
   }
 
+
 componentDidMount(){
 
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(()=>{
-
         this.getData()
-        console.log(this.props.comment.comments)
-      
       
     })
     
 
-  
-  
- 
 }
 
   pushPrevButton() {
@@ -75,7 +70,22 @@ componentDidMount(){
 
   }
 
+async like(){
+  const token = localStorage.token;
+  const config = {
+    headers: { Authorization: 'Bearer '+token }
+  };
+  const res = await axios.post("http://51.255.175.118:80/opinion/create",{ post: this.props.popUp.id },config)
 
+  if(res.data.result == "liked"){
+  await this.props.updatePostLike(this.props.post.byId[this.props.popUp.id].post_id,this.props.post.byId[this.props.popUp.id].like+1)
+  }else if(res.data.result == "deleted"){
+    await this.props.updatePostLike(this.props.post.byId[this.props.popUp.id].post_id,this.props.post.byId[this.props.popUp.id].like-1)
+
+  }
+
+
+}
 
 setComments(){
   let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
@@ -83,32 +93,26 @@ setComments(){
   this.setState({ 
     comments:commentsList,
     maxPage: (Math.ceil(commentsList.length/this.state.elementsByPage)-1)
-   }, () => { this.verifAlreadyCommented() })
+   })
 }
 
 getData(){
 
-  let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
-  var data = postsList.find(element => element.post_id == this.state.id);
+
   let bestAnswerId = this.props.bestAnswer.answers.find(element => element.post == this.state.id)
   let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
   if(bestAnswerId != undefined){
     this.setState({
       bestAnswer : commentsList.find(element => element.comment_id == bestAnswerId.comment_id)
     })
-    console.log(this.state.bestAnswer)
+    
   }
- 
-  
-  
-  
 
   this.setState({ 
-    post: data,
     comments:commentsList,
     maxPage: (Math.ceil(commentsList.length/this.state.elementsByPage)-1)
 
-   }, () => { this.verifAlreadyCommented() })
+   }, () => {})
 }
 
   handleChangeComment(event) {
@@ -118,44 +122,26 @@ getData(){
     this.setState({ valueCategory: event.target.value })
   }
 
- 
-  verifAlreadyCommented() {
+
+
+ async report() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/reportpost/" + this.state.id + "/byToken", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-
-    }
-    ).then(res => res.json())
-      .then(res => {
-
-        if (res.length > 0) {
-          this.setState({ alreadyReported: true })
-
-        } else {
-          this.setState({ alreadyReported: false })
-        }
-      })
-
-  }
-
-  report() {
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/reportpost/create", {
+   var res = await fetch("http://51.255.175.118:80/reportpost/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ post_id: this.state.post.post_id })
+      body: JSON.stringify({ post_id: this.props.post.byId[this.props.popUp.id].post_id })
     }
-    ).then(res => res.json())
-      .then(res => {
-        this.setState({ alreadyReported: res.result })
-      })
+    )
+    res = await  res.json()
+   
+    this.props.updatePostReport(this.props.post.byId[this.props.popUp.id].post_id,res.result)
+
+      
+
 
   }
  
@@ -165,7 +151,7 @@ getData(){
 
   sendData() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/post/" + this.state.post.post_id + "/comment/create", {
+    fetch("http://51.255.175.118:80/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -195,8 +181,6 @@ getData(){
 
   render() {
     return (
-
- 
         <div className={'modal is-active animated  fadeIn'}>
   <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card" >
@@ -206,26 +190,26 @@ getData(){
     </header>
     <section className="modal-card-body">
     <div>
-        {this.state.post != null ?
+        {this.props.post.byId[this.props.popUp.id] != null ?
           <div>
             <div className="card-content">
               <div >
                 <div className="media-content postModel"  >
                 <div className="infos">
-                  <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
+                  <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.props.post.byId[this.props.popUp.id].username}</strong></p>
                   <p className="date"><Moment fromNow>
-                          {this.state.post.date}
+                          {this.props.post.byId[this.props.popUp.id].date}
                         </Moment></p>
                   </div>
                   <div className="post_title" >
-                    <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>
-                    <h4 className="title is-4" id="post_id">#{this.state.post.post_id}</h4>
+                    <h4 className="title is-4" id="post_title">{this.props.post.byId[this.props.popUp.id].title}</h4>
+                    <h4 className="title is-4" id="post_id">#{this.props.post.byId[this.props.popUp.id].post_id}</h4>
                   </div>
                   <div className="description">
-                    <p>{this.state.post.description}</p>
-                    {this.state.post.url_image.length > 0 ?
+                    <p>{this.props.post.byId[this.props.popUp.id].description}</p>
+                    {this.props.post.byId[this.props.popUp.id].url_image.length > 0 ?
               
-              <img src={'http://51.255.175.118:2000/'+this.state.post.url_image}   />
+              <img src={'http://51.255.175.118:80/'+this.props.post.byId[this.props.popUp.id].url_image}   />
          
               :
                null}
@@ -233,15 +217,15 @@ getData(){
                  
                 </div>
                 <div className="rating" >
-                  <div className="liked"><p className="infosRate">{this.state.post.like}</p><img src="ear.png" alt="img1" className="icon"></img></div>
+                  <div className="liked"><a onClick={()=>this.like()}><p className="infosRate">{this.props.post.byId[this.props.popUp.id].like}</p><img src="ear.png" alt="img1" className="icon"></img></a></div>
                   <div className="liked"><p className="infosRate">{this.state.comments.length}</p><img src="comment.png" alt="img2" className="icon"></img></div>
                   <div className="liked"> 
                   {this.props.isLogged ?
-                    (this.state.alreadyReported === true ?
+                    (this.props.post.byId[this.props.popUp.id].reported === true ?
                       <a  onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
                       <a  onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
-                    : <p className="infosRate">{this.state.post.report}<img src="warning.png" alt="img3" className="icon"></img></p>}
+                    : <p className="infosRate">{this.props.post.byId[this.props.popUp.id].report}<img src="warning.png" alt="img3" className="icon"></img></p>}
                   </div>
                 </div>
               
@@ -330,6 +314,8 @@ const mapDispatchToProps = (dispatch,own) =>bindActionCreators({
   fetchCommentsByPostId: fetchCommentsByPostId,
   fetchCommentCategories: fetchCommentCategories,
   fetchPosts: fetchPosts,
+  updatePostLike:updatePostLike,
+  updatePostReport:updatePostReport,
   unsetPopUp
   
 }, dispatch)

@@ -41,7 +41,7 @@ class BackOfficeCreateCommentCategory extends Component {
   sendData() {
     
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/commentCategory/create", {
+    fetch("http://51.255.175.118:80/commentCategory/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

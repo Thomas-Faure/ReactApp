@@ -52,7 +52,7 @@ class BackOfficeCreatePost extends Component {
   sendData() {
     
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/post/create", {
+    fetch("http://51.255.175.118:80/post/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

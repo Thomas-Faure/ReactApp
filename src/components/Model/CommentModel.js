@@ -8,14 +8,12 @@ class CommentModel extends Component {
   constructor(props) {
 
     super(props)
-
-    console.log(props)
+ 
     this.props.comment.report = 0
 
     var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
     this.state = {
       comment: this.props.comment,
-      alreadyReported: false,
       color: color,
       best: this.props.best
 
@@ -27,30 +25,11 @@ class CommentModel extends Component {
       comment: nextProps.comment
     })
   }
-  componentDidMount() {
-    this.verifAlreadyCommented()
+ 
 
-  }
-  verifAlreadyCommented() {
-    const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/reportcomment/" + this.state.comment.comment_id + "/byToken", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-    ).then(res => res.json())
-      .then(res => {
-        if (res.length > 0) {
-          this.setState({ alreadyReported: true })
-        } else {
-          this.setState({ alreadyReported: false })
-        }
-      })
-  }
   report() {
     const token = localStorage.token;
-    fetch("http://51.255.175.118:2000/reportcomment/create", {
+    fetch("http://51.255.175.118:80/reportcomment/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -61,7 +40,6 @@ class CommentModel extends Component {
     }
     ).then(res => res.json())
       .then(res => {
-        this.setState({ alreadyReported: res.result })
         this.props.updateCommentReport(this.state.comment.comment_id, res.result)
       })
   }
@@ -86,7 +64,7 @@ class CommentModel extends Component {
                 <div className="like"><a><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">15</p><a><i class="fas fa-thumbs-up bleu"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
-                    (this.state.alreadyReported === true ?
+                    (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
                       <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
                       <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
@@ -120,7 +98,7 @@ class CommentModel extends Component {
                 <div className="like"><a><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">15</p><a><i class="blue fas fa-thumbs-up"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
-                    (this.state.alreadyReported === true ?
+                    (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
                       <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
                       <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)

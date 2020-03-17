@@ -41,9 +41,9 @@ class BackOfficeShowUsers extends Component {
     }
 
     getData(){
-      console.log(this.props.userList)
+
       let usersList = this.props.userList.allIds.map(id => this.props.userList.byId[id])
-      console.log(usersList)
+   
     
         this.setState({
           data: usersList,
@@ -88,7 +88,7 @@ class BackOfficeShowUsers extends Component {
     }
     deleteUser(id){
       const token = localStorage.token;
-        fetch('http://51.255.175.118:2000/user/' + id+'/delete', {
+        fetch('http://51.255.175.118:80/user/' + id+'/delete', {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',
