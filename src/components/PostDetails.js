@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Moment from 'react-moment';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import CommentModel from './Model/CommentModel'
@@ -212,7 +213,9 @@ getData(){
                 <div className="media-content postModel"  >
                 <div className="infos">
                   <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
-                  
+                  <p className="date"><Moment fromNow>
+                          {this.state.post.date}
+                        </Moment></p>
                   </div>
                   <div className="post_title" >
                     <h4 className="title is-4" id="post_title">{this.state.post.title}</h4>
@@ -247,22 +250,21 @@ getData(){
             </div>
             {this.state.bestAnswer == null ? null
                :
-               <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer}></CommentModel>
+               <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} best={true}></CommentModel>
               }
             {(this.state.maxPage == 0 ) || (this.state.maxPage + 1 == 0 )? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage ) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
             </p>}
             <div className="columns">
-            <div className="column is-one-quarter"></div>
-            <div className="column is-half">
+              <div className="column is-2"></div>
+            <div className="column is-8">
   
             {this.state.comments != null ?
               this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                <CommentModel key={val.comment_id} comment={val}></CommentModel>
+                <CommentModel key={val.comment_id} comment={val} best={false}></CommentModel>
               )
               :
               <p>Aucun commentaire</p>}
             </div>
-            <div className="column is-one-quarter"></div>
           </div>
 
             
