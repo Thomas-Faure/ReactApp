@@ -249,14 +249,14 @@ class PostDetails extends Component {
                     </div>
 
                   </div>
-                  {this.props.comment.pending==true ? <p style={{ textAlign: "center", margin: "auto" }}><Loader
+                  {this.props.comment.pending==true ? <div style={{ textAlign: "center", margin: "auto" }}><Loader
                     type="ThreeDots"
                     color="#2c60a4cc"
                     height={100}
                     width={100}
                       
 
-                  /></p>
+                  /></div>
                   :
                    (
                     (this.state.bestAnswer == null ? null

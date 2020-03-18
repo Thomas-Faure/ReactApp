@@ -36,7 +36,6 @@ class AddPost extends Component {
     const location = window.navigator && window.navigator.geolocation
     if (location) {
       location.getCurrentPosition((position) => {
-        console.log(position)
         fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&zoom=18&addressdetails=1",{
           method: "GET"
         }).then(res =>res.json()).then(result=>{
@@ -131,7 +130,7 @@ class AddPost extends Component {
                       <hr className="login-hr" />
                       <p className="subtitle has-text-black"></p>
                       <form onSubmit={this.handleSubmit}>
-                      <label class="checkbox">
+                      <label className="checkbox">
                         <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput}/>
                         Anonymous post
                       </label>

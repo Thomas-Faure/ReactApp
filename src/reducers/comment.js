@@ -9,13 +9,9 @@ const commentReducer = (state = initialState, action)=>{
     switch(action.type) {
 
         case UPDATE_COMMENTS_RATE:
-            console.log(state.byId[action.payload.id].rated)
             var like = state.byId[action.payload.id].like
-            console.log(like)
             var dislike = state.byId[action.payload.id].dislike
             var rated = undefined
-            console.log(dislike)
-            console.log(action.payload.info)
             if(state.byId[action.payload.id].rated == undefined){
                 if(action.payload.like == true){
                    

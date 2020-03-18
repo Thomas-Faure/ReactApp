@@ -18,10 +18,6 @@ class Login extends Component {
     this.register = this.register.bind(this)
   }
 
-  componentDidMount() {
-
-  }
-
   handleChangeUsername(event) {
     this.setState({ valueU: event.target.value })
   }
@@ -30,7 +26,6 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-
     this.login()
     event.preventDefault();
   }
@@ -79,7 +74,6 @@ class Login extends Component {
 
   render() {
     return (
-
       <section className=" is-fullheight" style={{ backgroundColor: "#BBDCF2", borderRadius: "5px" }}>
         <div className="">
           <div className="container has-text-centered">

@@ -29,10 +29,7 @@ class BackOfficeShowReportComments extends Component {
 
       }
 
-      componentWillReceiveProps(newprops){
-        this.getData()
-
-      }
+   
     componentDidMount(){
   
       this.getData()
@@ -216,7 +213,7 @@ class BackOfficeShowReportComments extends Component {
   
     {(this.state.data !== null)?
             this.state.data.slice(0+(this.state.actualPage*this.state.elementsByPage),5+(this.state.actualPage*this.state.elementsByPage)).map((val,index) =>
-            <tr key={val.post_id}>
+            <tr key={val.comment}>
             <th style={{height:50,width:30}}>{val.comment}</th>
             <td style={{height:50,width:150}} >{val.nbReport}</td>
             <td style={{height:50,width:250}} >{val.description.length>30 ? val.description.substring(0,30)+"...": val.description}</td>

@@ -22,7 +22,6 @@ class CommentModel extends Component {
     this.like = this.like.bind(this)
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.commentState)
     this.setState({
       comment: nextProps.commentState.byId[this.state.comment.comment_id]
     })
@@ -85,7 +84,7 @@ class CommentModel extends Component {
             </div>
             <footer className="card-footer" >
               <div className="commentRate center" >
-                <div className="like"><a onClick={()=>{this.like(false)}}><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i class="fas fa-thumbs-up bleu"></i></a></div>
+                <div className="like"><a onClick={()=>{this.like(false)}}><i className="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i className="fas fa-thumbs-up bleu"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
                     (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
@@ -124,7 +123,7 @@ class CommentModel extends Component {
           </div>
           <footer className="card-footer" >
             <div className="commentRate center" >
-              <div className="like"><a onClick={()=>{this.like(false)}}><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i class="blue fas fa-thumbs-up"></i></a></div>
+              <div className="like"><a onClick={()=>{this.like(false)}}><i className="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i className="blue fas fa-thumbs-up"></i></a></div>
               <div className="liked">
                 {this.props.isLogged ?
                   (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?

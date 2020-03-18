@@ -33,7 +33,8 @@ class BackOfficeShowPostCategories extends Component {
         this.getData()
     }
 
-    componentWillReceiveProps(newprops){
+    componentDidUpdate(newprops){
+      if(this.props.categoriePost != newprops.categoriePost)
       this.getData()
     }
     getData(){

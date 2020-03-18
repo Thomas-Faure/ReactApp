@@ -28,7 +28,8 @@ class BackOfficeShowCommentCategories extends Component {
 
       }
 
-      componentWillReceiveProps(newprops){
+      componentDidUpdate(newprops){
+        if(this.props.categorieComment != newprops.categorieComment)
         this.getData()
       }
     componentDidMount() {

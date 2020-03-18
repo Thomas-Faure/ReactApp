@@ -29,15 +29,18 @@ class BackOfficeShowPosts extends Component {
 
       }
 
-      componentWillReceiveProps(newprops){
-        let postsList = newprops.post.allIds.map(id => newprops.post.byId[id])
-        this.setState({
-          data: postsList,
-          dataFixed:postsList,
-          maxPage: Math.floor(postsList.length/this.state.elementsByPage)
-        })
+      componentDidUpdate(prevProps) {
+        if(this.props.post !== prevProps.post){
+          let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
+          this.setState({
+            data: postsList,
+            dataFixed:postsList,
+            maxPage: Math.floor(postsList.length/this.state.elementsByPage)
+          })
+      }
 
       }
+     
     componentDidMount(){
    
       this.getData()

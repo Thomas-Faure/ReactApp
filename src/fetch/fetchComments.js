@@ -42,7 +42,7 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
     
       }
     }
-    console.log(res)
+   
     
 
  

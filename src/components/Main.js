@@ -104,8 +104,8 @@ class Main extends Component {
 
     await this.props.fetchPostCategories()
     await this.props.fetchCommentCategories()
-    this.props.fetchPosts()
-    this.props.fetchBestAnswer()
+    await this.props.fetchPosts()
+    await this.props.fetchBestAnswer()
     
      this.setState({ dataLoaded: true })
   }
@@ -181,14 +181,14 @@ class Main extends Component {
                 </a>
 
                 {this.state.burgerOpen != true ? 
-                <a role="button" className="navbar-burger burger"  onClick={()=>this.clickBurger()} onCliaria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" className="navbar-burger burger"  onClick={()=>this.clickBurger()} aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
               </a>
                 
                 :
-                <a role="button" className="navbar-burger burger is-active"  onClick={()=>this.clickBurger()}  onCliaria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" className="navbar-burger burger is-active"  onClick={()=>this.clickBurger()} aria-expanded="false" data-target="navbarBasicExample">
                   <span aria-hidden="true"></span>
                   <span aria-hidden="true"></span>
                   <span aria-hidden="true"></span>

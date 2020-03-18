@@ -131,8 +131,8 @@ class Register extends Component {
                   <div className="field">
                   <label>Sexe</label>
                     <div className="control">
-                      <label class="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe} />Male</label>
-                      <label class="radio">
+                      <label className="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe} />Male</label>
+                      <label className="radio">
                         <input type="radio" name="sexe" value="F" checked onChange={this.handleChangeSexe} />Female</label>
                     </div>
                   </div>

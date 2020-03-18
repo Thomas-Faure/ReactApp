@@ -33,10 +33,20 @@ class PostsList extends Component {
   }
 
 
+  async componentDidUpdate(nprops) {
 
+    if(nprops.post != this.props.post){
+      let postsList = nprops.post.allIds.map(id => nprops.post.byId[id])
 
-  async componentWillReceiveProps(nprops) {
-    let postsList = nprops.post.allIds.map(id => nprops.post.byId[id])
+      await this.setState({ list: postsList, post: postsList })
+      this.search()
+      this.filtreDate(this.state.actualValueFilter)
+    }
+
+  }
+  async componentDidMount() {
+    console.log(this.props.post)
+    let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
 
     await this.setState({ list: postsList, post: postsList })
     this.search()
@@ -141,24 +151,24 @@ class PostsList extends Component {
 
     return (
       <div>
-        <div className="addPost"> <button onClick={() => { this.props.setPopUp("addPost", null) }} class="button is-info"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
+        <div className="addPost"> <button onClick={() => { this.props.setPopUp("addPost", null) }} className="button is-info"><i className="fa fa-plus" aria-hidden="true"></i></button></div>
         <div className="columns reverse-columns">
           <div className="column is-7-desktop is-full-mobile is-offset-1">
-          {this.props.post.pending==true ? <p style={{ textAlign: "center", margin: "auto" }}><Loader
+          {this.props.post.pending==true ? <div style={{ textAlign: "center", margin: "auto" }}><Loader
                     type="ThreeDots"
                     color="#2c60a4cc"
                     height={100}
                     width={100}
-                      
+                    
 
-                  /></p> :
+                  /></div> :
            <div>
             {((this.state.posts == null) || (this.state.posts.length == 0)) ?
               <h1>Aucune publication trouvée</h1>
               :
               this.state.posts.map((val, index) =>
                 <div key={val.post_id} style={{ marginBottom: "10px" }} className=" animated  fadeIn" onClick={() => { this.props.setPopUp("postDetails", val.post_id) }}>
-                  <PostModel key={val.post_id} post={val} />
+                  <PostModel key={val.post_id} postid={val.post_id} />
                 </div>
               )
             }
