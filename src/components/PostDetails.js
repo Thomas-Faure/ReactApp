@@ -285,7 +285,7 @@ class PostDetails extends Component {
                       <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
                         {(this.props.categorieComment.categories.length !== 0) ?
                           this.props.categorieComment.categories.map((val, index) =>
-                            <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
+                            <option key={val.comment_category_id} value={val.comment_category_id} style={{backgroundColor:val.color}}>{val.description}</option>
                           )
                           :
                           null

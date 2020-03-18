@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Component } from "react";
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
@@ -163,11 +164,11 @@ class PostsList extends Component {
               </div>
               <div className="categoryfilter" onChange={this.categoryFilter}>
                 <select id="category">
-                  <option value=""></option>
+                  <option value="">All</option>
                   {
                     this.props.categoryPost.categories != null ?
                       this.props.categoryPost.categories.map((val, index) =>
-                        <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
+                        <option key={val.post_category_id} value={val.post_category_id} style={{backgroundColor: val.couleur}}>{val.description}</option>
                       ) :
                       null
                   }
