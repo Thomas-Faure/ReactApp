@@ -8,7 +8,7 @@ class CommentModel extends Component {
   constructor(props) {
 
     super(props)
- 
+
     this.props.comment.report = 0
 
     var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
@@ -25,7 +25,7 @@ class CommentModel extends Component {
       comment: nextProps.comment
     })
   }
- 
+
 
   report() {
     const token = localStorage.token;
@@ -55,13 +55,18 @@ class CommentModel extends Component {
                 </figure>
               </div>
               <div className="media-content" className="bestDescription">
-                <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
-                <p className="title is-4">{this.state.comment.description}</p>
+                <div className="spacebetween">
+                  <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
+                  <div className="cercle" style={{ backgroundColor: this.state.comment.color}}></div>
+                </div>
+                <div>
+                  <p className="title is-4">{this.state.comment.description}</p>
+                </div>
               </div>
             </div>
             <footer className="card-footer" >
               <div className="commentRate center" >
-                <div className="like"><a><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">15</p><a><i class="fas fa-thumbs-up bleu"></i></a></div>
+                <div className="like"><a><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a><i class="fas fa-thumbs-up bleu"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
                     (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
@@ -86,27 +91,32 @@ class CommentModel extends Component {
               </figure>
             </div>
             <div className="media-content">
-              <p className="subtitle is-6 author"><strong>@{this.state.comment.username}</strong></p>
-              <p className="title is-4 description">{this.state.comment.description}</p>
+            <div className="spacebetween white">
+                  <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
+                  <div className="cercle" style={{ backgroundColor: this.state.comment.color }}></div>
+                </div>
+                <div>
+                  <p className="title is-4">{this.state.comment.description}</p>
+                </div>
               <p className="date"><Moment fromNow>
                 {this.state.comment.date}
               </Moment></p>
+            </div>
           </div>
-        </div>
-        <footer className="card-footer" >
-        <div className="commentRate center" >
-                <div className="like"><a><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">15</p><a><i class="blue fas fa-thumbs-up"></i></a></div>
-                <div className="liked">
-                  {this.props.isLogged ?
-                    (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
-                      <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
-                      :
-                      <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
-                    : <p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p>}
-                </div>
+          <footer className="card-footer" >
+            <div className="commentRate center" >
+              <div className="like"><a><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a><i class="blue fas fa-thumbs-up"></i></a></div>
+              <div className="liked">
+                {this.props.isLogged ?
+                  (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
+                    <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
+                    :
+                    <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
+                  : <p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p>}
               </div>
-        </footer>
-      </div>
+            </div>
+          </footer>
+        </div>
       </div >
     );
   }
