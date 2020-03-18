@@ -91,11 +91,6 @@ body {
   margin-right: 10px;
 }
 
-.infos {
-  color: black;
-  display: flex;
-  justify-content: space-between;
-}
 .postModel:hover {
   background-color: yellow;
 }
@@ -105,7 +100,17 @@ body {
   border-radius: 5px 5px 0px 0px;
 }
 
+.spacebetween{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
+.cercle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
 
 .card {
   margin-bottom: 10px;

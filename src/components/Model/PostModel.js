@@ -10,12 +10,12 @@ class PostModel extends Component {
     super(props)
 
     var best = null
-    if(this.props.bestAnswer.answers.length >0){
+    if (this.props.bestAnswer.answers.length > 0) {
       best = this.props.bestAnswer.answers.find(element => element.post == this.props.post.post_id)
 
     }
 
-    
+
     this.props.post.report = 0
     this.state = {
       post: this.props.post,
@@ -42,18 +42,23 @@ class PostModel extends Component {
         <div >
           <div className="media-content postModel">
             <div className="infos">
-              <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
-              {this.state.post.location != undefined && this.state.post.location.length>0 ? 
-               <p style={{fontSize: "10px"}}><FontAwesomeIcon icon="map-marker-alt" />{this.state.post.location}</p>
-              : 
-              null
-              }
-             
-              <p className="date"><Moment fromNow>
-                {this.state.post.date}
-              </Moment></p>
+              <div className="spacebetween">
+                <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.state.post.username}</strong></p>
+                <p className="date"><Moment fromNow>
+                  {this.state.post.date}
+                </Moment></p>
+
+              </div>
+              <div className="spacebetween">
+                {this.state.post.location != undefined && this.state.post.location.length > 0 ?
+                  <p style={{ fontSize: "10px" }}><FontAwesomeIcon icon="map-marker-alt" />{this.state.post.location}</p>
+                  :
+                  <div></div>
+                }
+                <div className="cercle" style={{backgroundColor:this.state.post.couleur}}></div>
+              </div>
             </div>
-            
+
             <div className="post_title" >
               <h4 className="title is-4 animated  fadeIn" id="post_title">{this.state.post.title}</h4>
               <h4 className="title is-4 animated  fadeIn delay-1s" id="post_id">#{this.state.post.post_id}</h4>
