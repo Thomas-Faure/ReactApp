@@ -9,6 +9,8 @@ import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
 import { unsetPopUp, updatePostLike, updatePostReport } from '../actions';
 import axios from 'axios'
+import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 class PostDetails extends Component {
 
@@ -247,24 +249,49 @@ class PostDetails extends Component {
                     </div>
 
                   </div>
-                  {this.state.bestAnswer == null ? null
-                    :
-                    <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} best={true}></CommentModel>
-                  }
-                  {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ? null : <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />{(this.state.actualPage) == 0 ? <button className="button is-link" disabled>Prev</button> : <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
-                  </p>}
-                  <div className="columns">
-                    <div className="column is-2"></div>
-                    <div className="column is-8">
+                  {this.props.comment.pending==true ? <p style={{ textAlign: "center", margin: "auto" }}><Loader
+         type="ThreeDots"
+         color="#2c60a4cc"
+         height={100}
+         width={100}
+          
 
-                      {this.state.comments != null ?
-                        this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                          <CommentModel key={val.comment_id} comment={val} best={false}></CommentModel>
-                        )
-                        :
-                        <p>Aucun commentaire</p>}
+      /></p>
+                  :
+                   (
+                    (this.state.bestAnswer == null ? null
+                      :
+                      <div>
+                      <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} best={true}></CommentModel>
+                      {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
+                       null :
+                        <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
+                        {(this.state.actualPage) == 0 ?
+                         <button className="button is-link" disabled>Prev</button> :
+                          <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+                    </p>}
                     </div>
-                  </div>
+                   )
+                    
+                   )
+                  
+                  
+                  }
+
+
+                    <div className="columns">
+                      <div className="column is-2"></div>
+                      <div className="column is-8">
+  
+                        {this.state.comments != null ?
+                          this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
+                            <CommentModel key={val.comment_id} comment={val} best={false}></CommentModel>
+                          )
+                          :
+                          <p>Aucun commentaire</p>}
+                      </div>
+                    </div>
+                  
 
 
 

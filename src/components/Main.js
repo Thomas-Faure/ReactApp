@@ -102,10 +102,10 @@ class Main extends Component {
   async componentDidMount() {
     await this.verifLogin()
 
-    await this.props.fetchPosts()
     await this.props.fetchPostCategories()
     await this.props.fetchCommentCategories()
-    await this.props.fetchBestAnswer()
+    this.props.fetchPosts()
+    this.props.fetchBestAnswer()
     
      this.setState({ dataLoaded: true })
   }

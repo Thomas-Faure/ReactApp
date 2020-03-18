@@ -5,6 +5,9 @@ import PostModel from './Model/PostModel'
 import PostDetails from './PostDetails'
 import AddPost from './AddPost'
 import { setPopUp } from '../actions';
+import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
 class PostsList extends Component {
   constructor(props) {
     super(props)
@@ -140,6 +143,15 @@ class PostsList extends Component {
         <div className="addPost"> <button onClick={() => { this.props.setPopUp("addPost", null) }} class="button is-info"><i class="fa fa-plus" aria-hidden="true"></i></button></div>
         <div className="columns reverse-columns">
           <div className="column is-7-desktop is-full-mobile is-offset-1">
+          {this.props.post.pending==true ? <p style={{ textAlign: "center", margin: "auto" }}><Loader
+                    type="ThreeDots"
+                    color="#2c60a4cc"
+                    height={100}
+                    width={100}
+                      
+
+                  /></p> :
+           <div>
             {((this.state.posts == null) || (this.state.posts.length == 0)) ?
               <h1>Aucune publication trouvée</h1>
               :
@@ -149,6 +161,7 @@ class PostsList extends Component {
                 </div>
               )
             }
+            </div>}
 
           </div>
           <div className="column is-3-desktop is-desktop filter ">
