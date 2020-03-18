@@ -98,15 +98,17 @@ setComments(){
 
 getData(){
 
-
-  let bestAnswerId = this.props.bestAnswer.answers.find(element => element.post == this.state.id)
   let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+
+  if(this.props.bestAnswer.answers.length>0){
+  let bestAnswerId = this.props.bestAnswer.answers.find(element => element.post == this.state.id)
   if(bestAnswerId != undefined){
     this.setState({
       bestAnswer : commentsList.find(element => element.comment_id == bestAnswerId.comment_id)
     })
     
   }
+}
 
   this.setState({ 
     comments:commentsList,

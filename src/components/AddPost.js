@@ -4,13 +4,18 @@ import { unsetPopUp } from '../actions';
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
 import fetchPostCategories from '../fetch/fetchPostCategories'
+   
 class AddPost extends Component {
+ 
   constructor(props) {
     super(props)
+    
     this.state = {
       category: this.props.categoriePost.categories[0].post_category_id,
       title: "",
-      description: ""
+      description: "",
+      location: ""
+
     }
     this.fileInput = React.createRef();
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
@@ -21,6 +26,33 @@ class AddPost extends Component {
   }
 
   componentDidMount() {
+    this.getMyLocation()
+
+  }
+  getMyLocation() {
+    var city = ""
+    const location = window.navigator && window.navigator.geolocation
+    if (location) {
+      location.getCurrentPosition((position) => {
+        console.log(position)
+        fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&zoom=18&addressdetails=1",{
+          method: "GET"
+        }).then(res =>res.json()).then(result=>{
+          
+          if(result.address.city == null){
+            city = result.address.village
+          }else{
+            city= result.address.city}
+            this.setState({location : city})
+        })
+        
+      }, (error) => {
+        this.setState({location : city})
+      })
+    }
+    else{
+    this.setState({location : city})
+    }
 
   }
 
@@ -62,7 +94,7 @@ class AddPost extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
+      body: JSON.stringify({ location:this.state.location,title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
     })
       .then(res => res.json())
       .then((data) => {
@@ -72,6 +104,7 @@ class AddPost extends Component {
       })
   }
   render() {
+
     return (
 
       <div className='modal is-active animated  fadeIn'>

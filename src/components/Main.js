@@ -102,23 +102,12 @@ class Main extends Component {
   async componentDidMount() {
     await this.verifLogin()
 
-    this.props.fetchPosts()
-    this.props.fetchPostCategories()
-    this.props.fetchCommentCategories()
-    this.props.fetchBestAnswer()
-
-    //  await this.props.fetchUsers()
-    // await navigator.geolocation.getCurrentPosition( (position)=> {
-    //   let lat = position.coords.latitude;
-    //   let long = position.coords.longitude;
-
-    //   fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+long+"&zoom=18&addressdetails=1",{
-    //     method: "GET"
-    //   }).then(res =>res.json()).then(result=>{console.log(result.address.city)})
-    //   console.log(lat.toFixed(2));
-    //   console.log(long.toFixed(2));
-    this.setState({ dataLoaded: true })
-    // });
+    await this.props.fetchPosts()
+    await this.props.fetchPostCategories()
+    await this.props.fetchCommentCategories()
+    await this.props.fetchBestAnswer()
+    
+     this.setState({ dataLoaded: true })
   }
 
   clickBurger(){
@@ -290,7 +279,8 @@ const mapStateToProps = (state) => {
     post: state.post,
     comment: state.comment,
     user: state.user,
-    popUp: state.popUp
+    popUp: state.popUp,
+    bestAnswer:state.bestAnswer
   }
 }
 
