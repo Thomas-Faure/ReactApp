@@ -10,15 +10,22 @@ export const fetchPosts= ()=> async dispatch => {
     const config = {
       headers: { Authorization: 'Bearer '+token }
     };
+    const resBis = await axios.get("https://thomasfaure.fr/reportPost/byToken",config)
 
-      for(var i = 0;i< res.data.length;++i){
-        const resBis = await axios.get("https://thomasfaure.fr/reportpost/" + res.data[0].post_id + "/byToken",config)
-        if(resBis.data.length>0){
-          res.data[i].reported=true
-        }else{
-          res.data[i].reported=false
+    if(resBis.data.length>0){
+      for(var i =0;i< res.data.length;++i){
+        var data = resBis.data.find(el => el.post == res.data[i].post_id)
+        if(data != undefined && data != null){
+          if(data.report == 1){
+            res.data[i].reported=true
+          }else{
+            res.data[i].reported=false
+          }
         }
+
+    
       }
+    }
         dispatch(fetchPostsSuccess(res.data));
                     
           return res;

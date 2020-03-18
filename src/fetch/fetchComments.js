@@ -10,17 +10,23 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
     const config = {
       headers: { Authorization: 'Bearer '+token }
     };
+    const resBis = await axios.get("https://thomasfaure.fr/reportcomment/post/" + id + "/byToken",config)
 
-    for(var i =0;i< res.data.length;++i){
-      const resBis = await axios.get("https://thomasfaure.fr/reportcomment/" + res.data[i].comment_id + "/byToken",config)
+    if(resBis.data.length>0){
+      for(var i =0;i< res.data.length;++i){
+        var data = resBis.data.find(el => el.comment == res.data[i].comment_id)
+        if(data != undefined && data != null){
+          if(data.report == 1){
+            res.data[i].reported=true
+          }else{
+            res.data[i].reported=false
+          }
+        }
 
-      if(resBis.data.length > 0){
-
-        res.data[i].reported=true
-      }else{
-        res.data[i].reported=false
+    
       }
     }
+    
 
  
     dispatch(fetchCommentsSuccess(res.data));           
