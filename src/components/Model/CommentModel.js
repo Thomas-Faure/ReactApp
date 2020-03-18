@@ -2,7 +2,7 @@ import Moment from 'react-moment';
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { updateCommentReport } from '../../actions'
+import { updateCommentReport,updateCommentRate } from '../../actions'
 class CommentModel extends Component {
 
   constructor(props) {
@@ -19,11 +19,30 @@ class CommentModel extends Component {
 
     }
     this.report = this.report.bind(this)
+    this.like = this.like.bind(this)
   }
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.commentState)
     this.setState({
-      comment: nextProps.comment
+      comment: nextProps.commentState.byId[this.state.comment.comment_id]
     })
+  }
+  like(like){
+    const token = localStorage.token;
+    fetch("https://thomasfaure.fr/rateComment/create", {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ comment: this.state.comment.comment_id,like: like })
+    }
+    ).then(res => res.json())
+      .then(res => {
+        this.props.updateCommentRate(this.state.comment.comment_id,like,res.result)
+      })
+
   }
 
 
@@ -66,7 +85,7 @@ class CommentModel extends Component {
             </div>
             <footer className="card-footer" >
               <div className="commentRate center" >
-                <div className="like"><a><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a><i class="fas fa-thumbs-up bleu"></i></a></div>
+                <div className="like"><a onClick={()=>{this.like(false)}}><i class="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i class="fas fa-thumbs-up bleu"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
                     (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
@@ -105,7 +124,7 @@ class CommentModel extends Component {
           </div>
           <footer className="card-footer" >
             <div className="commentRate center" >
-              <div className="like"><a><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a><i class="blue fas fa-thumbs-up"></i></a></div>
+              <div className="like"><a onClick={()=>{this.like(false)}}><i class="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={()=>{this.like(true)}}><i class="blue fas fa-thumbs-up"></i></a></div>
               <div className="liked">
                 {this.props.isLogged ?
                   (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
@@ -132,7 +151,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  updateCommentReport: updateCommentReport
+  updateCommentReport: updateCommentReport,
+  updateCommentRate:updateCommentRate
 
 }, dispatch)
 

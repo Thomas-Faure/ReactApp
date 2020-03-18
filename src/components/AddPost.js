@@ -14,7 +14,8 @@ class AddPost extends Component {
       category: this.props.categoriePost.categories[0].post_category_id,
       title: "",
       description: "",
-      location: ""
+      location: "",
+      anonymous: false
 
     }
     this.fileInput = React.createRef();
@@ -22,6 +23,7 @@ class AddPost extends Component {
     this.handleChangeDescription = this.handleChangeDescription.bind(this)
     this.handleChangeCategory = this.handleChangeCategory.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleAnonymousInput = this.handleAnonymousInput.bind(this)
     this.send = this.send.bind(this)
   }
 
@@ -65,6 +67,10 @@ class AddPost extends Component {
   handleChangeCategory(event) {
     this.setState({ category: event.target.value })
   }
+  handleAnonymousInput(event){
+    
+    this.setState({ anonymous : !this.state.anonymous})
+  }
 
 
   async handleSubmit(event) {
@@ -94,7 +100,7 @@ class AddPost extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ location:this.state.location,title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
+      body: JSON.stringify({ anonymous:this.state.anonymous,location:this.state.location,title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
     })
       .then(res => res.json())
       .then((data) => {
@@ -125,7 +131,13 @@ class AddPost extends Component {
                       <hr className="login-hr" />
                       <p className="subtitle has-text-black"></p>
                       <form onSubmit={this.handleSubmit}>
+                      <label class="checkbox">
+                        <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput}/>
+                        Anonymous post
+                      </label>
                         <div className="field">
+                        
+                    
                         <label className="title">Post title: </label>
                           <div className="control">
                             <input className="input " type="text" placeholder="Title" value={this.state.title} onChange={this.handleChangeTitle} />

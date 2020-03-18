@@ -250,13 +250,13 @@ class PostDetails extends Component {
 
                   </div>
                   {this.props.comment.pending==true ? <p style={{ textAlign: "center", margin: "auto" }}><Loader
-         type="ThreeDots"
-         color="#2c60a4cc"
-         height={100}
-         width={100}
-          
+                    type="ThreeDots"
+                    color="#2c60a4cc"
+                    height={100}
+                    width={100}
+                      
 
-      /></p>
+                  /></p>
                   :
                    (
                     (this.state.bestAnswer == null ? null
@@ -312,7 +312,7 @@ class PostDetails extends Component {
                       <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
                         {(this.props.categorieComment.categories.length !== 0) ?
                           this.props.categorieComment.categories.map((val, index) =>
-                            <option key={val.comment_category_id} value={val.comment_category_id} style={{backgroundColor:val.color}}>{val.description}</option>
+                            <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
                           )
                           :
                           null

@@ -26,6 +26,23 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
     
       }
     }
+    const rate = await axios.get("https://thomasfaure.fr/rateComment/post/" + id + "/byToken",config)
+
+    if(rate.data.length>0){
+      for(var i =0;i< res.data.length;++i){
+        var data = rate.data.find(el => el.comment == res.data[i].comment_id)
+        if(data != undefined && data != null){
+          if(data.like == 1){
+            res.data[i].rated=1
+          }else{
+            res.data[i].rated=-1
+          }
+        }
+
+    
+      }
+    }
+    console.log(res)
     
 
  

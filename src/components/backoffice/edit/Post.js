@@ -137,16 +137,18 @@ class BackOfficeEditPost extends Component {
           </div>
             </div>
           </div>
+          {this.state.valueImage.length >0 ? 
           <div className="field">
             <label className="label">Image</label>
             <div className="control">
-            {this.state.valueImage.length >0 ? 
+            
               <img style={{imageOrientation:"from-image"}}src={'https://thomasfaure.fr/'+this.state.valueImage}   />
 
-          :
-           null}
+         
             </div>
           </div>
+          :
+          null}
          
 
 

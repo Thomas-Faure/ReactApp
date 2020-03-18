@@ -111,8 +111,8 @@ export const  fetchCommentCategoriesError = (error)=> {
 export const FETCH_COMMENTS_PENDING = 'FETCH_COMMENTS_PENDING';
 export const FETCH_COMMENTS_SUCCESS = 'FETCH_COMMENTS_SUCCESS';
 export const FETCH_COMMENTS_ERROR = 'FETCH_COMMENTS_ERROR';
-export const UPDATE_COMMENTS_REPORT = 'UPDATE_COMMENTS_REPORT'
-
+export const UPDATE_COMMENTS_REPORT = 'UPDATE_COMMENTS_REPORT';
+export const UPDATE_COMMENTS_RATE = 'UPDATE_COMMENTS_RATE';
 export const  fetchCommentsPending = ()=> {
     return {
         type: FETCH_COMMENTS_PENDING
@@ -123,6 +123,12 @@ export const updateCommentReport= (id,data) =>{
     return{
         type: UPDATE_COMMENTS_REPORT,
         payload: {id:id,data:data}
+    }
+}
+export const updateCommentRate= (id,like,info) =>{
+    return{
+        type: UPDATE_COMMENTS_RATE,
+        payload: {id:id,like:like,info:info}
     }
 }
 export const fetchCommentsSuccess = (comments) =>{
