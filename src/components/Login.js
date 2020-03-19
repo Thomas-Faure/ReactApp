@@ -91,11 +91,13 @@ class Login extends Component {
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="field" onSubmit={this.handleSubmit}>
+                  <label className=" is-large"><FormattedMessage id="register.field.username"/></label>
                     <div className="control">
                       <input className="input is-large" type="text" placeholder={formatMessage({id: "login.field.username"})} value={this.state.valueU} onChange={this.handleChangeUsername} />
                     </div>
                   </div>
                   <div className="field">
+                  <label className=" is-large"><FormattedMessage id="register.field.password"/></label>
                     <div className="control">
                       <input className="input is-large" type="password" placeholder={formatMessage({id: "login.field.password"})} value={this.state.valueP} onChange={this.handleChangePassword} />
                     </div>
