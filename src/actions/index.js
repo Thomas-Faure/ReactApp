@@ -121,6 +121,14 @@ export const FETCH_COMMENTS_SUCCESS = 'FETCH_COMMENTS_SUCCESS';
 export const FETCH_COMMENTS_ERROR = 'FETCH_COMMENTS_ERROR';
 export const UPDATE_COMMENTS_REPORT = 'UPDATE_COMMENTS_REPORT';
 export const UPDATE_COMMENTS_RATE = 'UPDATE_COMMENTS_RATE';
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+
+export const deleteComment = (id) =>{
+    return {
+        type: DELETE_COMMENT,
+        payload: id
+    }
+}
 export const  fetchCommentsPending = ()=> {
     return {
         type: FETCH_COMMENTS_PENDING
@@ -159,7 +167,22 @@ export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_ERROR = 'FETCH_POSTS_ERROR';
 export const UPDATE_POST_LIKE = 'UPDATE_POST_LIKE'
 export const UPDATE_POSTS_REPORT = 'UPDATE_POSTS_REPORT'
+export const DELETE_POST = 'DELETE_POST'
+export const DECREASE_COMMENT_COUNTER = 'DECREASE_COMMENT_COUNTER'
 
+export const decreateCommentCounter = (id) =>{
+    return{
+        type: DECREASE_COMMENT_COUNTER,
+        payload: id
+
+    }
+}
+export const deletePost = (id) =>{
+    return {
+        type: DELETE_POST,
+        payload: id
+    }
+}
 export const  fetchPostsPending = ()=> {
     return {
         type: FETCH_POSTS_PENDING

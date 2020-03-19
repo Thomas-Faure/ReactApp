@@ -35,6 +35,10 @@ class PostModel extends Component {
   }
 
   render() {
+    if(this.props.post.byId[this.props.postid] == undefined){
+      return(null)
+
+    }else{
     return (
       <div className="">
         <div >
@@ -88,6 +92,7 @@ class PostModel extends Component {
 
     );
   }
+}
 }
 
 const mapStateToProps = (state) => {

@@ -3,18 +3,16 @@ import Moment from 'react-moment';
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { updateCommentReport, updateCommentRate } from '../../actions'
+import { updateCommentReport, updateCommentRate,deleteComment,decreateCommentCounter } from '../../actions'
 class CommentModel extends Component {
 
   constructor(props) {
 
     super(props)
 
-    this.props.comment.report = 0
 
-    var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.comment.comment_category).color
+    var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.commentState.byId[this.props.commentid].comment_category).color
     this.state = {
-      comment: this.props.comment,
       color: color,
       best: this.props.best,
     }
@@ -23,17 +21,23 @@ class CommentModel extends Component {
     this.removeComment = this.removeComment.bind(this)
   }
   componentWillReceiveProps(nextProps) {
+    if(this.props.commentState.byId[this.props.commentid] != null && this.props.commentState.byId[this.props.commentid] != undefined){
     this.setState({
-      comment: nextProps.commentState.byId[this.state.comment.comment_id]
+      comment: nextProps.commentState.byId[this.props.commentState.byId[this.props.commentid].comment_id]
     })
+  }
   }
 
   async removeComment(){
     const token = localStorage.token;
+    const id = this.props.commentState.byId[this.props.commentid].comment_id
     const config = {
       headers: { Authorization: 'Bearer ' + token }
     };
-    const res = await axios.delete("https://thomasfaure.fr/comment/" + this.state.comment.comment_id + "/delete", config)
+    const res = await axios.delete("https://thomasfaure.fr/comment/" + id + "/delete", config)
+    this.props.decreateCommentCounter(this.props.commentState.byId[this.props.commentid].post)
+    this.props.deleteComment(id)
+
   }
 
   like(like) {
@@ -45,11 +49,11 @@ class CommentModel extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ comment: this.state.comment.comment_id, like: like })
+      body: JSON.stringify({ comment: this.props.commentState.byId[this.props.commentid].comment_id, like: like })
     }
     ).then(res => res.json())
       .then(res => {
-        this.props.updateCommentRate(this.state.comment.comment_id, like, res.result)
+        this.props.updateCommentRate(this.props.commentState.byId[this.props.commentid].comment_id, like, res.result)
       })
 
   }
@@ -64,14 +68,17 @@ class CommentModel extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ comment_id: this.state.comment.comment_id })
+      body: JSON.stringify({ comment_id: this.props.commentState.byId[this.props.commentid].comment_id })
     }
     ).then(res => res.json())
       .then(res => {
-        this.props.updateCommentReport(this.state.comment.comment_id, res.result)
+        this.props.updateCommentReport(this.props.commentState.byId[this.props.commentid].comment_id, res.result)
       })
   }
   render() {
+    if(this.props.commentState.byId[this.props.commentid] == undefined){
+      return(null)
+    }else{
     if (this.state.best) {
       return (
         <div className="card">
@@ -84,20 +91,20 @@ class CommentModel extends Component {
               </div>
               <div className="media-content" className="bestDescription">
                 <div className="spacebetween">
-                  <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
-                  <div className="cercle" style={{ backgroundColor: this.state.comment.color }}></div>
+                  <p className="subtitle is-6"><strong>@{this.props.commentState.byId[this.props.commentid].username}</strong></p>
+                  <div className="cercle" style={{ backgroundColor: this.props.commentState.byId[this.props.commentid].color }}></div>
                 </div>
                 <div>
-                  <p className="title is-4">{this.state.comment.description}</p>
+                  <p className="title is-4">{this.props.commentState.byId[this.props.commentid].description}</p>
                 </div>
               </div>
             </div>
             <footer className="card-footer" >
               <div className="commentRate center" >
-                <div className="like"><a onClick={() => { this.like(false) }}><i className="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={() => { this.like(true) }}><i className="fas fa-thumbs-up bleu"></i></a></div>
+                <div className="like"><a onClick={() => { this.like(false) }}><i className="fas fa-thumbs-down red"></i></a> <p className="infosRate">{this.props.commentState.byId[this.props.commentid].like - this.props.commentState.byId[this.props.commentid].dislike}</p><a onClick={() => { this.like(true) }}><i className="fas fa-thumbs-up bleu"></i></a></div>
                 <div className="liked">
                   {this.props.isLogged ?
-                    (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
+                    (this.props.commentState.byId[this.props.commentid].reported == true ?
                       <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                       :
                       <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
@@ -122,23 +129,23 @@ class CommentModel extends Component {
               {this.props.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => { this.removeComment() }}></button></div>
                 : null}
               <div className="spacebetween white">
-                <p className="subtitle is-6"><strong>@{this.state.comment.username}</strong></p>
-                <div className="cercle" style={{ backgroundColor: this.state.comment.color }}></div>
+                <p className="subtitle is-6"><strong>@{this.props.commentState.byId[this.props.commentid].username}</strong></p>
+                <div className="cercle" style={{ backgroundColor: this.props.commentState.byId[this.props.commentid].color }}></div>
               </div>
               <div>
-                <p className="title is-4">{this.state.comment.description}</p>
+                <p className="title is-4">{this.props.commentState.byId[this.props.commentid].description}</p>
               </div>
               <p className="date"><Moment fromNow>
-                {this.state.comment.date}
+                {this.props.commentState.byId[this.props.commentid].date}
               </Moment></p>
             </div>
           </div>
           <footer className="card-footer" >
             <div className="commentRate center" >
-              <div className="like"><a onClick={() => { this.like(false) }}><i className="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.state.comment.like - this.state.comment.dislike}</p><a onClick={() => { this.like(true) }}><i className="blue fas fa-thumbs-up"></i></a></div>
+              <div className="like"><a onClick={() => { this.like(false) }}><i className="fas fa-thumbs-down red"></i></a><p className="infosRate">{this.props.commentState.byId[this.props.commentid].like - this.props.commentState.byId[this.props.commentid].dislike}</p><a onClick={() => { this.like(true) }}><i className="blue fas fa-thumbs-up"></i></a></div>
               <div className="liked">
                 {this.props.isLogged ?
-                  (this.props.commentState.byId[this.state.comment.comment_id].reported == true ?
+                  (this.props.commentState.byId[this.props.commentState.byId[this.props.commentid].comment_id].reported == true ?
                     <a onClick={this.report} > <p className="infosRate"></p><img src="warning.png" alt="img3" className="icon"></img> <span aria-label="validate">✅</span></a>
                     :
                     <a onClick={this.report}><p className="infosRate"><img src="warning.png" alt="img3" className="icon"></img></p></a>)
@@ -150,6 +157,7 @@ class CommentModel extends Component {
       </div >
     );
   }
+}
 }
 
 
@@ -163,7 +171,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateCommentReport: updateCommentReport,
-  updateCommentRate: updateCommentRate
+  updateCommentRate: updateCommentRate,
+  deleteComment:deleteComment,
+  decreateCommentCounter:decreateCommentCounter
 
 }, dispatch)
 

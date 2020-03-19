@@ -36,6 +36,7 @@ class PostsList extends Component {
 
 
   async componentDidUpdate(nprops) {
+    console.log(this.props.post)
     if(nprops.post != this.props.post){
       let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
       await this.setState({ list: postsList, post: postsList })

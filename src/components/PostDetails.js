@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
-import { unsetPopUp, updatePostLike, updatePostReport } from '../actions';
+import { unsetPopUp, updatePostLike, updatePostReport,deletePost } from '../actions';
 import axios from 'axios'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -78,6 +78,7 @@ class PostDetails extends Component {
     };
     const res = await axios.delete("https://thomasfaure.fr/post/" + this.state.id + "/delete", config)
     this.props.unsetPopUp()
+    this.props.deletePost(this.state.id)
   }
 
   pushNextButton() {
@@ -288,7 +289,7 @@ class PostDetails extends Component {
                       </div>
                       <div className="rating" >
                         <div className="liked"><a onClick={() => this.like()}><p className="infosRate">{this.props.post.byId[this.props.popUp.id].like}</p><img src="ear.png" alt="img1" className="icon"></img></a></div>
-                        <div className="liked"><p className="infosRate">{this.state.comments.length}</p><img src="comment.png" alt="img2" className="icon"></img></div>
+                        <div className="liked"><p className="infosRate">{this.props.comment.allIds.length}</p><img src="comment.png" alt="img2" className="icon"></img></div>
                         <div className="liked">
                           {this.props.isLogged ?
                             (this.props.post.byId[this.props.popUp.id].reported === true ?
@@ -315,7 +316,7 @@ class PostDetails extends Component {
                       (this.state.bestAnswer == null ? null
                         :
                         <div>
-                          <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} owner={false} best={true}></CommentModel>
+                          <CommentModel key={this.state.bestAnswer.comment_id} commentid={this.state.bestAnswer.comment_id} owner={false} best={true}></CommentModel>
                           {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
                             null :
                             <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
@@ -338,7 +339,7 @@ class PostDetails extends Component {
 
                       {this.state.comments != null ?
                         this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                          <CommentModel key={val.comment_id} comment={val} best={false} owner={this.isOwner(val.comment_id)}></CommentModel>
+                          <CommentModel key={val.comment_id} commentid={val.comment_id} best={false} owner={this.isOwner(val.comment_id)}></CommentModel>
                         )
                         :
                         <p>Aucun commentaire</p>}
@@ -415,7 +416,8 @@ const mapDispatchToProps = (dispatch, own) => bindActionCreators({
   fetchPosts: fetchPosts,
   updatePostLike: updatePostLike,
   updatePostReport: updatePostReport,
-  unsetPopUp
+  unsetPopUp:unsetPopUp,
+  deletePost:deletePost
 
 }, dispatch)
 

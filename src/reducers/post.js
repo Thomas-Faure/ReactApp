@@ -1,4 +1,4 @@
-import {FETCH_POSTS_PENDING,UPDATE_POSTS_REPORT, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR,UPDATE_POST_LIKE} from '../actions';
+import {FETCH_POSTS_PENDING,UPDATE_POSTS_REPORT,DECREASE_COMMENT_COUNTER, FETCH_POSTS_SUCCESS, FETCH_POSTS_ERROR,UPDATE_POST_LIKE,DELETE_POST} from '../actions';
 const initialState = {
     pending: false,
     byId: {},
@@ -7,6 +7,30 @@ const initialState = {
 }
 const postReducer = (state = initialState, action)=>{
     switch(action.type) {
+      
+        case DECREASE_COMMENT_COUNTER:
+            console.log(state.byId[action.payload])
+            return{
+                ...state,
+                byId:{
+                    ...state.byId,
+                    [action.payload]:{
+                        ...state.byId[action.payload],
+                        comment: (state.byId[action.payload].comment)-1
+                    }
+                } 
+            }
+    
+        case DELETE_POST:
+            var byIdTemp = state.byId
+            const { [action.payload]: ignored, ...finalById } = byIdTemp;
+            var allIds = state.allIds.filter(el=>el != action.payload)
+            return{
+                ...state,
+                byId:finalById,
+                allIds:allIds
+
+            }
         case UPDATE_POSTS_REPORT:
             return{
                 ...state,
