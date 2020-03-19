@@ -98,3 +98,12 @@
 .star {
   color: yellow;
 }
+
+.btDelete{
+  width: 100%;
+  text-align: end;
+}
+
+.btDelete>button,.btDelete>button:hover {
+  background-color: red;
+}

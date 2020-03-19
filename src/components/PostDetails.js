@@ -27,9 +27,10 @@ class PostDetails extends Component {
       elementsByPage: 5,
       valueComment: "",
       valueCategory: this.props.categorieComment.categories[0].comment_category_id,
-      categories: []
-
-
+      categories: [],
+      owner: false,
+      commentsID: [],
+      anonymous: false
     }
     this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
@@ -38,6 +39,10 @@ class PostDetails extends Component {
     this.handleChangeComment = this.handleChangeComment.bind(this)
     this.handleChangeCategory = this.handleChangeCategory.bind(this)
     this.sendData = this.sendData.bind(this)
+    this.postOwner = this.postOwner.bind(this)
+    this.commentsOwner = this.commentsOwner.bind(this)
+    this.isOwner = this.isOwner.bind(this)
+    this.handleAnonymousInput = this.handleAnonymousInput.bind(this)
 
   }
 
@@ -46,10 +51,15 @@ class PostDetails extends Component {
 
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(() => {
       this.getData()
-
     })
+    this.postOwner()
+    this.commentsOwner()
 
+  }
 
+  handleAnonymousInput(event){
+    
+    this.setState({ anonymous : !this.state.anonymous})
   }
 
   pushPrevButton() {
@@ -59,7 +69,15 @@ class PostDetails extends Component {
 
       })
     }
+  }
 
+  async removePost() {
+    const token = localStorage.token;
+    const config = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    const res = await axios.delete("https://thomasfaure.fr/post/" + this.state.id + "/delete", config)
+    this.props.unsetPopUp()
   }
 
   pushNextButton() {
@@ -70,6 +88,28 @@ class PostDetails extends Component {
       })
     }
 
+  }
+
+  async postOwner() {
+    const token = localStorage.token;
+    const config = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    const res = await axios.get("https://thomasfaure.fr/post/" + this.state.id + "/isOwner", config)
+    this.setState({
+      owner: res.data
+    });
+  }
+
+  async commentsOwner() {
+    const token = localStorage.token;
+    const config = {
+      headers: { Authorization: 'Bearer ' + token }
+    };
+    const res = await axios.get("https://thomasfaure.fr/user/post/" + this.state.id + "/commentsId", config)
+    this.setState({
+      commentsID: res.data
+    });
   }
 
   async like() {
@@ -126,7 +166,16 @@ class PostDetails extends Component {
     this.setState({ valueCategory: event.target.value })
   }
 
-
+  isOwner(id){
+    var a = false
+    this.state.commentsID.filter( idC =>{
+      if(id == idC.comment_id){
+        a = true
+      }
+    })
+    console.log(a)
+    return a
+  }
 
   async report() {
     const token = localStorage.token;
@@ -155,6 +204,7 @@ class PostDetails extends Component {
 
   sendData() {
     const token = localStorage.token;
+    console.log(this.state.anonymous)
     fetch("https://thomasfaure.fr/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
       headers: {
@@ -163,7 +213,7 @@ class PostDetails extends Component {
         'Authorization': 'Bearer ' + token
 
       },
-      body: JSON.stringify({ description: this.state.valueComment, category: this.state.valueCategory })
+      body: JSON.stringify({ description: this.state.valueComment, category: this.state.valueCategory, anonyme: this.state.anonymous })
     })
       .then(res => res.json())
       .then((data) => {
@@ -199,12 +249,15 @@ class PostDetails extends Component {
                   <div className="card-content">
                     <div >
                       <div className="media-content postModel">
+                        {this.state.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => { this.removePost() }}></button></div>
+                          : null}
                         <div className="infos">
                           <div className="spacebetween">
                             <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.props.post.byId[this.props.popUp.id].username}</strong></p>
                             <p className="date"><Moment fromNow>
-                            {this.props.post.byId[this.props.popUp.id].date}
-                            </Moment></p>
+                              {this.props.post.byId[this.props.popUp.id].date}
+                            </Moment>
+                            </p>
 
                           </div>
                           <div className="spacebetween">
@@ -226,7 +279,7 @@ class PostDetails extends Component {
                           <p>{this.props.post.byId[this.props.popUp.id].description}</p>
                           {this.props.post.byId[this.props.popUp.id].url_image.length > 0 ?
                             <div className="imgPost">
-                            <img className="imgPostContent" src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.popUp.id].url_image} />
+                              <img className="imgPostContent" src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.popUp.id].url_image} />
                             </div>
                             :
                             null}
@@ -249,49 +302,49 @@ class PostDetails extends Component {
                     </div>
 
                   </div>
-                  {this.props.comment.pending==true ? <div style={{ textAlign: "center", margin: "auto" }}><Loader
+                  {this.props.comment.pending == true ? <div style={{ textAlign: "center", margin: "auto" }}><Loader
                     type="ThreeDots"
                     color="#2c60a4cc"
                     height={100}
                     width={100}
-                      
+
 
                   /></div>
-                  :
-                   (
-                    (this.state.bestAnswer == null ? null
-                      :
-                      <div>
-                      <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} best={true}></CommentModel>
-                      {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
-                       null :
-                        <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
-                        {(this.state.actualPage) == 0 ?
-                         <button className="button is-link" disabled>Prev</button> :
-                          <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
-                    </p>}
-                    </div>
-                   )
-                    
-                   )
-                  
-                  
+                    :
+                    (
+                      (this.state.bestAnswer == null ? null
+                        :
+                        <div>
+                          <CommentModel key={this.state.bestAnswer.comment_id} comment={this.state.bestAnswer} owner={false} best={true}></CommentModel>
+                          {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
+                            null :
+                            <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
+                              {(this.state.actualPage) == 0 ?
+                                <button className="button is-link" disabled>Prev</button> :
+                                <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+                            </p>}
+                        </div>
+                      )
+
+                    )
+
+
                   }
 
 
-                    <div className="columns">
-                      <div className="column is-2"></div>
-                      <div className="column is-8">
-  
-                        {this.state.comments != null ?
-                          this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
-                            <CommentModel key={val.comment_id} comment={val} best={false}></CommentModel>
-                          )
-                          :
-                          <p>Aucun commentaire</p>}
-                      </div>
+                  <div className="columns">
+                    <div className="column is-2"></div>
+                    <div className="column is-8">
+
+                      {this.state.comments != null ?
+                        this.state.comments.slice(0 + (this.state.actualPage * this.state.elementsByPage), 5 + (this.state.actualPage * this.state.elementsByPage)).map((val, index) =>
+                          <CommentModel key={val.comment_id} comment={val} best={false} owner={this.isOwner(val.comment_id)}></CommentModel>
+                        )
+                        :
+                        <p>Aucun commentaire</p>}
                     </div>
-                  
+                  </div>
+
 
 
 
@@ -306,6 +359,10 @@ class PostDetails extends Component {
               <div className="field addcomment">
                 <label className="label add_top">Add a comment</label>
                 <div className="control is-flex add">
+                  <label className="checkbox">
+                    <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput} />
+                        Anonymous comment
+                      </label>
                   <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
                   <div className="add_bottom">
                     <div className="select" className="select">
