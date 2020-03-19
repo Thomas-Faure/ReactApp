@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import PostModel from './Model/PostModel'
 import PostDetails from './PostDetails'
 import AddPost from './AddPost'
+import {FormattedMessage} from 'react-intl';
+
 import { setPopUp } from '../actions';
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -34,18 +36,15 @@ class PostsList extends Component {
 
 
   async componentDidUpdate(nprops) {
-
     if(nprops.post != this.props.post){
-      let postsList = nprops.post.allIds.map(id => nprops.post.byId[id])
-
+      let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
       await this.setState({ list: postsList, post: postsList })
       this.search()
       this.filtreDate(this.state.actualValueFilter)
     }
-
   }
   async componentDidMount() {
-    console.log(this.props.post)
+
     let postsList = this.props.post.allIds.map(id => this.props.post.byId[id])
 
     await this.setState({ list: postsList, post: postsList })
@@ -181,9 +180,9 @@ class PostsList extends Component {
             <input type="text" onChange={this.handleChange} className="input" placeholder="Search..." />
             <div className="filtres filtre">
               <div className="mainfilter" onChange={this.mainfilter}>
-                <div><label><input type="radio" name="time" value="recent" /> Plus recent</label></div>
-                <div><label><input type="radio" name="time" value="populaire" />Plus populaire</label></div>
-                <div><label><input type="radio" name="time" value="commente" />Plus commenté</label></div>
+                <div><label><input type="radio" name="time" value="recent" /> <FormattedMessage id="filter.recent"/></label></div>
+                <div><label><input type="radio" name="time" value="populaire" /> <FormattedMessage id="filter.famous"/></label></div>
+                <div><label><input type="radio" name="time" value="commente" /> <FormattedMessage id="filter.commented"/></label></div>
               </div>
               <div className="categoryfilter" onChange={this.categoryFilter}>
                 <select id="category">

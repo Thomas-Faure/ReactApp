@@ -8,7 +8,7 @@ import categorieCommentReducer from './commentCategorie';
 import categoriePostReducer from './postCategorie';
 import PopUpReducer from './popUp'
 import bestAnswer from './bestAnswer'
-
+import languageReducer from './language'
 import { combineReducers } from 'redux';
 
 
@@ -22,7 +22,8 @@ const allReducers = combineReducers({
     categorieComment:categorieCommentReducer,
     categoriePost:categoriePostReducer,
     popUp:PopUpReducer,
-    bestAnswer:bestAnswer
+    bestAnswer:bestAnswer,
+    language:languageReducer
 })
 
 export default allReducers

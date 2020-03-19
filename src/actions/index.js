@@ -1,3 +1,11 @@
+
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE'
+export const changeLanguage = (language) =>{
+    return {
+        type : CHANGE_LANGUAGE,
+        payload : language
+    }
+}
 /////////////////BEST ANSWER/////////////////////////////////
 export const FETCH_BEST_ANSWER_PENDING = 'FETCH_BEST_ANSWER_PENDING';
 export const FETCH_BEST_ANSWER_SUCCESS = 'FETCH_BEST_ANSWER_SUCCESS';

@@ -225,9 +225,9 @@ class PostDetails extends Component {
                         <div className="description">
                           <p>{this.props.post.byId[this.props.popUp.id].description}</p>
                           {this.props.post.byId[this.props.popUp.id].url_image.length > 0 ?
-
-                            <img src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.popUp.id].url_image} />
-
+                            <div className="imgPost">
+                            <img className="imgPostContent" src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.popUp.id].url_image} />
+                            </div>
                             :
                             null}
                         </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
+import {FormattedMessage,injectIntl} from 'react-intl';
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -73,14 +74,16 @@ class Login extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
+
     return (
       <section className=" is-fullheight" style={{ backgroundColor: "#BBDCF2", borderRadius: "5px" }}>
         <div className="">
           <div className="container has-text-centered">
             <div className="column">
-              <h3 className="title has-text-black">Login</h3>
+              <h3 className="title has-text-black"><FormattedMessage id="login.label"/></h3>
               <hr className="login-hr" />
-              <p className="subtitle has-text-black">Please login to proceed.</p>
+              <p className="subtitle has-text-black"><FormattedMessage id="login.sentence"/></p>
               <div className="box">
                 <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
                   : null}
@@ -89,22 +92,22 @@ class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                   <div className="field" onSubmit={this.handleSubmit}>
                     <div className="control">
-                      <input className="input is-large" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername} />
+                      <input className="input is-large" type="text" placeholder={formatMessage({id: "login.field.username"})} value={this.state.valueU} onChange={this.handleChangeUsername} />
                     </div>
                   </div>
                   <div className="field">
                     <div className="control">
-                      <input className="input is-large" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} />
+                      <input className="input is-large" type="password" placeholder={formatMessage({id: "login.field.password"})} value={this.state.valueP} onChange={this.handleChangePassword} />
                     </div>
                   </div>
 
-                  <input className="button is-link" type="submit" value="submit"></input>
+                  <input className="button is-link" type="submit" value={formatMessage({id: "login.submit"})}></input>
                 </form>
               </div>
               <p className="has-text-grey">
-                <a onClick={()=>{this.register()}}>Sign Up</a> &nbsp;·&nbsp;
-                        <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                        <a href="../">Need Help?</a>
+                <a onClick={()=>{this.register()}}><FormattedMessage id="login.bottom.signup"/></a> &nbsp;·&nbsp;
+                        <a href="../"><FormattedMessage id="login.bottom.forgot"/></a> &nbsp;·&nbsp;
+                        <a href="../"><FormattedMessage id="login.bottom.needHelp"/></a>
               </p>
             </div>
           </div>
@@ -134,4 +137,4 @@ const mapDispatchToProps = () => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps())(Login);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps())(Login));

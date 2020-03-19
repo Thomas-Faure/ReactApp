@@ -4,10 +4,11 @@ import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
 import {unsetPopUp} from '../../../actions'
-
+import {FormattedMessage,injectIntl} from 'react-intl';
 class BackOfficeCreatePost extends Component {
   constructor(props) {
     super(props)
+    
     this.state = {
       valueTitle: "",
       valueDescription: "",
@@ -79,12 +80,13 @@ class BackOfficeCreatePost extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
     return (
       <div className={'modal is-active'}>
   <div className="modal-background"  onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
-      <p className="modal-card-title">New Post</p>
+      <p className="modal-card-title"><FormattedMessage id="backoffice.menu1.posts.create.label"/></p>
       <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
@@ -94,19 +96,19 @@ class BackOfficeCreatePost extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <div className="field">
-            <label className="label">Title</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.create.title"/></label>
             <div className="control">
-              <input className="input" type="text" placeholder="Title" value={this.state.valueTitle} onChange={this.handleChangeTitle} />
+              <input className="input" type="text" placeholder={formatMessage({id: "backoffice.menu1.posts.create.title"})} value={this.state.valueTitle} onChange={this.handleChangeTitle} />
             </div>
           </div>
           <div className="field">
-            <label className="label">Description</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.create.description"/></label>
             <div className="control">
-              <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
+              <input className="input" type="text" placeholder={formatMessage({id: "backoffice.menu1.posts.create.description"})} value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
-            <label className="label">Category</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.create.category"/></label>
             <div className="control">
             <div className="select" style={{width:"100%"}}>
               <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
@@ -124,13 +126,13 @@ class BackOfficeCreatePost extends Component {
           </div>
 
           <div className="control">
-            <input className="button is-link" type="submit" value="submit"></input>
+            <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
 
           </div>
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/posts'}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>{this.props.unsetPopUp()}  }><FormattedMessage id="backoffice.general.back"/></button></p>
 
 
       </div>
@@ -163,5 +165,5 @@ const mapDispatchToProps = dispatch => bindActionCreators( {
   
 },dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePost);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePost));
 

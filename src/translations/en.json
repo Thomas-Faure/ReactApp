@@ -1,0 +1,95 @@
+{
+    "navbar.home": "Home",
+    "navbar.contact": "Contact",
+    "navbar.informations": "Informations",
+    "navbar.backoffice":"BackOffice",
+    "navbar.language":"Language",
+
+    "login":"Login",
+    "Logout":"Logout",
+
+    "login.popupLabel":"Login",
+    "login.label":"Login",
+    "login.submit":"Submit",
+    "login.sentence":"Please login to proceed.",
+    "login.field.username":"Username",
+    "login.field.password":"Password",
+    "login.bottom.signup":"Sign up",
+    "login.bottom.forgot":"Forgot Password",
+    "login.bottom.needHelp":"Need Help ?",
+
+    "register.popupLabel":"Register",
+    "register.submit":"Submit",
+    "register.sentence":"Enter your information",
+    "register.field.firstname":"Firstname",
+    "register.field.lastname":"Lastname",
+    "register.field.mail":"Mail",
+    "register.field.birthday":"Birthday",
+    "register.field.sexe":"Sexe",
+    "register.field.username":"Username",
+    "register.field.password":"Password",
+    "register.field.passwordConfirmation":"Password confirmation",
+    "register.bottom.alreadyRegister":"Already register ?",
+
+    "filter.recent":"Recent",
+    "filter.famous":"Famous",
+    "filter.commented":"Commented",
+    "filter.search":"Search...",
+
+    "addComment.label":"Add a comment",
+    "addComment.textfield":"Comment",
+    "addComment.send":"Send",
+
+    "addPost.popupLabel":"Add Post",
+    "addPost.label":"Add a post",
+    "addPost.field.anonymous":"Anonymous post",
+    "addPost.field.title":"Post title",
+    "addPost.field.description":"Description",
+
+
+    "informations.title": "What are the penalties for sexist remarks?",
+    "informations.content": "The content of this article is up to date with regard to the law applicable on 28.09.2018. In particular, it incorporates the amendments made by Law No. 2018-703 of 3 August 2018 strengthening the fight against sexual and gender-based violence.\r\n        Sexist insult is a manifestation of sexism, which is expressed through behaviour with a sexual or sexist connotation, which, regardless of the space in which it is expressed or the forms it takes, undermines the dignity of the person because of its degrading or humiliating nature, and creates an intimidating, hostile or offensive situation. Such conduct need not be repeated for the offence to be characterized.\r\n        Materially, it may be :\r\n        \r\n        Whistling, obscene gestures and\/or sounds, such as suggesting or imitating a sexual act;\r\n        sexual proposals or intrusive questions about sex life;\r\n        degrading comments about appearance or dress;\r\n        following a person persistently on the street.\r\n        Article 621-1 of the Penal Code punishes sexist insults.\r\n        \r\n        Apart from cases of violence, exhibition, sexual or moral harassment, sexist insult is the act of imposing on any person any comment or behaviour with a sexual or sexist connotation that :\r\n        \r\n        Either violates his or her dignity because of its degrading or humiliating nature;\r\n        Creates an intimidating, hostile or offensive situation against him\/her.\r\n        The penalty incurred is a fine of up to \u20AC90 for a 4th class offence (up to \u20AC750 for immediate payment) or up to \u20AC750 for a 5th class offence (up to \u20AC1,500) in the event of aggravating circumstances or a repeat offence.\r\n\r\n",
+    
+
+    "backoffice.general.submit":"submit",
+    "backoffice.general.back":"back",
+    "backoffice.general.delete":"delete",
+    "backoffice.general.cancel":"cancel",
+    "backoffice.general.prev":"prev",
+    "backoffice.general.next":"next",
+    "backoffice.general.search":"search",
+    "backoffice.general.currentPage":"The actual page is :",
+    "backoffice.title": "BackOffice Menu",
+    "backoffice.menu1": "Manage Data",
+
+    "backoffice.menu1.posts.title":"Posts",
+    "backoffice.menu1.posts.titlePage":"Manage Post",
+    "backoffice.menu1.posts.field.title":"Title",
+    "backoffice.menu1.posts.field.description":"Description",
+    "backoffice.menu1.posts.field.action":"Action",
+    "backoffice.menu1.posts.create.label":"New Post",
+    "backoffice.menu1.posts.create.title":"Title",
+    "backoffice.menu1.posts.create.description":"Description",
+    "backoffice.menu1.posts.create.category":"Category",
+    "backoffice.menu1.posts.edit.label":"Edit Post",
+    "backoffice.menu1.posts.edit.title":"Title",
+    "backoffice.menu1.posts.edit.description":"Description",
+    "backoffice.menu1.posts.edit.category":"Category",
+
+    "backoffice.menu1.user.title":"User",
+
+    "backoffice.menu1.postC.title":"Post Category",
+
+    "backoffice.menu1.commmentC.title":"Comment Category",
+
+    "backoffice.menu2": "Manage Reports",
+    "backoffice.menu2.comment.title":"Comment report",
+
+    "backoffice.menu2.post.title":"Post report",
+
+
+    "contact.question" :"GOT QUESTIONS?",
+    "contact.answer" : "The easiest thing to do is post on our",
+    "app.text": "Hi"
+   
+}

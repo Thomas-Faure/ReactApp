@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
 import {unsetPopUp} from '../../../actions'
+import {FormattedMessage ,injectIntl} from 'react-intl';
 
 class BackOfficeEditPost extends Component {
   constructor(props) {
@@ -89,12 +90,14 @@ class BackOfficeEditPost extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
+   
     return (
       <div className={'modal is-active'}>
   <div className="modal-background"  onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
-      <p className="modal-card-title">Edit Post</p>
+      <p className="modal-card-title"><FormattedMessage id="backoffice.menu1.posts.edit.label"/></p>
       <button className="delete" aria-label="close"  onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
@@ -106,20 +109,20 @@ class BackOfficeEditPost extends Component {
 
         <form onSubmit={this.handleSubmit}>
           <div className="field">
-            <label className="label">Title</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.edit.title"/></label>
             <div className="control">
               <input className="input" type="text" placeholder="title" value={this.state.valueTitle} onChange={this.handleChangeTitle} />
             </div>
           </div>
           <div className="field">
-            <label className="label">Description</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.edit.description"/></label>
             <div className="control">
               <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
 
           <div className="field">
-            <label className="label">Category</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.posts.edit.category"/></label>
             <div className="control">
             <div className="select" style={{width:"100%"}}>
             
@@ -137,7 +140,7 @@ class BackOfficeEditPost extends Component {
           </div>
             </div>
           </div>
-          {this.state.valueImage.length >0 ? 
+          {this.state.valueImage.length >4 ? 
           <div className="field">
             <label className="label">Image</label>
             <div className="control">
@@ -153,13 +156,13 @@ class BackOfficeEditPost extends Component {
 
 
           <div className="control">
-            <input className="button is-link" type="submit" value="submit"></input>
+            <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
 
           </div>
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  this.props.unsetPopUp()}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={event =>  this.props.unsetPopUp()}><FormattedMessage id="backoffice.general.back"/></button></p>
 
 
       </div>
@@ -193,5 +196,5 @@ const mapDispatchToProps = dispatch => bindActionCreators( {
   
 },dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditPost);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditPost));
 

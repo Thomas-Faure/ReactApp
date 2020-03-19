@@ -27,6 +27,7 @@ class AddPost extends Component {
     this.send = this.send.bind(this)
   }
 
+ 
   componentDidMount() {
     this.getMyLocation()
 
@@ -104,8 +105,9 @@ class AddPost extends Component {
       .then(res => res.json())
       .then((data) => {
         this.props.unsetPopUp()
-        this.props.fetchPosts()
         this.props.fetchPostCategories()
+        this.props.fetchPosts()
+        
       })
   }
   render() {

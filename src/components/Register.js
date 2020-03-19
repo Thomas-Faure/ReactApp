@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login, setUser, unsetPopUp } from '../actions';
 import sha256 from 'sha256';
+import {FormattedMessage ,injectIntl} from 'react-intl';
+
 class Register extends Component {
 
   constructor(props) {
@@ -90,46 +92,48 @@ class Register extends Component {
 
   }
   render() {
+    const { formatMessage } = this.props.intl;
+
     return (
 
       <section className=" is-fullheight" style={{ backgroundColor: "#BBDCF2", borderRadius: "5px" }}>
         <div className="">
           <div className="container has-text-centered">
             <div className="column">
-              <h3 className="title has-text-black">Register</h3>
+              <h3 className="title has-text-black"><FormattedMessage id="register.label"/></h3>
               <hr className="register-hr" />
-              <p className="subtitle has-text-black">Enter your information.</p>
+              <p className="subtitle has-text-black"><FormattedMessage id="register.sentence"/></p>
               <div className="box">
                 <div>
                 </div>
 
                 <form onSubmit={this.handleSubmit}>
                   <div className="field">
-                  <label className=" is-large">Firstname</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.firstname"/></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Firstname" value={this.state.valueF} onChange={this.handleChangeFirstname} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Lastname</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.lastname"/></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Lastname" value={this.state.valueL} onChange={this.handleChangeLastname} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Mail</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.mail"/></label>
                     <div className="control">
                       <input className="input" type="email" placeholder="Mail" value={this.state.valueM} onChange={this.handleChangeMail} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Birthday</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.birthday"/></label>
                     <div className="control">
                       <input className="input" type="date" value={this.state.valueD} onChange={this.handleChangeDate} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label>Sexe</label>
+                  <label><FormattedMessage id="register.field.sexe"/></label>
                     <div className="control">
                       <label className="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe} />Male</label>
                       <label className="radio">
@@ -137,27 +141,27 @@ class Register extends Component {
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Username</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.username"/></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Password</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.password"/></label>
                     <div className="control">
                       <input className="input" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large">Password confirmation</label>
+                  <label className=" is-large"><FormattedMessage id="register.field.passwordConfirmation"/></label>
                     <div className="control">
                       <input className="input" type="password" placeholder="Password confirmation" value={this.state.valuePC} onChange={this.handleChangePasswordC} required />
                     </div>
                   </div>
-                  <input className="button is-link" type="submit" value="submit"></input>
+                  <input className="button is-link" type="submit" value={formatMessage({id: "register.submit"})}></input>
                 </form>
               </div>
-              <p className="has-text-grey">Already register?
+              <p className="has-text-grey"><FormattedMessage id="register.bottom.alreadyRegister"/>
                 <a onClick={()=>{this.register()}}>Login</a> &nbsp;·&nbsp;
               </p>
             </div>
@@ -184,4 +188,4 @@ const mapDispatchToProps = () => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps())(Register);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps())(Register));

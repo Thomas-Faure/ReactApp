@@ -5,6 +5,7 @@ import fetchPosts from '../fetch/fetchPosts'
 import Login from './Login'
 import Register from './Register'
 import fetchUsers from '../fetch/fetchUsers'
+import {FormattedMessage} from 'react-intl';
 
 
 import {
@@ -33,7 +34,7 @@ import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
-import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp } from '../actions';
+import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp,changeLanguage } from '../actions';
 import sha256 from 'sha256';
 import fetchBestAnswer from "../fetch/fetchBestAnswer";
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
@@ -104,8 +105,8 @@ class Main extends Component {
 
     await this.props.fetchPostCategories()
     await this.props.fetchCommentCategories()
-    await this.props.fetchPosts()
-    await this.props.fetchBestAnswer()
+     this.props.fetchPosts()
+     this.props.fetchBestAnswer()
     
      this.setState({ dataLoaded: true })
   }
@@ -202,19 +203,34 @@ class Main extends Component {
               <div id="navbarBasicExample"className={this.state.burgerOpen != true ?"navbar-menu" : "navbar-menu is-active" }>
                 <div className="navbar-start">
                   <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/'}}>
-                    Home
+                  <FormattedMessage id="navbar.home"/>
       </a>
                   <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/contact'}}>
-                    Contact
+                  <FormattedMessage id="navbar.contact"/>
       </a>
                   <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/informations'}}>
-                    Informations
+                  <FormattedMessage id="navbar.informations"/>
       </a>
+      <div className="navbar-item has-dropdown is-hoverable">
+        <a className="navbar-link">
+        <FormattedMessage id="navbar.language"/>
+        </a>
+
+        <div className="navbar-dropdown">
+          <a className="navbar-item" onClick={()=>{this.props.changeLanguage("fr")}}>
+            Fr
+          </a>
+          <a className="navbar-item" onClick={()=>{this.props.changeLanguage("en")}}>
+            En
+          </a>
+
+        </div>
+      </div>
 
                   {this.props.user != null ?
                     (this.props.user.admin == 1) ?
                       <a className="navbar-item" onClick={()=>{this.setState({burgerOpen: false});window.location.href='/#/backoffice'}}>
-                        Backoffice
+                        <FormattedMessage id="navbar.backoffice"/>
       </a>
                       :
                       null
@@ -234,6 +250,7 @@ class Main extends Component {
               </div>
             </nav>
             <section className="section">
+            
               <div className="container">
                 <Route exact path="/" component={PostsList} />
                 <Route path="/posts" component={PostsList} />
@@ -260,8 +277,6 @@ class Main extends Component {
                 <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
                 <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
                 <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
-
-
               </div>
             </section>
 
@@ -295,7 +310,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCommentCategories: fetchCommentCategories,
   fetchPostCategories: fetchPostCategories,
   fetchUsers: fetchUsers,
-  fetchBestAnswer: fetchBestAnswer
+  fetchBestAnswer: fetchBestAnswer,
+  changeLanguage:changeLanguage
 
 }, dispatch)
 

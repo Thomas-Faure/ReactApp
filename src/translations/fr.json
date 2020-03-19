@@ -1,0 +1,46 @@
+{
+    "navbar.home": "Accueil",
+    "navbar.contact": "Contactez-nous",
+    "navbar.informations": "Informations",
+    "navbar.backoffice":"BackOffice",
+    "navbar.language":"Langue",
+
+
+    "backoffice.general.submit":"envoyer",
+    "backoffice.general.back":"retour",
+    "backoffice.general.delete":"supprimer",
+    "backoffice.general.cancel":"retour",
+    "backoffice.general.prev":"reculer",
+    "backoffice.general.next":"avancer",
+    "backoffice.general.search":"chercher",
+    "backoffice.general.currentPage":"La page actuelle est :",
+    
+    "backoffice.title": "Menu BackOffice ",
+    "backoffice.menu1": "Gestion des données",
+
+
+    "backoffice.menu1.posts.title":"Les Posts",
+    "backoffice.menu1.posts.titlePage":"Gestion des posts",
+    "backoffice.menu1.posts.field.title":"Titre",
+    "backoffice.menu1.posts.field.description":"Description",
+    "backoffice.menu1.posts.field.action":"Action",
+    "backoffice.menu1.posts.create.label":"Nouveau post",
+    "backoffice.menu1.posts.create.title":"Titre",
+    "backoffice.menu1.posts.create.description":"Description",
+    "backoffice.menu1.posts.create.category":"Categorie",
+
+
+
+    "backoffice.menu1.user.title":"Les utilisateurs",
+    "backoffice.menu1.postC.title":"Les catégories de posts",
+    "backoffice.menu1.commmentC.title":"Les catégories de commentaires",
+    "backoffice.menu2": "Gestion des signalements",
+    "backoffice.menu2.comment.title":"Commentaire",
+    "backoffice.menu2.post.title":"Post",
+
+    "informations.title": "Les remarques sexistes, quelles sont les peines?",
+    "informations.content": "Le contenu de cet article est \u00E0 jour au regard du droit applicable au 28.09.2018. Il int\u00E8gre notamment les modifications apport\u00E9es par la loi n\u00B0 2018-703 du 3 ao\u00FBt 2018 renfor\u00E7ant la lutte contre les violences sexuelles et sexistes.\r\n        L\u2019outrage sexiste est une manifestation du sexisme, qui s\u2019exprime par des comportements \u00E0 connotation sexuelle ou sexiste, qui, quel que soit l\u2019espace o\u00F9 il s\u2019exprime ou les formes qu\u2019il prend, porte atteinte \u00E0 la dignit\u00E9 de la personne en raison de son caract\u00E8re d\u00E9gradant ou humiliant, et cr\u00E9e une situation intimidante, hostile ou offensante. Ces comportements n\u2019ont pas besoin d\u2019\u00EAtre r\u00E9p\u00E9t\u00E9s pour que l\u2019infraction soit caract\u00E9ris\u00E9e.\r\n        Mat\u00E9riellement, il peut s\u2019agir :\r\n        \r\n        de sifflements, des gestes et\/ou des bruits obsc\u00E8nes, par exemple en sugg\u00E9rant ou en imitant un acte sexuel ;\r\n        des propositions sexuelles ou de questions intrusives sur la vie sexuelle ;\r\n        de commentaires d\u00E9gradants sur le physique ou la tenue vestimentaire ;\r\n        de suivre un personne de mani\u00E8re insistante dans la rue.\r\n        L\u2019article 621-1 du code P\u00E9nal r\u00E9prime l\u2019outrage sexiste.\r\n        \r\n        Hors les cas de violence, d\u2019exhibition, de harc\u00E8lement sexuel ou moral, l\u2019outrage sexiste est le fait d\u2019imposer \u00E0 toute personne tout propos ou comportement \u00E0 connotation sexuelle ou sexiste qui :\r\n        \r\n        Soit porte atteinte \u00E0 sa dignit\u00E9 en raison de son caract\u00E8re d\u00E9gradant ou humiliant ;\r\n        Soit cr\u00E9e \u00E0 son encontre une situation intimidante, hostile ou offensante.\r\n        La peine encourue est une amende pr\u00E9vue pour les contraventions de 4\u00E8me classe (90 \u20AC en cas de paiement imm\u00E9diat et jusqu\u2019\u00E0 750 \u20AC) ou de 5\u00E8me classe (jusqu\u2019\u00E0 1.500 \u20AC) en cas de circonstances aggravantes ou de r\u00E9cidive.",
+    "contact.question" :"DES QUESTIONS ?",
+    "contact.answer" : "La manière la plus simple est de la posté sur "
+   
+}

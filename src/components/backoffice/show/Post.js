@@ -7,6 +7,7 @@ import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import BackOfficeCreatePost from "../create/Post"
 import BackOfficeEditPost from "../edit/Post"
 import {setPopUp,unsetPopUp} from '../../../actions';
+import {FormattedMessage,injectIntl} from 'react-intl';
 class BackOfficeShowPosts extends Component {
 
     constructor(props) {
@@ -128,7 +129,7 @@ class BackOfficeShowPosts extends Component {
 
 
     render() {
-   
+      const { formatMessage } = this.props.intl;
         return (
             <div>
               {this.props.popUp.page != "BOPostCreate" ? null 
@@ -165,7 +166,7 @@ class BackOfficeShowPosts extends Component {
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half"  style={{margin: "auto"}}>
-            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Post</h1>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}><FormattedMessage id="backoffice.menu1.posts.titlePage"/></h1>
            
             <div className="columns">
             <div className="column is-one-quarter">
@@ -179,7 +180,7 @@ class BackOfficeShowPosts extends Component {
             </div>
             </div>
 
-            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <input className="input" type="text" placeholder={formatMessage({id: "backoffice.general.search"})} value={this.state.searchItem} onChange={this.handleChangeSearch} />
 
         
             <table style={{width: "100%"}} className="table">
@@ -187,9 +188,9 @@ class BackOfficeShowPosts extends Component {
     <tr style={{textAlign:"center"}}>
       
         <th >Id</th>
-        <th >Title</th>
-        <th >Description</th>
-        <th >Action</th>
+        <th ><FormattedMessage id="backoffice.menu1.posts.field.title"/></th>
+        <th ><FormattedMessage id="backoffice.menu1.posts.field.description"/></th>
+        <th ><FormattedMessage id="backoffice.menu1.posts.field.action"/></th>
 
     </tr>
   </thead>
@@ -201,7 +202,7 @@ class BackOfficeShowPosts extends Component {
             <tr key={val.post_id}>
             <th style={{height:50,width:30}}>{val.post_id}</th>
             <td style={{height:50,width:150}} >{val.title}</td>
-            <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
+            <td style={{height:50,width:250}} >{val.description.length>30 ? val.description.substring(0,30)+"...": val.description}</td>
             <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-primary" onClick={event =>  window.location.href='/#/backoffice/posts/'+val.post_id+"/comments"}><FontAwesomeIcon icon="long-arrow-alt-right" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={event => this.props.setPopUp("BOPostEdit",val.post_id)}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deletePost",val.post_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
@@ -212,7 +213,7 @@ class BackOfficeShowPosts extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>
@@ -244,4 +245,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   
 }, dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowPosts);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowPosts));

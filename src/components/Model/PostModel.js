@@ -8,11 +8,10 @@ class PostModel extends Component {
 
   constructor(props) {
     super(props)
-
     var best = null
     if (this.props.bestAnswer.answers.length > 0) {
       best = this.props.bestAnswer.answers.find(element => element.post == this.props.post.byId[this.props.postid].post_id)
-      console.log(best)
+
     }
 
 
@@ -42,15 +41,15 @@ class PostModel extends Component {
           <div className="media-content postModel">
             <div className="infos">
               <div className="spacebetween">
-                <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.props.postid.username}</strong></p>
+                <p className="author"><FontAwesomeIcon icon="user" /><strong>@{this.props.post.byId[this.props.postid].username}</strong></p>
                 <p className="date"><Moment fromNow>
-                  {this.props.postid.date}
+                  {this.props.post.byId[this.props.postid].date}
                 </Moment></p>
 
               </div>
               <div className="spacebetween">
                 {this.props.post.byId[this.props.postid].location != undefined && this.props.post.byId[this.props.postid].location.length > 0 ?
-                  <p style={{ fontSize: "10px" }}><FontAwesomeIcon icon="map-marker-alt" />{this.props.post.byId[this.props.postid].location}</p>
+                  <p style={{ fontSize: "10px" }}><FontAwesomeIcon icon="map-marker-alt" /> {this.props.post.byId[this.props.postid].location}</p>
                   :
                   <div></div>
                 }
@@ -64,10 +63,10 @@ class PostModel extends Component {
             </div>
             <div className="description animated  fadeIn delay-1s">
               <p>{this.props.post.byId[this.props.postid].description}</p>
-              {this.props.post.byId[this.props.postid].url_image.length > 0 ?
-
-                <img style={{ imageOrientation: "from-image" }} src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.postid].url_image} />
-
+              {this.props.post.byId[this.props.postid].url_image.length > 4 ?
+                <div className="imgPost">
+                <img className="imgPostContent"src={'https://thomasfaure.fr/' + this.props.post.byId[this.props.postid].url_image} />
+                </div>
                 :
                 null}
 

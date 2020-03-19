@@ -10,12 +10,19 @@ import * as serviceWorker from './serviceWorker';
 import {createStore,applyMiddleware} from 'redux';
 import allReducers from './reducers'
 import {Provider} from 'react-redux';
+import { addLocaleData } from "react-intl";
+import ConnectedIntlProvider from './ConnectedIntlProvider';
+
+
 const middlewares = [thunk];
 const store = createStore(allReducers,
     applyMiddleware(...middlewares))
 
+ReactDOM.render(
 
-ReactDOM.render(<IntlProvider locale='en'><Provider store={store}><App /></Provider></IntlProvider>, document.getElementById('root'));
+    <Provider store={store}><ConnectedIntlProvider><App /></ConnectedIntlProvider>
+    </Provider>
+, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
