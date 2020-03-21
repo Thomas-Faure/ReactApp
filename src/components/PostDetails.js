@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
-import { unsetPopUp, updatePostLike, updatePostReport,deletePost } from '../actions';
+import { unsetPopUp, updatePostLike, updatePostReport, deletePost } from '../actions';
 import axios from 'axios'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -30,7 +30,8 @@ class PostDetails extends Component {
       categories: [],
       owner: false,
       commentsID: [],
-      anonymous: false
+      anonymous: false,
+      delete: null
     }
     this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
@@ -57,9 +58,9 @@ class PostDetails extends Component {
 
   }
 
-  handleAnonymousInput(event){
-    
-    this.setState({ anonymous : !this.state.anonymous})
+  handleAnonymousInput(event) {
+
+    this.setState({ anonymous: !this.state.anonymous })
   }
 
   pushPrevButton() {
@@ -79,6 +80,7 @@ class PostDetails extends Component {
     const res = await axios.delete("https://thomasfaure.fr/post/" + this.state.id + "/delete", config)
     this.props.unsetPopUp()
     this.props.deletePost(this.state.id)
+    let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
   }
 
   pushNextButton() {
@@ -167,10 +169,10 @@ class PostDetails extends Component {
     this.setState({ valueCategory: event.target.value })
   }
 
-  isOwner(id){
+  isOwner(id) {
     var a = false
-    this.state.commentsID.filter( idC =>{
-      if(id == idC.comment_id){
+    this.state.commentsID.filter(idC => {
+      if (id == idC.comment_id) {
         a = true
       }
     })
@@ -193,10 +195,6 @@ class PostDetails extends Component {
     res = await res.json()
 
     this.props.updatePostReport(this.props.post.byId[this.props.popUp.id].post_id, res.result)
-
-
-
-
   }
 
 
@@ -231,7 +229,7 @@ class PostDetails extends Component {
         }
 
       })
-
+    this.commentsOwner()
   }
 
   render() {
@@ -250,7 +248,7 @@ class PostDetails extends Component {
                   <div className="card-content">
                     <div >
                       <div className="media-content postModel">
-                        {this.state.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => { this.removePost() }}></button></div>
+                        {this.state.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => { this.setState({ delete: "deletePost" }) }}></button></div>
                           : null}
                         <div className="infos">
                           <div className="spacebetween">
@@ -303,6 +301,27 @@ class PostDetails extends Component {
                     </div>
 
                   </div>
+                  {this.state.delete != "deletePost" ? null
+                    :
+                    <div className={'modal is-active '}>
+                      <div className="modal-background" onClick={() => { this.setState({ delete: null }) }}></div>
+                      <div className="modal-card">
+                        <header className="modal-card-head">
+                          <p className="modal-card-title">Delete Post</p>
+                          <button className="delete" aria-label="close" onClick={() => { this.setState({ delete: null }) }}></button>
+                        </header>
+                        <section className="modal-card-body">
+                          <p>Are you sure to delete this post ?</p>
+                        </section>
+                        <footer className="modal-card-foot ">
+                          <div className="padding">
+                            <button className="button is-danger" onClick={() => { this.removePost(); this.setState({ delete: null }) }}>Delete</button>
+                            <button className="button" onClick={() => {this.setState({ delete: null })}}>Cancel</button>
+                          </div>
+                        </footer>
+                      </div>
+                    </div>
+                  }
                   {this.props.comment.pending == true ? <div style={{ textAlign: "center", margin: "auto" }}><Loader
                     type="ThreeDots"
                     color="#2c60a4cc"
@@ -416,8 +435,8 @@ const mapDispatchToProps = (dispatch, own) => bindActionCreators({
   fetchPosts: fetchPosts,
   updatePostLike: updatePostLike,
   updatePostReport: updatePostReport,
-  unsetPopUp:unsetPopUp,
-  deletePost:deletePost
+  unsetPopUp: unsetPopUp,
+  deletePost: deletePost
 
 }, dispatch)
 
