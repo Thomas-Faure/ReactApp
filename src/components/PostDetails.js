@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
-import { unsetPopUp, updatePostLike, updatePostReport, deletePost } from '../actions';
+import { unsetPopUp, updatePostLike, updatePostReport, deletePost,changeBestAnswer} from '../actions';
 import axios from 'axios'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -145,15 +145,6 @@ class PostDetails extends Component {
 
     let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
 
-    if (this.props.bestAnswer.answers.length > 0) {
-      let bestAnswerId = this.props.bestAnswer.answers.find(element => element.post == this.state.id)
-      if (bestAnswerId != undefined) {
-        this.setState({
-          bestAnswer: commentsList.find(element => element.comment_id == bestAnswerId.comment_id)
-        })
-
-      }
-    }
 
     this.setState({
       comments: commentsList,
@@ -222,6 +213,17 @@ class PostDetails extends Component {
             await this.props.fetchCommentCategories()
             await this.props.fetchPosts()
             this.setComments()
+            var listComments = this.props.comment.allIds.map(el => this.props.comment.byId[el])
+            if(listComments.length == 0){
+              this.props.changeBestAnswer(null,this.props.popUp.id)
+            }else{
+              const max = listComments.reduce(function(prev, current) {
+                  return (prev.like > current.like) ? prev : current
+              }) 
+              
+                this.props.changeBestAnswer(max,this.props.popUp.id)
+            }
+      
             await this.setState({ actualPage: this.state.maxPage, valueComment: "" })
 
           }
@@ -233,6 +235,15 @@ class PostDetails extends Component {
   }
 
   render() {
+    let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+    var bestAnswer = null
+    if (this.props.bestAnswer.allIds.length > 0) {
+      let bestAnswerId = this.props.bestAnswer.byId[this.state.id]
+      if (bestAnswerId != undefined && bestAnswerId != null) {
+        bestAnswer = commentsList.find(element => element.comment_id == bestAnswerId.comment_id)
+      }
+    }
+
     return (
       <div className={'modal is-active animated  fadeIn'}>
         <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
@@ -332,10 +343,10 @@ class PostDetails extends Component {
                   /></div>
                     :
                     (
-                      (this.state.bestAnswer == null ? null
+                      (bestAnswer == null ? null
                         :
                         <div>
-                          <CommentModel key={this.state.bestAnswer.comment_id} commentid={this.state.bestAnswer.comment_id} owner={false} best={true}></CommentModel>
+                          <CommentModel key={bestAnswer.comment_id} commentid={bestAnswer.comment_id} owner={false} best={true}></CommentModel>
                           {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
                             null :
                             <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
@@ -436,7 +447,8 @@ const mapDispatchToProps = (dispatch, own) => bindActionCreators({
   updatePostLike: updatePostLike,
   updatePostReport: updatePostReport,
   unsetPopUp: unsetPopUp,
-  deletePost: deletePost
+  deletePost: deletePost,
+  changeBestAnswer:changeBestAnswer
 
 }, dispatch)
 

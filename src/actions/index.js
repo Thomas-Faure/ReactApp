@@ -7,10 +7,18 @@ export const changeLanguage = (language) =>{
     }
 }
 /////////////////BEST ANSWER/////////////////////////////////
+
+export const CHANGE_BEST_ANSWER= 'CHANGE_BEST_ANSWER';
 export const FETCH_BEST_ANSWER_PENDING = 'FETCH_BEST_ANSWER_PENDING';
 export const FETCH_BEST_ANSWER_SUCCESS = 'FETCH_BEST_ANSWER_SUCCESS';
 export const FETCH_BEST_ANSWER_ERROR = 'FETCH_BEST_ANSWER_ERROR';
 
+export const changeBestAnswer=(comment,idPost)=>{
+    return {
+        type : CHANGE_BEST_ANSWER,
+        payload: {idPost:idPost,comment:comment}
+    }
+}
 export const  fetchBestAnswerPending = ()=> {
     return {
         type: FETCH_BEST_ANSWER_PENDING

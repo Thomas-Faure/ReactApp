@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { updateCommentReport, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
+import { updateCommentReport,changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
 class CommentModel extends Component {
 
   constructor(props) {
@@ -32,12 +32,27 @@ class CommentModel extends Component {
   async removeComment() {
     const token = localStorage.token;
     const id = this.props.commentState.byId[this.props.commentid].comment_id
+    const post_id = this.props.commentState.byId[this.props.commentid].post
     const config = {
       headers: { Authorization: 'Bearer ' + token }
     };
     const res = await axios.delete("https://thomasfaure.fr/comment/" + id + "/delete", config)
+    //faire le test de suppression
     this.props.decreateCommentCounter(this.props.commentState.byId[this.props.commentid].post)
     this.props.deleteComment(id)
+    
+      var listComments = this.props.commentState.allIds.map(el => this.props.commentState.byId[el])
+      if(listComments.length == 0){
+        this.props.changeBestAnswer(null,post_id)
+      }else{
+        const max = listComments.reduce(function(prev, current) {
+            return (prev.like > current.like) ? prev : current
+        }) 
+        
+          this.props.changeBestAnswer(max,post_id)
+      }
+      
+    
 
   }
 
@@ -195,7 +210,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   updateCommentReport: updateCommentReport,
   updateCommentRate: updateCommentRate,
   deleteComment: deleteComment,
-  decreateCommentCounter: decreateCommentCounter
+  decreateCommentCounter: decreateCommentCounter,
+  changeBestAnswer:changeBestAnswer
 
 }, dispatch)
 

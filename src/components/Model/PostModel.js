@@ -8,18 +8,9 @@ class PostModel extends Component {
 
   constructor(props) {
     super(props)
-    var best = null
-    if (this.props.bestAnswer.answers.length > 0) {
-      best = this.props.bestAnswer.answers.find(element => element.post == this.props.post.byId[this.props.postid].post_id)
-
-    }
+    
 
 
-    this.props.post.report = 0
-    this.state = {
-      bestAnswer: best
-
-    }
 
   }
 
@@ -34,11 +25,16 @@ class PostModel extends Component {
     window.location.href = '/#/post/' + id;
   }
 
+  
   render() {
     if(this.props.post.byId[this.props.postid] == undefined){
       return(null)
-
     }else{
+      var bestAnswer = null
+    if (this.props.bestAnswer.allIds.length > 0) {
+      bestAnswer = this.props.bestAnswer.byId[this.props.postid]
+    }
+
     return (
       <div className="">
         <div >
@@ -81,9 +77,9 @@ class PostModel extends Component {
             <div className="liked"><p className="infosRate">{this.props.post.byId[this.props.postid].like}</p><img src="ear.png" alt="img1" className="icon"></img></div>
             <div className="liked"><p className="infosRate">{this.props.post.byId[this.props.postid].comment}</p><img src="comment.png" alt="img2" className="icon"></img></div>
           </div>
-          {this.state.bestAnswer == null ? null :
+          {bestAnswer == null ? null :
             <div className="bestanswer" >
-              <p ><strong className="star"><FontAwesomeIcon icon="star" /></strong>Best:<br />{this.state.bestAnswer.description}</p>
+              <p ><strong className="star"><FontAwesomeIcon icon="star" /></strong>Best:<br />{bestAnswer.description}</p>
             </div>
           }
         </div>
