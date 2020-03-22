@@ -9,7 +9,6 @@ const postReducer = (state = initialState, action)=>{
     switch(action.type) {
       
         case DECREASE_COMMENT_COUNTER:
-            console.log(state.byId[action.payload])
             return{
                 ...state,
                 byId:{

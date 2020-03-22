@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { updateCommentReport,changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
+import { updateCommentReport, changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
 class CommentModel extends Component {
 
   constructor(props) {
@@ -15,7 +15,7 @@ class CommentModel extends Component {
     this.state = {
       color: color,
       best: this.props.best,
-      delete : null
+      delete: null
     }
     this.report = this.report.bind(this)
     this.like = this.like.bind(this)
@@ -37,23 +37,19 @@ class CommentModel extends Component {
       headers: { Authorization: 'Bearer ' + token }
     };
     const res = await axios.delete("https://thomasfaure.fr/comment/" + id + "/delete", config)
-    //faire le test de suppression
-    this.props.decreateCommentCounter(this.props.commentState.byId[this.props.commentid].post)
-    this.props.deleteComment(id)
-    
+    if (res.data.affectedRows > 0) {
+      this.props.decreateCommentCounter(this.props.commentState.byId[this.props.commentid].post)
+      this.props.deleteComment(id)
       var listComments = this.props.commentState.allIds.map(el => this.props.commentState.byId[el])
-      if(listComments.length == 0){
-        this.props.changeBestAnswer(null,post_id)
-      }else{
-        const max = listComments.reduce(function(prev, current) {
-            return (prev.like > current.like) ? prev : current
-        }) 
-        
-          this.props.changeBestAnswer(max,post_id)
+      if (listComments.length == 0) {
+        this.props.changeBestAnswer(null, post_id)
+      } else {
+        const max = listComments.reduce(function (prev, current) {
+          return (prev.like > current.like) ? prev : current
+        })
+        this.props.changeBestAnswer(max, post_id)
       }
-      
-    
-
+    }
   }
 
   like(like) {
@@ -142,7 +138,7 @@ class CommentModel extends Component {
                 </figure>
               </div>
               <div className="media-content">
-                {this.props.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => {  this.setState({ delete:  "deleteComment" }) }}></button></div>
+                {this.props.owner ? <div className="btDelete"><button className="delete red" title="Remove post" onClick={() => { this.setState({ delete: "deleteComment" }) }}></button></div>
                   : null}
                 <div className="spacebetween white">
                   <p className="subtitle is-6"><strong>@{this.props.commentState.byId[this.props.commentid].username}</strong></p>
@@ -211,7 +207,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   updateCommentRate: updateCommentRate,
   deleteComment: deleteComment,
   decreateCommentCounter: decreateCommentCounter,
-  changeBestAnswer:changeBestAnswer
+  changeBestAnswer: changeBestAnswer
 
 }, dispatch)
 

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchCommentsByPostId from '../fetch/fetchComments'
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPosts from '../fetch/fetchPosts'
-import { unsetPopUp, updatePostLike, updatePostReport, deletePost,changeBestAnswer} from '../actions';
+import { unsetPopUp, updatePostLike, updatePostReport, deletePost, changeBestAnswer } from '../actions';
 import axios from 'axios'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -78,9 +78,11 @@ class PostDetails extends Component {
       headers: { Authorization: 'Bearer ' + token }
     };
     const res = await axios.delete("https://thomasfaure.fr/post/" + this.state.id + "/delete", config)
-    this.props.unsetPopUp()
-    this.props.deletePost(this.state.id)
-    let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+    if (res.data.affectedRows > 0) {
+      this.props.unsetPopUp()
+      this.props.deletePost(this.state.id)
+      let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+    }
   }
 
   pushNextButton() {
@@ -167,7 +169,6 @@ class PostDetails extends Component {
         a = true
       }
     })
-    console.log(a)
     return a
   }
 
@@ -192,9 +193,8 @@ class PostDetails extends Component {
 
 
 
-  sendData() {
+  async sendData() {
     const token = localStorage.token;
-    console.log(this.state.anonymous)
     fetch("https://thomasfaure.fr/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
       headers: {
@@ -214,24 +214,22 @@ class PostDetails extends Component {
             await this.props.fetchPosts()
             this.setComments()
             var listComments = this.props.comment.allIds.map(el => this.props.comment.byId[el])
-            if(listComments.length == 0){
-              this.props.changeBestAnswer(null,this.props.popUp.id)
-            }else{
-              const max = listComments.reduce(function(prev, current) {
-                  return (prev.like > current.like) ? prev : current
-              }) 
-              
-                this.props.changeBestAnswer(max,this.props.popUp.id)
-            }
-      
-            await this.setState({ actualPage: this.state.maxPage, valueComment: "" })
+            if (listComments.length == 0) {
+              this.props.changeBestAnswer(null, this.props.popUp.id)
+            } else {
+              const max = listComments.reduce(function (prev, current) {
+                return (prev.like > current.like) ? prev : current
+              })
 
+              this.props.changeBestAnswer(max, this.props.popUp.id)
+            }
+            await this.setState({ actualPage: this.state.maxPage, valueComment: "" })
+            await this.commentsOwner()
           }
           asyncChangepage()
         }
 
       })
-    this.commentsOwner()
   }
 
   render() {
@@ -327,7 +325,7 @@ class PostDetails extends Component {
                         <footer className="modal-card-foot ">
                           <div className="padding">
                             <button className="button is-danger" onClick={() => { this.removePost(); this.setState({ delete: null }) }}>Delete</button>
-                            <button className="button" onClick={() => {this.setState({ delete: null })}}>Cancel</button>
+                            <button className="button" onClick={() => { this.setState({ delete: null }) }}>Cancel</button>
                           </div>
                         </footer>
                       </div>
@@ -448,7 +446,7 @@ const mapDispatchToProps = (dispatch, own) => bindActionCreators({
   updatePostReport: updatePostReport,
   unsetPopUp: unsetPopUp,
   deletePost: deletePost,
-  changeBestAnswer:changeBestAnswer
+  changeBestAnswer: changeBestAnswer
 
 }, dispatch)
 
