@@ -1,7 +1,54 @@
 import React, { Component } from "react";
+import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl';
 class Contact extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      message: ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onEmailChange = this.onEmailChange.bind(this)
+    this.onNameChange = this.onNameChange.bind(this)
+    this.onMessageChange = this.onMessageChange.bind(this)
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    axios({
+      method: "POST",
+      url: "https://thomasfaure.fr/mail/send",
+      data: this.state
+    }).then((response) => {
+      if (response.data.status === 'success') {
+        alert("Message Sent.");
+        this.resetForm()
+      } else if (response.data.status === 'fail') {
+        alert("Message failed to send.")
+      }
+    })
+  }
+
+  resetForm() {
+    this.setState({ name: '', email: '', message: '' })
+  }
+
+  onNameChange(event) {
+    this.setState({ name: event.target.value })
+  }
+
+  onEmailChange(event) {
+    this.setState({ email: event.target.value })
+  }
+
+  onMessageChange(event) {
+    this.setState({ message: event.target.value })
+  }
+
   render() {
     return (
       <section className="hero is-fullheight">
@@ -17,24 +64,24 @@ class Contact extends Component {
                   <a href="https://twitter.com" target="_blank" className="button is-light is-large twitter"><i className="fab fa-twitter-square" aria-hidden="true"></i></a>
                 </div>
               </div>
-              <form className="column is-one-third ">
+              <form className="column is-one-third " onSubmit={this.handleSubmit}>
                 <div className="has-text-left">
                   <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                      <input className="input is-medium" type="text" />
+                      <input className="input is-medium" type="text" required value={this.state.name} onChange={this.onNameChange}/>
                     </div>
                   </div>
                   <div className="field">
                     <label className="label">Email</label>
                     <div className="control">
-                      <input className="input is-medium" type="text" />
+                      <input className="input is-medium" type="text" required value={this.state.email} onChange={this.onEmailChange}/>
                     </div>
                   </div>
                   <div className="field">
                     <label className="label">Message</label>
                     <div className="control">
-                      <textarea className="textarea is-medium"></textarea>
+                      <textarea className="textarea is-medium" onChange={this.onMessageChange} value={this.state.message}></textarea>
                     </div>
                   </div>
                   <div className="control">
