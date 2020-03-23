@@ -65,7 +65,9 @@ class CommentModel extends Component {
     }
     ).then(res => res.json())
       .then(res => {
-        this.props.updateCommentRate(this.props.commentState.byId[this.props.commentid].comment_id, like, res.result)
+        if(!res.error){
+          this.props.updateCommentRate(this.props.commentState.byId[this.props.commentid].comment_id, like, res.result)
+        }
       })
 
   }
