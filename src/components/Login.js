@@ -35,10 +35,10 @@ class Login extends Component {
    this.props.setPopUp("register", null)
   }
 
-  login() {
+  async login() {
     var user_id = 0
 
-    fetch("https://thomasfaure.fr/user/login", {
+    var res = await fetch("https://thomasfaure.fr/user/login", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -46,30 +46,28 @@ class Login extends Component {
       },
       body: JSON.stringify({ username: this.state.valueU, password: sha256(this.state.valueP) })
     })
-      .then(res => res.json())
-      .then((data) => {
-        if (data.token !== undefined) {
-          localStorage.setItem("token", data.token)
-          this.props.login()
-          user_id = data.id
-          this.setState({ errorLogin: false })
+    res = await res.json()
+   
+    if (res.token !== undefined) {
+        user_id = res.id
+        this.setState({ errorLogin: false })
 
-          fetch("https://thomasfaure.fr/user/" + user_id, {
+        var info = await fetch("https://thomasfaure.fr/user/" + user_id, {
             method: "GET",
             headers: {
-              'Authorization': 'Bearer ' + data.token
+              'Authorization': 'Bearer ' + res.token
             }
-          })
-            .then(res => res.json())
-            .then((data) => {
-              this.props.setUser(data[0])
-              this.props.unsetPopUp()
+        })
+        info = await info.json()
+        this.props.setUser(info[0])
+       this.props.unsetPopUp()
+        localStorage.setItem("token", res.token)
+      this.props.login()
 
-            })
         } else {
           this.setState({ errorLogin: true })
         }
-      })
+      
 
   }
 

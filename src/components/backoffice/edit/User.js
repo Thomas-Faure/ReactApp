@@ -97,7 +97,7 @@ valueBirthday:data.birthday.slice(0,10)})
          mail: this.state.valueMail,
          sexe: this.state.valueSexe,
          admin:this.state.valueAdmin,
-         password: sha256(this.state.valuePassword)})
+         password: (this.state.valuePassword.length>1 ? sha256(this.state.valuePassword): "")})
     })
       .then(res => res.json())
       .then((data) => {

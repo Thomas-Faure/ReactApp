@@ -47,7 +47,7 @@ class Main extends Component {
     super(props)
 
     this.state = {
-      dataLoaded: false,
+     
       burgerOpen: false
     }
 
@@ -108,7 +108,7 @@ class Main extends Component {
      this.props.fetchPosts()
      this.props.fetchBestAnswer()
     
-     this.setState({ dataLoaded: true })
+
   }
 
   clickBurger(){
@@ -123,7 +123,7 @@ class Main extends Component {
 
   render() {
     return (
-      (this.state.dataLoaded !== true) ? null :
+     
         <div>
           <HashRouter>
             {this.props.popUp.page != "addPost" ? null

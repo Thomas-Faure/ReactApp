@@ -54,6 +54,7 @@ class CommentModel extends Component {
 
   like(like) {
     const token = localStorage.token;
+    const post_id = this.props.commentState.byId[this.props.commentid].post
     fetch("https://thomasfaure.fr/rateComment/create", {
       method: 'PUT',
       headers: {
@@ -67,6 +68,15 @@ class CommentModel extends Component {
       .then(res => {
         if(!res.error){
           this.props.updateCommentRate(this.props.commentState.byId[this.props.commentid].comment_id, like, res.result)
+          var listComments = this.props.commentState.allIds.map(el => this.props.commentState.byId[el])
+          if (listComments.length == 0) {
+            this.props.changeBestAnswer(null, post_id)
+          } else {
+            const max = listComments.reduce(function (prev, current) {
+              return (prev.like > current.like) ? prev : current
+            })
+            this.props.changeBestAnswer(max, post_id)
+          }
         }
       })
 

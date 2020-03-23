@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Index from './css/index.scss'
 import Post from './css/post.scss'
+import Bulma from './css/bulma.min.css'
 import thunk from 'redux-thunk';
 import App from './App';
 import {IntlProvider} from "react-intl";
