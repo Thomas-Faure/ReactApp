@@ -1,4 +1,8 @@
 {
+    "account.label" : "Mon compte",
+    "account.sentence" : "Modifier votre compte",
+
+
     "navbar.home": "Accueil",
     "navbar.contact": "Contactez-nous",
     "navbar.informations": "Informations",

@@ -8,6 +8,10 @@
     "login":"Login",
     "Logout":"Logout",
 
+    "account.label" : "Account",
+    "account.sentence" : "Edit your account",
+
+
     "login.popupLabel":"Login",
     "login.label":"Login",
     "login.submit":"Submit",
