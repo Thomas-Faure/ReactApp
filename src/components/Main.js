@@ -34,6 +34,7 @@ import BackOfficeCreateCommentCategory from './backoffice/create/CommentCategory
 import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
+import NewPasswordForm from './NewPasswordForm'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp,changeLanguage } from '../actions';
 import sha256 from 'sha256';
 import fetchBestAnswer from "../fetch/fetchBestAnswer";
@@ -48,7 +49,7 @@ class Main extends Component {
     super(props)
 
     this.state = {
-      dataLoaded: false,
+     
       burgerOpen: false
     }
 
@@ -109,7 +110,7 @@ class Main extends Component {
      this.props.fetchPosts()
      this.props.fetchBestAnswer()
     
-     this.setState({ dataLoaded: true })
+
   }
 
   clickBurger(){
@@ -124,7 +125,7 @@ class Main extends Component {
 
   render() {
     return (
-      (this.state.dataLoaded !== true) ? null :
+     
         <div>
           <HashRouter>
             {this.props.popUp.page != "addPost" ? null
@@ -283,6 +284,7 @@ class Main extends Component {
                 <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
                 <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
                 <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
+                <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />
               </div>
             </section>
 

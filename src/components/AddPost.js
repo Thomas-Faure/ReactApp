@@ -18,6 +18,7 @@ class AddPost extends Component {
       anonymous: false
 
     }
+    this._isMounted = false;
     this.fileInput = React.createRef();
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleChangeDescription = this.handleChangeDescription.bind(this)
@@ -29,9 +30,10 @@ class AddPost extends Component {
 
  
   componentDidMount() {
-    this.getMyLocation()
-
+    this._isMounted = true;
+    this._isMounted && this.getMyLocation();
   }
+ 
   getMyLocation() {
     var city = ""
     const location = window.navigator && window.navigator.geolocation
