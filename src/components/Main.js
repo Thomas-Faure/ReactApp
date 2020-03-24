@@ -40,6 +40,7 @@ import fetchBestAnswer from "../fetch/fetchBestAnswer";
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 import AddPost from "./AddPost";
+import Account from "./Account";
 
 class Main extends Component {
 
@@ -173,6 +174,9 @@ class Main extends Component {
                   </div>}
               </div>
               : null}
+              {this.props.popUp.page != "account" ? null :
+                <Account></Account> 
+              }
             <nav className="navbar" style={{ backgroundColor: '#BBDCF2' }} role="navigation" aria-label="main navigation">
               <div className="navbar-brand navbar-start">
                 <a className="navbar-item" href="/#/">
@@ -243,7 +247,8 @@ class Main extends Component {
                     <div>
                       {!this.props.isLogged ? <a onClick={() => { this.setState({burgerOpen: false});this.props.setPopUp("login", null) }} className="navbar-item">
                         Login
-                  </a> : <a className="navbar-item" onClick={() => {this.setState({burgerOpen: false});this.logoff()}}>Logout</a>}
+                  </a> : <div><a className="navbar-item" onClick={() => {this.setState({burgerOpen: false});this.props.setPopUp("acount", null)}}>Account</a>
+                  <a className="navbar-item" onClick={() => {this.setState({burgerOpen: false});this.logoff()}}>Logout</a></div>}
                     </div>
                   </div>
                 </div>
@@ -256,6 +261,7 @@ class Main extends Component {
                 <Route path="/posts" component={PostsList} />
                 <Route path="/post/:id" component={PostDetails} />
                 <Route path="/login" component={Login} />
+                <Route path="/account" component={account} />
                 <Route path="/register" component={Register} />
                 <Route exact path="/addPost" component={AddPost} />
                 <Route path="/contact" component={Contact} />
