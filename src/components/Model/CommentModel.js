@@ -47,6 +47,7 @@ class CommentModel extends Component {
         const max = listComments.reduce(function (prev, current) {
           return (prev.like > current.like) ? prev : current
         })
+        if(max.like>0)
         this.props.changeBestAnswer(max, post_id)
       }
     }
@@ -75,7 +76,8 @@ class CommentModel extends Component {
             const max = listComments.reduce(function (prev, current) {
               return (prev.like > current.like) ? prev : current
             })
-            this.props.changeBestAnswer(max, post_id)
+            if(max.like>0)
+             this.props.changeBestAnswer(max, post_id)
           }
         }
       })
@@ -142,7 +144,7 @@ class CommentModel extends Component {
       }
       return (
         <div className="card">
-          <div className="card-content" style={{ backgroundColor: this.state.color }}>
+          <div className="card-content">
             <div className="media">
               <div className="media-left">
                 <figure className="image is-48x48">
