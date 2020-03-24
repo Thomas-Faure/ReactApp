@@ -7,6 +7,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      forgetPasswordMessage : "",
       valueP: "",
       valueU: "",
       errorLogin: false,
@@ -16,9 +17,11 @@ class Login extends Component {
       passwordF: "",
 
     }
+    this.forgetPassword = this.forgetPassword.bind(this)
     this.login = this.login.bind(this)
     this.handleChangePassword = this.handleChangePassword.bind(this)
     this.handleChangeUsername = this.handleChangeUsername.bind(this)
+    this.handleSubmitForgetPassword = this.handleSubmitForgetPassword.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.register = this.register.bind(this)
     this.mailF = this.mailF.bind(this)
@@ -43,9 +46,34 @@ class Login extends Component {
     this.setState({ valueP: event.target.value })
   }
 
+  handleSubmitForgetPassword(event) {
+    this.forgetPassword()
+    event.preventDefault();
+  }
+
   handleSubmit(event) {
     this.login()
     event.preventDefault();
+  }
+
+  async forgetPassword(){
+    var res = await fetch("https://thomasfaure.fr/user/forgotPassword/create", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ mail: this.state.mailF })
+    })
+    res = await res.json()
+   
+    if (res == false) {
+      this.setState({forgetPasswordMessage : "email non existant"})
+    }else{
+      this.setState({forgetPasswordMessage : "email envoyé ! regardez vous mail !"})
+    }
+
+
   }
 
   register() {
@@ -138,55 +166,30 @@ class Login extends Component {
                 <p className="modal-card-title">Forget password</p>
                 <button className="delete" aria-label="close" onClick={() => { this.setState({ forget: null }) }}></button>
               </header>
+              <form onSubmit={this.handleSubmitForgetPassword}>
               <section className="modal-card-body">
+                {this.state.forgetPasswordMessage.length>0 ?
+                <p>{this.state.forgetPasswordMessage}</p> 
+                : null}
                 <div className="field">
                   <label className=" is-large">Mail</label>
                   <div className="control">
                     <input className="input is-large" type="mail" placeholder={formatMessage({ id: "register.field.mail" })} value={this.state.mailF} onChange={this.mailF} />
                   </div>
                 </div>
+             
               </section>
               <footer className="modal-card-foot ">
                 <div className="padding">
-                  <button className="button is-sucess" onClick={() => { this.setState({ forget: "stateReset" }) }}>Confirm</button>
-                  <button className="button" onClick={() => { this.setState({ forget: null }) }}>Cancel</button>
+             
+                  <input className="button is-sucess" type="submit" value="Confirm"></input>
                 </div>
               </footer>
+              </form>
             </div>
           </div>
         }
-        {this.state.forget != "stateReset" ? null
-          :
-          <div className={'modal is-active '}>
-            <div className="modal-background" onClick={() => { this.setState({ forget: null }) }}></div>
-            <div className="modal-card">
-              <header className="modal-card-head">
-                <p className="modal-card-title">Forget password</p>
-                <button className="delete" aria-label="close" onClick={() => { this.setState({ forget: null }) }}></button>
-              </header>
-              <section className="modal-card-body">
-                <div className="field">
-                  <label className=" is-large">Password</label>
-                  <div className="control">
-                    <input className="input is-large" type="password" placeholder={formatMessage({ id: "login.field.password" })} value={this.state.passwordF} onChange={this.passwordF} />
-                  </div>
-                </div>
-                <div className="field">
-                  <label className=" is-large">Password Confirmation</label>
-                  <div className="control">
-                    <input className="input is-large" type="password" placeholder={formatMessage({ id: "login.field.password" })} value={this.state.passwordCF} onChange={this.passwordCF} />
-                  </div>
-                </div>
-              </section>
-              <footer className="modal-card-foot ">
-                <div className="padding">
-                  <button className="button is-sucess" onClick={() => { this.setState({ forget: null }) }}>Confirm</button>
-                  <button className="button" onClick={() => { this.setState({ forget: null }) }}>Cancel</button>
-                </div>
-              </footer>
-            </div>
-          </div>
-        }
+      
       </section>
     );
   }
@@ -209,7 +212,5 @@ const mapDispatchToProps = () => {
 
   }
 }
-
-
 
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps())(Login));
