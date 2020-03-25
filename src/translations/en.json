@@ -10,7 +10,17 @@
 
     "account.label" : "Account",
     "account.sentence" : "Edit your account",
-
+    "post.delete" : "Delete Post",
+    "delete" : "Delete",
+    "delete.confirm" : "Are you sure to delete this post ?",
+    "error.comment.login" : "Please login to add a comment",
+    "comment.add" : "Add a comment",
+    "comment.anonyme" : "Anonymous comment",
+    
+    "send" : "Send",
+    "cancel" : "Cancel",
+    "nocomment" : "No comment",
+    "post.notfound" : "Post not found",
 
     "login.popupLabel":"Login",
     "login.label":"Login",
@@ -22,6 +32,7 @@
     "login.bottom.forgot":"Forgot Password",
     "login.bottom.needHelp":"Need Help ?",
 
+    "register.label" : "Register",
     "register.popupLabel":"Register",
     "register.submit":"Submit",
     "register.sentence":"Enter your information",

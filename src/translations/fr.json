@@ -1,6 +1,7 @@
 {
     "account.label" : "Mon compte",
     "account.sentence" : "Modifier votre compte",
+    "register.label" : "S'inscrire",
 
 
     "navbar.home": "Accueil",
@@ -10,6 +11,8 @@
     "navbar.language":"Langue",
 
 
+    "login":"Connexion",
+    "Logout":"Déconnexion",
     "backoffice.general.submit":"envoyer",
     "backoffice.general.back":"retour",
     "backoffice.general.delete":"supprimer",
@@ -34,7 +37,6 @@
     "backoffice.menu1.posts.create.category":"Categorie",
 
 
-
     "backoffice.menu1.user.title":"Les utilisateurs",
     "backoffice.menu1.postC.title":"Les catégories de posts",
     "backoffice.menu1.commmentC.title":"Les catégories de commentaires",
@@ -48,5 +50,20 @@
     "contact.answer" : "La manière la plus simple est de la posté sur ",
     "filter.recent" : "Plus récent",
     "filter.famous" : "Plus populaire",
-    "filter.commented" : "Plus commenté"
+    "filter.commented" : "Plus commenté",
+
+    "post.delete" : "Supprimer le post",
+    "delete.confirm" : "Voulez vous supprimer ce post ?",
+    "delete" : "Supprimer",
+    "cancel" : "Annuler",
+    "post.notfound" : "Aucun post trouvé",
+    "error.comment.login" : "Veuillez vous connecter pour ajouter un commentaire",
+    "comment.add" : "Ajouter un commentaire",
+    "comment.anonyme": "Commentaire anonyme",
+    "send" : "Envoyer",
+
+
+    "nocomment" : "Aucun post"
+
+
 }

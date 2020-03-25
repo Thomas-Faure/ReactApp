@@ -11,6 +11,7 @@ import { unsetPopUp, updatePostLike, updatePostReport, deletePost, changeBestAns
 import axios from 'axios'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 class PostDetails extends Component {
 
@@ -31,7 +32,8 @@ class PostDetails extends Component {
       owner: false,
       commentsID: [],
       anonymous: false,
-      delete: null
+      delete: null,
+      error: false
     }
     this.geData = this.getData.bind(this)
     this.report = this.report.bind(this)
@@ -53,7 +55,7 @@ class PostDetails extends Component {
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(() => {
       this.getData()
     })
-    if(this.props.isLogged){
+    if (this.props.isLogged) {
       this.postOwner()
       this.commentsOwner()
     }
@@ -157,6 +159,12 @@ class PostDetails extends Component {
   }
 
   handleChangeComment(event) {
+    if ((event.target.value).trim() == "") {
+      this.setState({ error: true })
+    }
+    else {
+      this.setState({ error: false })
+    }
     this.setState({ valueComment: event.target.value })
   }
   handleChangeCategory(event) {
@@ -195,6 +203,10 @@ class PostDetails extends Component {
 
 
   async sendData() {
+    if ((this.state.valueComment).trim() == "") {
+      this.setState({ error: true })
+      return false
+    }
     const token = localStorage.token;
     fetch("https://thomasfaure.fr/post/" + this.props.post.byId[this.props.popUp.id].post_id + "/comment/create", {
       method: 'POST',
@@ -317,16 +329,16 @@ class PostDetails extends Component {
                       <div className="modal-background" onClick={() => { this.setState({ delete: null }) }}></div>
                       <div className="modal-card">
                         <header className="modal-card-head">
-                          <p className="modal-card-title">Delete Post</p>
+                          <p className="modal-card-title"><FormattedMessage id="post.delete" /></p>
                           <button className="delete" aria-label="close" onClick={() => { this.setState({ delete: null }) }}></button>
                         </header>
                         <section className="modal-card-body">
-                          <p>Are you sure to delete this post ?</p>
+                          <p><FormattedMessage id="delete.confirm" /></p>
                         </section>
                         <footer className="modal-card-foot ">
                           <div className="padding">
-                            <button className="button is-danger" onClick={() => { this.removePost(); this.setState({ delete: null }) }}>Delete</button>
-                            <button className="button" onClick={() => { this.setState({ delete: null }) }}>Cancel</button>
+                            <button className="button is-danger" onClick={() => { this.removePost(); this.setState({ delete: null }) }}><FormattedMessage id="delete" /></button>
+                            <button className="button" onClick={() => { this.setState({ delete: null }) }}><FormattedMessage id="cancel" /></button>
                           </div>
                         </footer>
                       </div>
@@ -343,13 +355,13 @@ class PostDetails extends Component {
                     :
                     (
                       (bestAnswer == null ? <div>
-                        
+
                         {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
                           null :
-                          <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
+                          <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>Page : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
                             {(this.state.actualPage) == 0 ?
-                              <button className="button is-link" disabled>Prev</button> :
-                              <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+                              <button className="button is-link" disabled>←</button> :
+                              <button className="button is-link" onClick={this.pushPrevButton}>←</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>→</button> : <button className="button is-link" onClick={this.pushNextButton}>→</button>}<br />
                           </p>}
                       </div>
                         :
@@ -357,10 +369,10 @@ class PostDetails extends Component {
                           <CommentModel key={bestAnswer.comment_id} commentid={bestAnswer.comment_id} owner={false} best={true}></CommentModel>
                           {(this.state.maxPage == 0) || (this.state.maxPage + 1 == 0) ?
                             null :
-                            <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>The actual page is : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
+                            <p style={{ textAlign: "center", margin: "auto" }}><span style={{ marginBottom: "10px" }}>Page : {this.state.actualPage + 1} / {this.state.maxPage + 1}</span><br />
                               {(this.state.actualPage) == 0 ?
-                                <button className="button is-link" disabled>Prev</button> :
-                                <button className="button is-link" onClick={this.pushPrevButton}>Prev</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>Next</button> : <button className="button is-link" onClick={this.pushNextButton}>Next</button>}<br />
+                                <button className="button is-link" disabled>←</button> :
+                                <button className="button is-link" onClick={this.pushPrevButton}>←</button>}  {this.state.actualPage == this.state.maxPage ? <button className="button is-link" disabled>→</button> : <button className="button is-link" onClick={this.pushNextButton}>→</button>}<br />
                             </p>}
                         </div>
                       )
@@ -380,7 +392,7 @@ class PostDetails extends Component {
                           <CommentModel key={val.comment_id} commentid={val.comment_id} best={false} owner={this.isOwner(val.comment_id)}></CommentModel>
                         )
                         :
-                        <p>Aucun commentaire</p>}
+                        <p><FormattedMessage id="nocomment" /></p>}
                     </div>
                   </div>
 
@@ -389,19 +401,20 @@ class PostDetails extends Component {
 
                 </div>
                 :
-                <div><p>Aucun post avec cet identifiant</p></div>}
+                <div><p><FormattedMessage id="post.notfound" /></p></div>}
             </div>
 
           </section>
           <footer className="modal-card-foot">
             {this.props.isLogged ?
               <div className="field addcomment">
-                <label className="label add_top">Add a comment</label>
+                <label className="label add_top"><FormattedMessage id="comment.add" /></label>
                 <div className="control is-flex add">
                   <label className="checkbox">
                     <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput} />
-                        Anonymous comment
-                      </label>
+                    <FormattedMessage id="comment.anonyme" />
+                  </label>
+                  {this.state.error ? <h3 className="error"><FormattedMessage id="error.commentValue" /></h3> : null}
                   <textarea className="area" type="text" placeholder="Comment" value={this.state.valueComment} onChange={this.handleChangeComment} />
                   <div className="add_bottom">
                     <div className="select" className="select">
@@ -415,13 +428,15 @@ class PostDetails extends Component {
                         }
                       </select>
                     </div>
-                    <button className="button is-link" onClick={this.sendData}>send</button>
+                    <button className="button is-link" onClick={this.sendData}><FormattedMessage id="send" /></button>
                   </div>
                 </div>
               </div>
               :
               <div className="field card addpost">
-                <label className="label add_top">You need to be connected to add a comment</label>
+                <div className="center">
+                  <h6 className="title has-text-black "><FormattedMessage id="error.comment.login" /><a onClick={() => { this.login() }}><FormattedMessage id="login" /></a></h6>
+                </div>
               </div>
             }
           </footer>
