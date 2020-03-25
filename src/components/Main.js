@@ -36,6 +36,8 @@ import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
 import NewPasswordForm from './NewPasswordForm'
+import BackOfficeShowUserPosts from './backoffice/show/UserPost'
+import BackOfficeShowUserComments from './backoffice/show/UserComment'
 import NotFound from './NotFound'
 import BackOfficeShowUserPage from './backoffice/show/UserPage'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp, changeLanguage } from '../actions';
@@ -302,7 +304,12 @@ class Main extends Component {
             <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
             <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
             <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
+     
             <Route exact path="/backoffice/user/:id" component={BackOfficeShowUserPage}/>
+            
+            <Route exact path="/backoffice/user/:id/comments" component={BackOfficeShowUserComments}/>
+
+            <Route exact path="/backoffice/user/:id/posts" component={BackOfficeShowUserPosts}/>
             </div>
             }
             <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import fetchPosts from '../fetch/fetchPosts'
 import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -109,9 +110,15 @@ class Login extends Component {
         })
         info = await info.json()
         this.props.setUser(info[0])
+        console.log(info[0])
+        
        this.props.unsetPopUp()
         localStorage.setItem("token", res.token)
       this.props.login()
+      if(info[0].admin==1){
+        console.log("oui !")
+        this.props.fetchPosts();
+      }
 
         } else {
           this.setState({ errorLogin: true })
@@ -212,7 +219,8 @@ const mapDispatchToProps = () => {
     login,
     setUser,
     unsetPopUp,
-    setPopUp
+    setPopUp,
+    fetchPosts: fetchPosts,
 
   }
 }

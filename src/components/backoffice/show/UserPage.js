@@ -92,7 +92,7 @@ class BackOfficeShowUserPage extends Component {
         <p style={{marginBottom: "10px",width: "100%"}}>Mail: {user.mail}</p>
         <h2 style={{fontWeight: "bold",fontSize:"20px"}}>Actions:</h2>
         <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/posts"}>Ses posts</button></p>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user'+this.props.match.params.id+"/comments"}>Ses commentaires</button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/comments"}>Ses commentaires</button></p>
         <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={()=>{this.props.setPopUp("BOUserEdit",user.user_id)}}>Modifier</button></p>
         <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-danger"  onClick={()=>{this.props.setPopUp("deleteUser",user.user_id)}}>Supprimer</button></p>
 
