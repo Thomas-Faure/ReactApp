@@ -2,14 +2,14 @@ import {fetchPostsPending, fetchPostsSuccess} from '../actions';
 import axios from 'axios';
 
 export const fetchPosts= ()=> async dispatch => {
-  
-        dispatch(fetchPostsPending());
-        const res = await axios.get("https://thomasfaure.fr/post")
-
-        const token = localStorage.token;
+  const token = localStorage.token;
     const config = {
       headers: { Authorization: 'Bearer '+token }
     };
+  
+        dispatch(fetchPostsPending());
+        const res = await axios.get("https://thomasfaure.fr/post",config)
+
     const resBis = await axios.get("https://thomasfaure.fr/reportPost/byToken",config)
 
     if(resBis.data.length>0){

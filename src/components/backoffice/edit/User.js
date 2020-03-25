@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import fetchUsers from '../../../fetch/fetchUsers'
 import sha256 from 'sha256';
 import { queryAllByTestId } from "@testing-library/react";
-import {unsetPopUp} from '../../../actions'
+import {unsetPopUp,updateUser} from '../../../actions'
 class BackOfficeEditUser extends Component {
   constructor(props) {
     super(props)
@@ -103,7 +103,18 @@ valueBirthday:data.birthday.slice(0,10)})
       .then((data) => {
           if(data.affectedRows===1){
             let asyncUpdate = async()=>{
-              await this.props.fetchUsers()
+              var newUser = {
+                id:this.state.id,
+                username:this.state.valueUsername,
+                firstname: this.state.valueFirstname,
+                lastname: this.state.valueLastname,
+                birthday: this.state.valueBirthday,
+                mail: this.state.valueMail,
+              sexe:this.state.valueSexe,
+              admin:this.state.valueAdmin
+              }
+              this.props.updateUser(newUser)
+              //this.props.fetchUsers()
               this.props.unsetPopUp()
              }
              asyncUpdate()
@@ -225,7 +236,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators( {
   fetchUsers: fetchUsers,
-  unsetPopUp
+  unsetPopUp,
+  updateUser:updateUser
   
 },dispatch)
  

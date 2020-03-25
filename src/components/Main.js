@@ -37,6 +37,7 @@ import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
 import NewPasswordForm from './NewPasswordForm'
 import NotFound from './NotFound'
+import BackOfficeShowUserPage from './backoffice/show/UserPage'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp, changeLanguage } from '../actions';
 import sha256 from 'sha256';
 import fetchBestAnswer from "../fetch/fetchBestAnswer";
@@ -301,6 +302,7 @@ class Main extends Component {
             <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
             <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
             <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
+            <Route exact path="/backoffice/user/:id" component={BackOfficeShowUserPage}/>
             </div>
             }
             <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />

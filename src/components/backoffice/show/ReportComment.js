@@ -218,8 +218,9 @@ class BackOfficeShowReportComments extends Component {
             <td style={{height:50,width:150}} >{val.nbReport}</td>
             <td style={{height:50,width:250}} >{val.description.length>30 ? val.description.substring(0,30)+"...": val.description}</td>
             <td style={{height:50,width:200}} ><p>
-                <button className="button is-success" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"validate"})}}><FontAwesomeIcon icon="check" /></button>
-                <button className="button is-danger" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"unvalidate"})}}><FontAwesomeIcon icon="trash" /></button>
+            <button style={{marginRight:"10px"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+val.author}><FontAwesomeIcon icon="user" /></button>
+                <button  style={{marginRight:"10px"}} className="button is-success" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"validate"})}}><FontAwesomeIcon icon="check" /></button>
+                <button  style={{marginRight:"10px"}} className="button is-danger" onClick={()=>{this.setState({isOpen:true,idCommentSelected:val.comment,action:"unvalidate"})}}><FontAwesomeIcon icon="trash" /></button>
                 </p></td>
             </tr>
             )

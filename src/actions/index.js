@@ -48,7 +48,21 @@ export const FETCH_USERS_PENDING = 'FETCH_USERS_PENDING';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USER_BY_ID_SUCCESS = 'FETCH_USER_BY_ID_SUCCESS';
 export const FETCH_USERS_ERROR = 'FETCH_USERS_ERROR';
+export const ADD_NEW_USER_TO_LIST = 'ADD_NEW_USER_TO_LIST';
+export const UPDATE_USER = 'UPDATE_USER';
 
+export const updateUser = (user)=>{
+    return {
+        type: UPDATE_USER,
+        payload: user
+    }
+}
+export const addNewUserToList = (user)=>{
+    return {
+        type: ADD_NEW_USER_TO_LIST,
+        payload: user
+    }
+}
 export const  fetchUsersPending = ()=> {
     return {
         type: FETCH_USERS_PENDING
