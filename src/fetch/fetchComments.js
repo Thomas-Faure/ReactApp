@@ -5,11 +5,13 @@ import axios from 'axios'
 export const fetchCommentsByPostId = (id) => async dispatch =>{
   dispatch(fetchCommentsPending());
 
+    
     const res = await axios.get("https://thomasfaure.fr/post/"+id+"/comments")
     const token = localStorage.token;
     const config = {
       headers: { Authorization: 'Bearer '+token }
     };
+    try{
     const resBis = await axios.get("https://thomasfaure.fr/reportcomment/post/" + id + "/byToken",config)
 
     if(resBis.data.length>0){
@@ -26,6 +28,10 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
     
       }
     }
+  }catch(err){
+    console.log("not connected to get report comment of user")
+  }
+  try{
     const rate = await axios.get("https://thomasfaure.fr/rateComment/post/" + id + "/byToken",config)
 
     if(rate.data.length>0){
@@ -42,6 +48,9 @@ export const fetchCommentsByPostId = (id) => async dispatch =>{
     
       }
     }
+  }catch(err){
+    console.log("not connected to get the rate")
+  }
    
     
 

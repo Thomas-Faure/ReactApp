@@ -10,7 +10,8 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   Route,
-  HashRouter
+  HashRouter,
+  Switch
 } from "react-router-dom";
 import Contact from "./Contact";
 
@@ -35,6 +36,7 @@ import BackOfficeEditCommentCategory from './backoffice/edit/CommentCategory'
 import BackOfficeShowReportComments from './backoffice/show/ReportComment'
 import BackOfficeShowReportPosts from './backoffice/show/ReportPost'
 import NewPasswordForm from './NewPasswordForm'
+import NotFound from './NotFound'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp, changeLanguage } from '../actions';
 import sha256 from 'sha256';
 import fetchBestAnswer from "../fetch/fetchBestAnswer";
@@ -270,6 +272,7 @@ class Main extends Component {
         <section className="section">
 
           <div className="container">
+            <Switch>
             <Route exact path="/" component={PostsList} />
             <Route path="/posts" component={PostsList} />
             <Route path="/post/:id" component={PostDetails} />
@@ -279,6 +282,8 @@ class Main extends Component {
             <Route exact path="/addPost" component={AddPost} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
+            {((this.props.user == null) || (this.props.user.admin !=1)) ? null :
+            <div>
             <Route exact path="/backoffice" component={BackOfficeIndex} />
             <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
             <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
@@ -296,7 +301,12 @@ class Main extends Component {
             <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
             <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
             <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
+            </div>
+            }
             <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />
+            <Route path="*" component={NotFound} />
+            
+            </Switch>
           </div>
         </section>
 

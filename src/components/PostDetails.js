@@ -53,9 +53,10 @@ class PostDetails extends Component {
     this.props.fetchCommentsByPostId(this.props.popUp.id).then(() => {
       this.getData()
     })
-    this.postOwner()
-    this.commentsOwner()
-
+    if(this.props.isLogged){
+      this.postOwner()
+      this.commentsOwner()
+    }
   }
 
   handleAnonymousInput(event) {

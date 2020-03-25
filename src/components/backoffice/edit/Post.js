@@ -73,7 +73,7 @@ class BackOfficeEditPost extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ category: this.state.valueCategory, title: this.state.valueTitle, description: this.state.valueDescription})
+      body: JSON.stringify({ img:this.state.valueImage,category: this.state.valueCategory, title: this.state.valueTitle, description: this.state.valueDescription})
     })
       .then(res => res.json())
       .then((data) => {
