@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { updateCommentReport, changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
+import { FormattedMessage } from 'react-intl';
 class CommentModel extends Component {
 
   constructor(props) {
@@ -172,16 +173,16 @@ class CommentModel extends Component {
                 <div className="modal-background" onClick={() => { this.setState({ delete: null }) }}></div>
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <p className="modal-card-title">Delete Post</p>
+                    <p className="modal-card-title"><FormattedMessage id="delete.comment"/></p>
                     <button className="delete" aria-label="close" onClick={() => { this.setState({ delete: null }) }}></button>
                   </header>
                   <section className="modal-card-body">
-                    <p>Are you sure to delete this post ?</p>
+                    <p><FormattedMessage id="delete.comment.confirm"/></p>
                   </section>
                   <footer className="modal-card-foot ">
                     <div className="padding">
-                      <button className="button is-danger" onClick={() => { this.removeComment(); this.setState({ delete: null }) }}>Delete</button>
-                      <button className="button" onClick={() => { this.setState({ delete: null }) }}>Cancel</button>
+                      <button className="button is-danger" onClick={() => { this.removeComment(); this.setState({ delete: null }) }}><FormattedMessage id="delete"/></button>
+                      <button className="button" onClick={() => { this.setState({ delete: null }) }}><FormattedMessage id="cancel"/></button>
                     </div>
                   </footer>
                 </div>

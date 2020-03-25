@@ -53,14 +53,30 @@
     "filter.commented" : "Plus commenté",
 
     "post.delete" : "Supprimer le post",
+    "delete.comment" : "Supprimer le commentaire",
+    "delete.comment.confirm" : "Voulez vous supprimer ce post ?",
+    "post.add" : "Ajouter un post",
     "delete.confirm" : "Voulez vous supprimer ce post ?",
     "delete" : "Supprimer",
     "cancel" : "Annuler",
     "post.notfound" : "Aucun post trouvé",
-    "error.comment.login" : "Veuillez vous connecter pour ajouter un commentaire",
+    "error.post.login" : "Veuillez vous connecter pour ajouter un post",
     "comment.add" : "Ajouter un commentaire",
     "comment.anonyme": "Commentaire anonyme",
+    "post.anonyme": "Post anonyme",
+    "post.title": "Titre",
     "send" : "Envoyer",
+
+
+    "error.commentValue" : "Veuillez saisir un commentaire",
+    "error.titleValue" : "Veuillez saisir un titre",
+    "error.descriptionValue" : "Veuillez saisir une description",
+    "error.firstname" : "Prénom invalide",
+    "error.lastname" : "Nom de famille invalide",
+    "error.mail" : "Adresse mail invalide",
+    "error.username" : "Nom d'utilisateur invalide",
+    "error.password" : "Mot de passe invalide",
+    "error.passwordC" : "Les mots de passe ne correspondent pas",
 
 
     "nocomment" : "Aucun post"

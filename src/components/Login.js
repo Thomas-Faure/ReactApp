@@ -52,6 +52,10 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
+    if((this.state.valueP == "" )||(this.state.valueU == "")){
+      this.setState({ errorLogin: true })
+      return false
+    }
     this.login()
     event.preventDefault();
   }
@@ -70,7 +74,7 @@ class Login extends Component {
     if (res == false) {
       this.setState({forgetPasswordMessage : "email non existant"})
     }else{
-      this.setState({forgetPasswordMessage : "email envoyé ! regardez vous mail !"})
+      this.setState({forgetPasswordMessage : "email envoyé ! regardez vos mail !"})
     }
 
 
@@ -128,7 +132,7 @@ class Login extends Component {
               <hr className="login-hr" />
               <p className="subtitle has-text-black"><FormattedMessage id="login.sentence" /></p>
               <div className="box">
-                <div>{this.state.errorLogin ? <h1>Il y a un erreur dans le login</h1>
+                <div>{this.state.errorLogin ? <h1 className="error">Il y a un erreur dans le login</h1>
                   : null}
                 </div>
 

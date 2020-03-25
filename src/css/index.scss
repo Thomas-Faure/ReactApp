@@ -1,10 +1,11 @@
-body,.modal-card-body{
-  background-color: #E2EDFF !important;
+body,
+.modal-card-body {
+  background-color: #e2edff !important;
 }
 
 html {
   height: 100%;
-  background-color: #E2EDFF !important;
+  background-color: #e2edff !important;
 }
 body {
   height: 100%;
@@ -100,13 +101,13 @@ body {
   border-radius: 5px 5px 0px 0px;
 }
 
-.spacebetween{
+.spacebetween {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.spacearound{
+.spacearound {
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -126,11 +127,10 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
 }
 
-.filtres{
-  background-color: #BBDCF2;
+.filtres {
+  background-color: #bbdcf2;
   padding: 10px;
   border-radius: 5px;
 }
@@ -236,7 +236,7 @@ body {
 }
 .addPost > button:hover {
   border-radius: 50%;
-  border: 2px solid  #2c60a4 !important;
+  border: 2px solid #2c60a4 !important;
   text-align: center;
   font-size: 20px;
   color: #2c60a4 !important;
@@ -254,32 +254,68 @@ body {
   width: 100%;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.white,.subtitle strong{
+.white,
+.subtitle strong {
   color: whitesmoke !important;
 }
 
-.fb{
+.fb {
   color: #3b5998 !important;
 }
 
-.twitter{
+.twitter {
   color: #55acee !important;
 }
 
 .insta {
-  color:  radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+  color: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%) !important;
 }
 
-.padding{
+.padding {
   padding: 5px;
 }
 
-.flex{
+.flex {
   display: flex;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.error{
+  color: red;
+}
+
+.center{
+  text-align: center;
 }

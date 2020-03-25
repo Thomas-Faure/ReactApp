@@ -1,21 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { unsetPopUp } from '../actions';
+import { unsetPopUp, setPopUp } from '../actions';
 import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
 import fetchPostCategories from '../fetch/fetchPostCategories'
-   
+import { FormattedMessage, injectIntl } from 'react-intl';
+
 class AddPost extends Component {
- 
+
   constructor(props) {
     super(props)
-    
+
     this.state = {
       category: this.props.categoriePost.categories[0].post_category_id,
       title: "",
       description: "",
       location: "",
-      anonymous: false
+      anonymous: false,
+      error : false
 
     }
     this._isMounted = false;
@@ -28,34 +30,40 @@ class AddPost extends Component {
     this.send = this.send.bind(this)
   }
 
- 
+
   componentDidMount() {
     this._isMounted = true;
     this._isMounted && this.getMyLocation();
   }
- 
+
+  login() {
+    this.props.unsetPopUp()
+    this.props.setPopUp("login", null)
+  }
+
   getMyLocation() {
     var city = ""
     const location = window.navigator && window.navigator.geolocation
     if (location) {
       location.getCurrentPosition((position) => {
-        fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+position.coords.latitude+"&lon="+position.coords.longitude+"&zoom=18&addressdetails=1",{
+        fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&zoom=18&addressdetails=1", {
           method: "GET"
-        }).then(res =>res.json()).then(result=>{
-          
-          if(result.address.city == null){
+        }).then(res => res.json()).then(result => {
+
+          if (result.address.city == null) {
             city = result.address.village
-          }else{
-            city= result.address.city}
-            this.setState({location : city})
+          } else {
+            city = result.address.city
+          }
+          this.setState({ location: city })
         })
-        
+
       }, (error) => {
-        this.setState({location : city})
+        this.setState({ location: city })
       })
     }
-    else{
-    this.setState({location : city})
+    else {
+      this.setState({ location: city })
     }
 
   }
@@ -69,13 +77,21 @@ class AddPost extends Component {
   handleChangeCategory(event) {
     this.setState({ category: event.target.value })
   }
-  handleAnonymousInput(event){
-    
-    this.setState({ anonymous : !this.state.anonymous})
+  handleAnonymousInput(event) {
+
+    this.setState({ anonymous: !this.state.anonymous })
   }
 
 
   async handleSubmit(event) {
+    if((this.state.title).trim() == ""){
+      this.setState({error: "title"})
+      return false
+    }
+    if((this.state.description).trim() ==""){
+      this.setState({error: "description"})
+      return false
+    }
     const toBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -102,18 +118,18 @@ class AddPost extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({ anonymous:this.state.anonymous,location:this.state.location,title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
+      body: JSON.stringify({ anonymous: this.state.anonymous, location: this.state.location, title: this.state.title, description: this.state.description, category: this.state.category, data: data, ext: extension })
     })
       .then(res => res.json())
       .then((data) => {
         this.props.unsetPopUp()
         this.props.fetchPostCategories()
         this.props.fetchPosts()
-        
+
       })
   }
   render() {
-
+    const { formatMessage } = this.props.intl;
     return (
 
       <div className='modal is-active animated  fadeIn'>
@@ -130,26 +146,26 @@ class AddPost extends Component {
                 <div className="">
                   <div className="container has-text-centered">
                     <div className="column">
-                      <h3 className="title has-text-black">Add a post</h3>
+                      <h3 className="title has-text-black"><FormattedMessage id="post.add"/></h3>
                       <hr className="login-hr" />
                       <p className="subtitle has-text-black"></p>
                       <form onSubmit={this.handleSubmit}>
-                      <label className="checkbox">
-                        <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput}/>
-                        Anonymous post
+                        <label className="checkbox">
+                          <input type="checkbox" checked={this.state.anonymous} onChange={this.handleAnonymousInput} />
+                          <FormattedMessage id="post.anonyme"/>
                       </label>
                         <div className="field">
-                        
-                    
-                        <label className="title">Post title: </label>
+                        {this.state.error == "title" ? <h3 className="error"><FormattedMessage id="error.titleValue" /></h3> : null}
+                          <label className="title"><FormattedMessage id="post.title"/></label>
                           <div className="control">
-                            <input className="input " type="text" placeholder="Title" value={this.state.title} onChange={this.handleChangeTitle} />
+                            <input className="input " type="text" placeholder="Title" value={this.state.title} onChange={this.handleChangeTitle} minLength="3" required />
                           </div>
                         </div>
                         <div className="field">
-                        <label>Description: </label>
+                        {this.state.error == "description" ? <h3 className="error"><FormattedMessage id="error.descriptionValue" /></h3> : null}
+                          <label>Description: </label>
                           <div className="control">
-                            <textarea className="input textarea" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChangeDescription} />
+                            <textarea className="input textarea" type="text" placeholder="Description" value={this.state.description} onChange={this.handleChangeDescription} minLength="3" required/>
                           </div>
                         </div>
                         <div className="flex-space">
@@ -163,13 +179,15 @@ class AddPost extends Component {
                             }
                           </select>
                           <input type="file" ref={this.fileInput} />
-                          <input className="button is-link" type="submit" value="submit"></input>
+                          <input className="button is-link" type="submit" value={formatMessage({ id: "send" })}></input>
                         </div>
                       </form>
                     </div>
                   </div>
-                </div> :
-                <h2 className="title has-text-black">You need to be connected to add a post</h2>
+                </div> : 
+                <div className="center">
+                  <h2 className="title has-text-black"><FormattedMessage id="error.post.login"/><a onClick={() => { this.login() }}><FormattedMessage id="login"/></a></h2>
+                </div>
               }
             </section>
           </section>
@@ -195,7 +213,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchPostCategories: fetchPostCategories,
-  unsetPopUp
+  unsetPopUp,
+  setPopUp
 
 }, dispatch)
 

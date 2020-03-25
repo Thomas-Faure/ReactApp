@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login, setUser, unsetPopUp } from '../actions';
+import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
-import {FormattedMessage ,injectIntl} from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 class Register extends Component {
 
@@ -18,6 +18,10 @@ class Register extends Component {
       valueM: "",
       valuePC: "",
       errorLogin: false,
+      backgroundColor: "#b5b5b5",
+      backgroundColorPC: "#b5b5b5",
+      password: false,
+      error : false
 
     }
     this.register = this.register.bind(this)
@@ -30,7 +34,7 @@ class Register extends Component {
     this.handleChangeMail = this.handleChangeMail.bind(this)
     this.handleChangeSexe = this.handleChangeSexe.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    
+
   }
 
   componentDidMount() {
@@ -41,10 +45,39 @@ class Register extends Component {
     this.setState({ valueU: event.target.value })
   }
   handleChangePassword(event) {
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*/])(?=.{8,})");
+    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    if (strongRegex.test(event.target.value)) {
+      this.setState({ backgroundColor: "#0F9D58", password: true });
+    } else if (mediumRegex.test(event.target.value)) {
+      this.setState({ backgroundColor: "#F4B400", password: false });
+    } else {
+      this.setState({ backgroundColor: "#DB4437", password: false });
+    }
     this.setState({ valueP: event.target.value })
+    if ((event.target.value == this.state.valuePC) && (this.state.valuePC != "")) {
+      this.setState({
+        backgroundColorPC: "#0F9D58"
+      })
+    }
+    else {
+      this.setState({
+        backgroundColorPC: "#DB4437"
+      })
+    }
   }
   handleChangePasswordC(event) {
     this.setState({ valuePC: event.target.value })
+    if ((this.state.valueP == event.target.value) && (event.target.value != "")) {
+      this.setState({
+        backgroundColorPC: "#0F9D58"
+      })
+    }
+    else {
+      this.setState({
+        backgroundColorPC: "#DB4437"
+      })
+    }
   }
   handleChangeFirstname(event) {
     this.setState({ valueF: event.target.value })
@@ -68,15 +101,37 @@ class Register extends Component {
     event.preventDefault();
   }
 
-  /*login(){
+  login() {
     this.props.unsetPopUp()
     this.props.setPopUp("login", null)
-  }*/
+  }
 
   register() {
-    if (this.state.valueP != this.state.valuePC) {
+    if ((this.state.password == false)) {
+      this.setState({error : "password"})
       return false
     }
+    if((this.state.valueP != this.state.valuePC)){
+      this.setState({error : "passwordC"})
+      return false
+    }
+    if((this.state.valueU).trim() == ""){
+      this.setState({error : "username"})
+      return false
+    }
+    if((this.state.valueF).trim() == ""){
+      this.setState({error : "firstname"})
+      return false
+    }
+    if((this.state.valueL).trim() == ""){
+      this.setState({error : "lastname"})
+      return false
+    }
+    if((this.state.valueM).trim() == ""){
+      this.setState({error : "mail"})
+      return false
+    }
+    
     fetch("https://thomasfaure.fr/user/create", {
       method: 'POST',
       headers: {
@@ -100,40 +155,43 @@ class Register extends Component {
         <div className="">
           <div className="container has-text-centered">
             <div className="column">
-              <h3 className="title has-text-black"><FormattedMessage id="register.label"/></h3>
+              <h3 className="title has-text-black"><FormattedMessage id="register.label" /></h3>
               <hr className="register-hr" />
-              <p className="subtitle has-text-black"><FormattedMessage id="register.sentence"/></p>
+              <p className="subtitle has-text-black"><FormattedMessage id="register.sentence" /></p>
               <div className="box">
                 <div>
                 </div>
 
                 <form onSubmit={this.handleSubmit}>
+                {this.state.error == "firstname" ? <h3 className="error"><FormattedMessage id="error.firstname" /></h3> : null}
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.firstname"/></label>
+                    <label className=" is-large"><FormattedMessage id="register.field.firstname" /></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Firstname" value={this.state.valueF} onChange={this.handleChangeFirstname} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.lastname"/></label>
+                {this.state.error == "lastname" ? <h3 className="error"><FormattedMessage id="error.lastname" /></h3> : null}
+                    <label className=" is-large"><FormattedMessage id="register.field.lastname" /></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Lastname" value={this.state.valueL} onChange={this.handleChangeLastname} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.mail"/></label>
+                {this.state.error == "mail" ? <h3 className="error"><FormattedMessage id="error.mail" /></h3> : null}
+                    <label className=" is-large"><FormattedMessage id="register.field.mail" /></label>
                     <div className="control">
                       <input className="input" type="email" placeholder="Mail" value={this.state.valueM} onChange={this.handleChangeMail} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.birthday"/></label>
+                    <label className=" is-large"><FormattedMessage id="register.field.birthday" /></label>
                     <div className="control">
                       <input className="input" type="date" value={this.state.valueD} onChange={this.handleChangeDate} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label><FormattedMessage id="register.field.sexe"/></label>
+                    <label><FormattedMessage id="register.field.sexe" /></label>
                     <div className="control">
                       <label className="radio"><input type="radio" name="sexe" value="M" onChange={this.handleChangeSexe} />Male</label>
                       <label className="radio">
@@ -141,28 +199,34 @@ class Register extends Component {
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.username"/></label>
+                  {this.state.error == "username" ? <h3 className="error"><FormattedMessage id="error.username" /></h3> : null}
+                    <label className=" is-large"><FormattedMessage id="register.field.username" /></label>
                     <div className="control">
                       <input className="input" type="text" placeholder="Username" value={this.state.valueU} onChange={this.handleChangeUsername} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.password"/></label>
+                  {this.state.error == "password" ? <h3 className="error"><FormattedMessage id="error.password" /></h3> : null}
+                    <label className=" is-large"><FormattedMessage id="register.field.password" />&nbsp; <div class="tooltip">?
+                            <span class="tooltiptext"><li>8 chars</li><li>1 Majuscle</li><li>1 Minuscule</li><li>1 chiffre</li><li>!@#$%&^*/ </li></span>
+                      </div>
+                    </label>
                     <div className="control">
-                      <input className="input" type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} required />
+                      <input className="input" style={{ borderColor: this.state.backgroundColor, borderWidth: '3px' }} type="password" placeholder="Password" value={this.state.valueP} onChange={this.handleChangePassword} required />
                     </div>
                   </div>
                   <div className="field">
-                  <label className=" is-large"><FormattedMessage id="register.field.passwordConfirmation"/></label>
+                  {this.state.error == "passwordC" ? <h3 className="error"><FormattedMessage id="error.passwordC" /></h3> : null}
+                    <label className=" is-large"><FormattedMessage id="register.field.passwordConfirmation" /></label>
                     <div className="control">
-                      <input className="input" type="password" placeholder="Password confirmation" value={this.state.valuePC} onChange={this.handleChangePasswordC} required />
+                      <input className="input" type="password" placeholder="Password confirmation" style={{ borderColor: this.state.backgroundColorPC, borderWidth: '3px' }} value={this.state.valuePC} onChange={this.handleChangePasswordC} required />
                     </div>
                   </div>
-                  <input className="button is-link" type="submit" value={formatMessage({id: "register.submit"})}></input>
+                  <input className="button is-link" type="submit" value={formatMessage({ id: "register.submit" })}></input>
                 </form>
               </div>
-              <p className="has-text-grey"><FormattedMessage id="register.bottom.alreadyRegister"/>
-                <a onClick={()=>{this.register()}}>Login</a> &nbsp;·&nbsp;
+              <p className="has-text-grey"><FormattedMessage id="register.bottom.alreadyRegister" />
+                <a onClick={() => { this.login() }}>Login</a> &nbsp;·&nbsp;
               </p>
             </div>
           </div>
@@ -183,6 +247,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = () => {
   return {
     unsetPopUp,
+    setPopUp
 
   }
 }
