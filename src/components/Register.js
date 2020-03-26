@@ -207,8 +207,8 @@ class Register extends Component {
                   </div>
                   <div className="field">
                   {this.state.error == "password" ? <h3 className="error"><FormattedMessage id="error.password" /></h3> : null}
-                    <label className=" is-large"><FormattedMessage id="register.field.password" />&nbsp; <div class="tooltip">?
-                            <span class="tooltiptext"><li>8 chars</li><li>1 Majuscle</li><li>1 Minuscule</li><li>1 chiffre</li><li>!@#$%&^*/ </li></span>
+                    <label className=" is-large"><FormattedMessage id="register.field.password" />&nbsp; <div className="tooltip">?
+                            <span className="tooltiptext"><li>8 chars</li><li>1 Majuscle</li><li>1 Minuscule</li><li>1 chiffre</li><li>!@#$%&^*/ </li></span>
                       </div>
                     </label>
                     <div className="control">

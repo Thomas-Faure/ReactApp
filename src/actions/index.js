@@ -50,7 +50,14 @@ export const FETCH_USER_BY_ID_SUCCESS = 'FETCH_USER_BY_ID_SUCCESS';
 export const FETCH_USERS_ERROR = 'FETCH_USERS_ERROR';
 export const ADD_NEW_USER_TO_LIST = 'ADD_NEW_USER_TO_LIST';
 export const UPDATE_USER = 'UPDATE_USER';
+export const REMOVE_USER = 'REMOVE_USER'
 
+export const removeUser = (userid)=>{
+    return{
+        type: REMOVE_USER,
+        payload: userid
+    }
+}
 export const updateUser = (user)=>{
     return {
         type: UPDATE_USER,

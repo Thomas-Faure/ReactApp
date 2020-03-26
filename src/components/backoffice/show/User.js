@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchUsers from '../../../fetch/fetchUsers'
 import BackOfficeCreateUser from "../create/User"
 import BackOfficeEditUser from "../edit/User"
-import {setPopUp,unsetPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp,removeUser} from '../../../actions';
 
 class BackOfficeShowUsers extends Component {
 
@@ -97,7 +97,7 @@ class BackOfficeShowUsers extends Component {
         }
         }).then(()=>{
           let asyncUpdate = async()=>{
-            await this.props.fetchUsers()
+            this.props.removeUser(id)
             this.getData()
             this.search() 
            }
@@ -221,7 +221,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchUsers: fetchUsers,
   setPopUp,
-  unsetPopUp
+  unsetPopUp,
+  removeUser:removeUser
 
   
 }, dispatch)

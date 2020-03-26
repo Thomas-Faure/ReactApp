@@ -177,7 +177,7 @@ class BackOfficeShowComments extends Component {
             <tr key={val.comment_id}>
             <th style={{height:50,width:30}}>{val.comment_id}</th>
             <td style={{height:50,width:250}} >{val.description.length>10 ? val.description.substring(0,10)+"...": val.description}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOCommentEdit",{comment_id:val.comment_id,post_id: this.state.post_id})}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteComment",val.comment_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+val.author}><FontAwesomeIcon icon="user" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOCommentEdit",{comment_id:val.comment_id,post_id: this.state.post_id})}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteComment",val.comment_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :

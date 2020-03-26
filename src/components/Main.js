@@ -11,7 +11,8 @@ import { FormattedMessage } from 'react-intl';
 import {
   Route,
   HashRouter,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
 import Contact from "./Contact";
 
@@ -127,6 +128,14 @@ class Main extends Component {
     window.location.href = '/#/';
     this.props.unSetUser()
   }
+
+  PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+      (this.props.user != null && this.props.user.admin) == 1
+        ? <Component {...props} />
+        : <Redirect to='/' />
+    )} />
+  )
 
   render() {
     return (
@@ -285,33 +294,30 @@ class Main extends Component {
             <Route exact path="/addPost" component={AddPost} />
             <Route path="/contact" component={Contact} />
             <Route path="/informations" component={Informations} />
-            {((this.props.user == null) || (this.props.user.admin !=1)) ? null :
-            <div>
-            <Route exact path="/backoffice" component={BackOfficeIndex} />
-            <Route exact path="/backoffice/users" component={BackOfficeShowUsers} />
-            <Route exact path="/backoffice/posts" component={BackOfficeShowPosts} />
-            <Route exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
-            <Route exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
-            <Route exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
-            <Route exact path="/backoffice/users/create" component={BackOfficeCreateUser} />
-            <Route exact path="/backoffice/postCategories/create" component={BackOfficeCreatePostCategory} />
-            <Route exact path="/backoffice/commentCategories/create" component={BackOfficeCreateCommentCategory} />
-            <Route exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
-            <Route exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
-            <Route exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory} />
-            <Route exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory} />
-            <Route exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
-            <Route exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
-            <Route exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
-            <Route exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
-     
-            <Route exact path="/backoffice/user/:id" component={BackOfficeShowUserPage}/>
+         
             
-            <Route exact path="/backoffice/user/:id/comments" component={BackOfficeShowUserComments}/>
-
-            <Route exact path="/backoffice/user/:id/posts" component={BackOfficeShowUserPosts}/>
-            </div>
-            }
+            <this.PrivateRoute exact path="/backoffice" component={BackOfficeIndex} />
+            <this.PrivateRoute exact path="/backoffice/users" component={BackOfficeShowUsers} />
+            <this.PrivateRoute exact path="/backoffice/posts" component={BackOfficeShowPosts} />
+            <this.PrivateRoute exact path="/backoffice/postCategories" component={BackOfficeShowPostCategories} />
+            <this.PrivateRoute exact path="/backoffice/commentCategories" component={BackOfficeShowCommentCategories} />
+            <this.PrivateRoute exact path="/backoffice/posts/create" component={BackOfficeCreatePost} />
+            <this.PrivateRoute exact path="/backoffice/users/create" component={BackOfficeCreateUser} />
+            <this.PrivateRoute exact path="/backoffice/postCategories/create" component={BackOfficeCreatePostCategory} />
+            <this.PrivateRoute exact path="/backoffice/commentCategories/create" component={BackOfficeCreateCommentCategory} />
+            <this.PrivateRoute exact path="/backoffice/users/:id/edit" component={BackOfficeEditUser} />
+            <this.PrivateRoute exact path="/backoffice/posts/:id/edit" component={BackOfficeEditPost} />
+            <this.PrivateRoute exact path="/backoffice/postCategories/:id/edit" component={BackOfficeEditPostCategory} />
+            <this.PrivateRoute exact path="/backoffice/commentCategories/:id/edit" component={BackOfficeEditCommentCategory} />
+            <this.PrivateRoute exact path="/backoffice/posts/:id/comments" component={BackOfficeShowComments} />
+            <this.PrivateRoute exact path="/backoffice/posts/:post_id/comments/:comment_id/edit" component={BackOfficeEditComment} />
+            <this.PrivateRoute exact path="/backoffice/reportComments" component={BackOfficeShowReportComments} />
+            <this.PrivateRoute exact path="/backoffice/reportPosts" component={BackOfficeShowReportPosts} />
+            <this.PrivateRoute exact path="/backoffice/user/:id" component={BackOfficeShowUserPage}/>
+            <this.PrivateRoute exact path="/backoffice/user/:id/comments" component={BackOfficeShowUserComments}/>
+            <this.PrivateRoute exact path="/backoffice/user/:id/posts" component={BackOfficeShowUserPosts}/>
+            
+            
             <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />
             <Route path="*" component={NotFound} />
             

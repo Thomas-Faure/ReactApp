@@ -1,5 +1,5 @@
 
-import {FETCH_USERS_PENDING, FETCH_USERS_SUCCESS, FETCH_USERS_ERROR,FETCH_USER_BY_ID_SUCCESS,ADD_NEW_USER_TO_LIST,UPDATE_USER} from '../actions';
+import {FETCH_USERS_PENDING,REMOVE_USER, FETCH_USERS_SUCCESS, FETCH_USERS_ERROR,FETCH_USER_BY_ID_SUCCESS,ADD_NEW_USER_TO_LIST,UPDATE_USER} from '../actions';
 const initialState = {
     pending: false,
     byId: {},
@@ -8,6 +8,16 @@ const initialState = {
 }
 const userListReducer = (state = initialState, action)=>{
     switch(action.type) {
+        case REMOVE_USER:
+            var byIdTemp = state.byId
+            const { [action.payload]: ignored, ...finalById } = byIdTemp;
+            var allIds = state.allIds.filter(el=>el != action.payload)
+            return{
+                ...state,
+                byId:finalById,
+                allIds:allIds
+
+            }
         case UPDATE_USER:
             return{
                 ...state,

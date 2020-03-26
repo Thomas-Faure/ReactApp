@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import {FormattedMessage} from 'react-intl';
 import BackOfficeEditUser from '../edit/User'
-import {addNewUserToList,setPopUp,unsetPopUp} from '../../../actions'
+import {addNewUserToList,setPopUp,unsetPopUp,removeUser} from '../../../actions'
 import axios from 'axios'
 class BackOfficeShowUserPage extends Component {
     constructor(props){
@@ -24,9 +24,8 @@ class BackOfficeShowUserPage extends Component {
           }
           }).then(()=>{
             let asyncUpdate = async()=>{
-              await this.props.fetchUsers()
-              this.getData()
-              this.search() 
+              this.props.removeUser(id)
+              window.location.href='/#/backoffice'
              }
              asyncUpdate()
           })
@@ -120,7 +119,8 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => bindActionCreators({
     addNewUserToList:addNewUserToList,
     setPopUp,
-    unsetPopUp
+    unsetPopUp,
+    removeUser:removeUser
 
   
     

@@ -5,7 +5,7 @@ class NotFound extends Component {
         return (
             <div>
                 <h1 className="title">404 PAGE</h1>
-                <button class="button is-link" onClick={() => { window.location.href = '/#/' }} >Home</button>
+                <button className="button is-link" onClick={() => { window.location.href = '/#/' }} >Home</button>
                
             </div>
         );
