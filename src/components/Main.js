@@ -55,7 +55,7 @@ class Main extends Component {
     super(props)
 
     this.state = {
-
+      isLoaded :false,
       burgerOpen: false
     }
 
@@ -115,6 +115,7 @@ class Main extends Component {
     await this.props.fetchCommentCategories()
     this.props.fetchPosts()
     this.props.fetchBestAnswer()
+    this.setState({isLoaded:true})
 
 
   }
@@ -138,6 +139,9 @@ class Main extends Component {
   )
 
   render() {
+    if(this.state.isLoaded == false){
+     return null
+    }else{
     return (
 
       <div>
@@ -329,6 +333,7 @@ class Main extends Component {
 
     );
   }
+}
 }
 
 

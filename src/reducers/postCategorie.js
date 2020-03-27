@@ -1,7 +1,7 @@
 import {FETCH_POST_CATEGORIES_PENDING,REMOVE_POST_CATEGORIE, FETCH_POST_CATEGORIES_SUCCESS, FETCH_POST_CATEGORIES_ERROR} from '../actions';
 const initialState = {
     pending: false,
-    byId: [],
+    byId: {},
     allIds: [],
     error: null
 }

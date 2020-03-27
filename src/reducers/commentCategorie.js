@@ -1,7 +1,7 @@
 import {FETCH_COMMENT_CATEGORIES_PENDING,REMOVE_COMMENT_CATEGORIE, FETCH_COMMENT_CATEGORIES_SUCCESS, FETCH_COMMENT_CATEGORIES_ERROR} from '../actions';
 const initialState = {
     pending: false,
-    byId: [],
+    byId: {},
     allIds: [],
     error: null
 }

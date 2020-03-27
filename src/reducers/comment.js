@@ -1,7 +1,7 @@
 import {FETCH_COMMENTS_PENDING,UPDATE_COMMENT, FETCH_COMMENTS_SUCCESS, FETCH_COMMENTS_ERROR,UPDATE_COMMENTS_REPORT,UPDATE_COMMENTS_RATE,DELETE_COMMENT} from '../actions';
 const initialState = {
     pending: false,
-    byId: [],
+    byId: {},
     allIds: [],
     error: null
 }

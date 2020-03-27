@@ -16,7 +16,6 @@ const userListReducer = (state = initialState, action)=>{
                 ...state,
                 byId:finalById,
                 allIds:allIds
-
             }
         case UPDATE_USER:
             return{
