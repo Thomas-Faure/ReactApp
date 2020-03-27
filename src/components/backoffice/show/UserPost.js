@@ -172,7 +172,7 @@ class BackOfficeShowUserPosts extends Component {
            
             <div className="columns">
             <div className="column is-one-quarter">
-            <button className="button is-danger" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id}>⬅</button>
+            <button className="button is-danger" onClick={event =>  this.props.history.goBack()}>⬅</button>
             </div>
             <div className="column is-half" style={{textAlign: "center"}}>
             </div>

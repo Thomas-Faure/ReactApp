@@ -31,6 +31,9 @@ class AddPost extends Component {
   }
 
 
+  componentWillUnmount(){
+    this._isMounted = false
+  }
   componentDidMount() {
     this._isMounted = true;
     this._isMounted && this.getMyLocation();
@@ -122,9 +125,9 @@ class AddPost extends Component {
     })
       .then(res => res.json())
       .then((data) => {
-        this.props.unsetPopUp()
         this.props.fetchPostCategories()
         this.props.fetchPosts()
+        this.props.unsetPopUp()
 
       })
   }

@@ -317,7 +317,6 @@ class Main extends Component {
             <this.PrivateRoute exact path="/backoffice/user/:id/comments" component={BackOfficeShowUserComments}/>
             <this.PrivateRoute exact path="/backoffice/user/:id/posts" component={BackOfficeShowUserPosts}/>
             
-            
             <Route exact path="/forgotPassword/:token" component={NewPasswordForm} />
             <Route path="*" component={NotFound} />
             

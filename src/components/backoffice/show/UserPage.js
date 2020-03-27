@@ -11,6 +11,7 @@ class BackOfficeShowUserPage extends Component {
         super(props)
         this.state={
         }
+     
         this.deleteUser=this.deleteUser.bind(this)
         this.goBack = this.goBack.bind(this);
     }
