@@ -27,7 +27,7 @@ class PostDetails extends Component {
       maxPage: 1,
       elementsByPage: 5,
       valueComment: "",
-      valueCategory: this.props.categorieComment.categories[0].comment_category_id,
+      valueCategory: this.props.categorieComment.byId[this.props.categorieComment.allIds[0]].comment_category_id,
       categories: [],
       owner: false,
       commentsID: [],
@@ -255,6 +255,7 @@ class PostDetails extends Component {
       }
     }
 
+    let categoryList = this.props.categorieComment.allIds.map(id => this.props.categorieComment.byId[id])
     return (
       <div className={'modal is-active animated  fadeIn'}>
         <div className="modal-background" onClick={() => { this.props.unsetPopUp() }}></div>
@@ -419,8 +420,8 @@ class PostDetails extends Component {
                   <div className="add_bottom">
                     <div className="select" className="select">
                       <select value={this.state.valueCategory} onChange={this.handleChangeCategory}>
-                        {(this.props.categorieComment.categories.length !== 0) ?
-                          this.props.categorieComment.categories.map((val, index) =>
+                        {(categoryList.length !== 0) ?
+                          categoryList.map((val, index) =>
                             <option key={val.comment_category_id} value={val.comment_category_id}>{val.description}</option>
                           )
                           :

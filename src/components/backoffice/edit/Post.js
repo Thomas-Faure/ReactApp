@@ -60,8 +60,8 @@ class BackOfficeEditPost extends Component {
 
   }
   getCategories(){
-      var data = this.props.categoriePost.categories
-      this.setState({categories:data})
+      let categoryList = this.props.categoriePost.allIds.map(id => this.props.categoriePost.byId[id])
+      this.setState({categories:categoryList})
   }
 
   sendData() {

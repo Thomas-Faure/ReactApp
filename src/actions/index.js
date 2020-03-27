@@ -101,7 +101,14 @@ export const  fetchUsersError = (error)=> {
 export const FETCH_POST_CATEGORIES_PENDING = 'FETCH_POST_CATEGORIES_PENDING';
 export const FETCH_POST_CATEGORIES_SUCCESS = 'FETCH_POST_CATEGORIES_SUCCESS';
 export const FETCH_POST_CATEGORIES_ERROR = 'FETCH_POST_CATEGORIES_ERROR';
+export const REMOVE_POST_CATEGORIE = 'REMOVE_POST_CATEGORIE';
 
+export const removePostCategorie = (catid)=>{
+    return{
+        type: REMOVE_POST_CATEGORIE,
+        payload: catid
+    }
+}
 export const  fetchPostCategoriesPending = ()=> {
     return {
         type: FETCH_POST_CATEGORIES_PENDING
@@ -125,6 +132,15 @@ export const FETCH_COMMENT_CATEGORIES_PENDING = 'FETCH_COMMENT_CATEGORIES_PENDIN
 export const FETCH_COMMENT_CATEGORIES_SUCCESS = 'FETCH_COMMENT_CATEGORIES_SUCCESS';
 export const FETCH_COMMENT_CATEGORIES_ERROR = 'FETCH_COMMENT_CATEGORIES_ERROR';
 
+
+export const REMOVE_COMMENT_CATEGORIE = 'REMOVE_COMMENT_CATEGORIE';
+
+export const removeCommentCategorie = (catid)=>{
+    return{
+        type: REMOVE_COMMENT_CATEGORIE,
+        payload: catid
+    }
+}
 export const  fetchCommentCategoriesPending = ()=> {
     return {
         type: FETCH_COMMENT_CATEGORIES_PENDING
@@ -151,7 +167,23 @@ export const FETCH_COMMENTS_ERROR = 'FETCH_COMMENTS_ERROR';
 export const UPDATE_COMMENTS_REPORT = 'UPDATE_COMMENTS_REPORT';
 export const UPDATE_COMMENTS_RATE = 'UPDATE_COMMENTS_RATE';
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 
+export const ADD_COMMENTS = 'ADD_COMMENTS'
+
+export const addComments = (comments) =>{
+    return {
+        type: FETCH_COMMENTS_SUCCESS,
+        payload: comments
+    }
+}
+
+export const updateComment = (comment) =>{
+    return {
+        type: UPDATE_COMMENT,
+        payload: comment
+    }
+}
 export const deleteComment = (id) =>{
     return {
         type: DELETE_COMMENT,

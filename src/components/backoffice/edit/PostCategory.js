@@ -46,8 +46,9 @@ class BackOfficeEditPostCategory extends Component {
   }
 
   getData(){
+   
 
-    var data = this.props.categoriePost.categories.find(element => element.post_category_id == this.state.id);
+    var data = this.props.categoriePost.byId[this.state.id];
     if(data != null){
       this.setState({
         valueDescription:data.description,

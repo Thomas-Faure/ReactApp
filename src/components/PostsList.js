@@ -147,7 +147,7 @@ class PostsList extends Component {
   }
 
   render() {
-
+    let categoryList = this.props.categoryPost.allIds.map(id => this.props.categoryPost.byId[id])
     return (
       <div>
         <div className="addPost"> <button onClick={() => { this.props.setPopUp("addPost", null) }} className="button is-info"><i className="fa fa-plus" aria-hidden="true"></i></button></div>
@@ -188,8 +188,8 @@ class PostsList extends Component {
                 <select id="category">
                   <option value="">All</option>
                   {
-                    this.props.categoryPost.categories != null ?
-                      this.props.categoryPost.categories.map((val, index) =>
+                    categoryList != null ?
+                    categoryList.map((val, index) =>
                         <option key={val.post_category_id} value={val.post_category_id} style={{backgroundColor: val.couleur}}>{val.description}</option>
                       ) :
                       null

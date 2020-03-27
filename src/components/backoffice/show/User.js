@@ -186,7 +186,7 @@ class BackOfficeShowUsers extends Component {
             <th style={{height:50,width:30}}>{val.user_id}</th>
             <td style={{height:50,width:150}} >{val.username}</td>
             <td style={{height:50,width:250}} >{val.firstname.length>10 ? val.firstname.substring(0,10)+"...": val.firstname}</td>
-            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOUserEdit",val.user_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteUser",val.user_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
+            <td style={{height:50,width:200}} ><p><button style={{marginRight:"10px"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+val.user_id}><FontAwesomeIcon icon="user" /></button><button style={{marginRight:"10px"}} className="button is-info" onClick={()=>{this.props.setPopUp("BOUserEdit",val.user_id)}}><FontAwesomeIcon icon="edit" /></button><button className="button is-danger" onClick={()=>{this.props.setPopUp("deleteUser",val.user_id)}}><FontAwesomeIcon icon="trash" /></button></p></td>
             </tr>
             )
             :

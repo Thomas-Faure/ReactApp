@@ -37,7 +37,8 @@ class BackOfficeShowCommentCategories extends Component {
     }
 
     getData(){
-      var data =this.props.categorieComment.categories
+      let data = this.props.categorieComment.allIds.map(id => this.props.categorieComment.byId[id])
+
         this.setState({
           data: data,
           dataFixed: data,

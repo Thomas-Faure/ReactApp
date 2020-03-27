@@ -1,4 +1,4 @@
-import {FETCH_COMMENTS_PENDING, FETCH_COMMENTS_SUCCESS, FETCH_COMMENTS_ERROR,UPDATE_COMMENTS_REPORT,UPDATE_COMMENTS_RATE,DELETE_COMMENT} from '../actions';
+import {FETCH_COMMENTS_PENDING,UPDATE_COMMENT, FETCH_COMMENTS_SUCCESS, FETCH_COMMENTS_ERROR,UPDATE_COMMENTS_REPORT,UPDATE_COMMENTS_RATE,DELETE_COMMENT} from '../actions';
 const initialState = {
     pending: false,
     byId: [],
@@ -7,6 +7,20 @@ const initialState = {
 }
 const commentReducer = (state = initialState, action)=>{
     switch(action.type) {
+
+  
+        case UPDATE_COMMENT:
+            return{
+                ...state,
+                byId:{
+                    ...state.byId,
+                    [action.payload.comment_id]:{
+                        ...state.byId[action.payload.comment_id],
+                        comment_category: action.payload.comment_category,
+                        description: action.payload.description, 
+                    }
+                }  
+            }
         case DELETE_COMMENT:
             var byIdTemp = state.byId
             const { [action.payload]: ignored, ...finalById } = byIdTemp;

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import fetchComments from '../../../fetch/fetchComments'
-import {unsetPopUp} from '../../../actions'
+import {unsetPopUp,updateComment} from '../../../actions'
 
 class BackOfficeEditComment extends Component {
   constructor(props) {
@@ -44,39 +44,23 @@ class BackOfficeEditComment extends Component {
   }
 
   getCategories(){
-    fetch("https://thomasfaure.fr/commentCategory", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then((data) => {
-    
-          this.setState({categories:data})
-      })
+
+    let data = this.props.categorieComment.allIds.map(id => this.props.categorieComment.byId[id])
+    this.setState({categories:data})
+
 
   }
 
   getData(){
-    fetch("https://thomasfaure.fr/comment/"+this.state.comment_id, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then((data) => {
+
+    let data = this.props.comment.byId[this.props.popUp.id.comment_id]     
+       
+    this.setState({
+                    valueDescription:data.description,
+                    valueCategory:data.comment_category})
+            
           
-            if(data.length===1){
-                this.setState({
-                    valueDescription:data[0].description,
-                    valueCategory:data[0].comment_category})
-            }
-          
-        })
+        
   }
   sendData() {
     const token = localStorage.token;
@@ -93,6 +77,8 @@ class BackOfficeEditComment extends Component {
       .then(res => res.json())
       .then((data) => {
           if(data.affectedRows===1){
+            let comment = {comment_id: this.state.comment_id,comment_category: this.state.valueCategory, description: this.state.valueDescription}
+            this.props.updateComment(comment)
             this.props.unsetPopUp()
           }
         
@@ -165,7 +151,8 @@ class BackOfficeEditComment extends Component {
 const mapStateToProps = (state) => {
   return {
     post: state.post,
-    categoriePost:state.categoriePost,
+    comment: state.comment,
+    categorieComment : state.categorieComment,
     popUp: state.popUp
   }
 }
@@ -173,7 +160,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => bindActionCreators( {
   fetchComments: fetchComments,
   fetchCommentCategories:fetchCommentCategories,
-  unsetPopUp
+  unsetPopUp,
+  updateComment
   
 },dispatch)
  

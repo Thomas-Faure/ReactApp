@@ -43,8 +43,7 @@ class BackOfficeCreatePost extends Component {
   }
 
   getCategories(){
-    
-    var data = this.props.categoriePost.categories
+    let data = this.props.categoriePost.allIds.map(id => this.props.categoriePost.byId[id])
     this.setState({categories:data,valueCategory:data[0].post_category_id})
       
 

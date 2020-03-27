@@ -42,8 +42,8 @@ class BackOfficeEditCommentCategory extends Component {
   }
 
   getData(){
+    var data = this.props.categorieComment.byId[this.state.id];
 
-    var data = this.props.categorieComment.categories.find(element => element.comment_category_id == this.state.id);
  
       if(data != null){
               this.setState({

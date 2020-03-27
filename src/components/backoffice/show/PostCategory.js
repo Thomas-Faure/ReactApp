@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {setPopUp,unsetPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp,removePostCategorie} from '../../../actions';
 import BackOfficeEditPostCategory from '../edit/PostCategory'
 import BackOfficeCreatePostCategory from "../create/PostCategory"
 class BackOfficeShowPostCategories extends Component {
@@ -38,8 +38,7 @@ class BackOfficeShowPostCategories extends Component {
       this.getData()
     }
     getData(){
-
-      var data = this.props.categoriePost.categories
+      let data = this.props.categoriePost.allIds.map(id => this.props.categoriePost.byId[id])
         this.setState({
           data: data,
           dataFixed: data,
@@ -97,8 +96,7 @@ class BackOfficeShowPostCategories extends Component {
 
           let asyncUpdate = async()=>{
             
-            await this.props.fetchPostCategories()
-            await this.props.fetchPosts()
+            this.props.removePostCategorie()
             this.getData()
             this.search()
          
@@ -230,7 +228,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchPostCategories:fetchPostCategories,
   setPopUp,
-  unsetPopUp
+  unsetPopUp,
+  removePostCategorie
 
   
 }, dispatch)

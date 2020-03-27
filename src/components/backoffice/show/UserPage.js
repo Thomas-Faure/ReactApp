@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import {FormattedMessage} from 'react-intl';
 import BackOfficeEditUser from '../edit/User'
+import {history} from 'react-router-dom'
 import {addNewUserToList,setPopUp,unsetPopUp,removeUser} from '../../../actions'
 import axios from 'axios'
 class BackOfficeShowUserPage extends Component {
@@ -11,6 +12,7 @@ class BackOfficeShowUserPage extends Component {
         this.state={
         }
         this.deleteUser=this.deleteUser.bind(this)
+        this.goBack = this.goBack.bind(this);
     }
 
     deleteUser(id){
@@ -33,7 +35,8 @@ class BackOfficeShowUserPage extends Component {
 
     async componentDidMount(){
         //si on a pas deja enregister la liste des utilisateurs
-        if(this.props.userList.allIds.length==0){
+    
+        if(this.props.userList.byId[this.props.match.params.id] == null){
             console.log("on ne connait pas deja l'utilisateur")
             const token = localStorage.token;
             const config = {
@@ -49,6 +52,9 @@ class BackOfficeShowUserPage extends Component {
             
         }
     }
+    goBack(){
+      this.props.history.goBack();
+  }
   render() {
     if(this.props.userList.byId[this.props.match.params.id] == null){
         return(<h1>Pas d'utilisateur avec cet identifiant ! </h1>)
@@ -83,6 +89,8 @@ class BackOfficeShowUserPage extends Component {
         <div className="columns">
         <div className="column is-one-quarter"></div>
         <div className="column">
+        <button className="button is-danger" onClick={event =>  this.goBack()}>⬅</button>
+
         <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px"}}>Page Utilisateur</h1>
         <h2 style={{fontWeight: "bold",fontSize:"20px"}}>Informations:</h2>
         <p style={{marginBottom: "10px",width: "100%"}}>Prénom: {user.firstname}</p>

@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
+import {addComments,deleteComment} from '../../../actions';
+
 import axios from 'axios'
 
 import {setPopUp,unsetPopUp} from '../../../actions';
@@ -12,7 +14,7 @@ class BackOfficeShowUserComments extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            post_id : this.props.match.params.id,
+            user_id : this.props.match.params.id,
             searchItem: "",
             dataFixed : null,
             data: null,
@@ -30,17 +32,28 @@ class BackOfficeShowUserComments extends Component {
 
       }
 
+      componentDidUpdate(prevProps) {
+        if(this.props.comment !== prevProps.comment){
+          let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+          this.setState({
+            data: commentsList,
+            dataFixed:commentsList,
+            maxPage: Math.floor(commentsList.length/this.state.elementsByPage)
+          })
+      }
+    }
+
     async componentDidMount() {
       const token = localStorage.token;
       const config = {
         headers: { Authorization: 'Bearer '+token }
       };
 
-        const res = await axios.get("https://thomasfaure.fr/comment/byUser",config)
-        this.getData(res.data)
+        const res = await axios.get("https://thomasfaure.fr/comment/byUser/"+this.state.user_id,config)
+        this.props.addComments(res.data)
     }
-    getData(data){
-
+    getData(){
+      let data = this.props.comment.allIds.map(id => this.props.comment.byId[id])
         this.setState({
           data: data,
           dataFixed: data,
@@ -96,7 +109,7 @@ class BackOfficeShowUserComments extends Component {
         }
         }).then(()=>{
           let asyncUpdate = async()=>{
-            await this.props.fetchCommentsByPostId()
+            this.props.deleteComment(id)
             this.getData()
             this.search()
            }
@@ -210,7 +223,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch,own) => bindActionCreators({
   fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id),
   setPopUp,
-  unsetPopUp
+  unsetPopUp,
+  addComments,
+  deleteComment
+
   
 }, dispatch)
  

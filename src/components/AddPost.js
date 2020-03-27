@@ -12,7 +12,7 @@ class AddPost extends Component {
     super(props)
 
     this.state = {
-      category: this.props.categoriePost.categories[0].post_category_id,
+      category: this.props.categoriePost.byId[this.props.categoriePost.allIds[0]].post_category_id,
       title: "",
       description: "",
       location: "",
@@ -129,6 +129,7 @@ class AddPost extends Component {
       })
   }
   render() {
+    let categoryList = this.props.categoriePost.allIds.map(id => this.props.categoriePost.byId[id])
     const { formatMessage } = this.props.intl;
     return (
 
@@ -170,8 +171,8 @@ class AddPost extends Component {
                         </div>
                         <div className="flex-space">
                           <select value={this.state.category} onChange={this.handleChangeCategory}>
-                            {(this.props.categoriePost.categories.length !== 0) ?
-                              this.props.categoriePost.categories.map((val, index) =>
+                            {(categoryList.length !== 0) ?
+                              categoryList.map((val, index) =>
                                 <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
                               )
                               :
@@ -220,4 +221,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(AddPost));

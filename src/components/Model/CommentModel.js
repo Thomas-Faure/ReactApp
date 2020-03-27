@@ -12,7 +12,7 @@ class CommentModel extends Component {
     super(props)
 
 
-    var color = this.props.categorieComment.categories.find(element => element.comment_category_id == this.props.commentState.byId[this.props.commentid].comment_category).color
+    var color = this.props.categorieComment.byId[this.props.commentState.byId[this.props.commentid].comment_category].color
     this.state = {
       color: color,
       best: this.props.best,

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
-import {setPopUp,unsetPopUp} from '../../../actions';
+import {setPopUp,unsetPopUp,deleteComment} from '../../../actions';
 class BackOfficeShowComments extends Component {
 
     constructor(props) {
@@ -25,6 +25,17 @@ class BackOfficeShowComments extends Component {
         this.handleChangeSearch = this.handleChangeSearch.bind(this)
         this.deletePost= this.deletePost.bind(this)
 
+
+      }
+      componentDidUpdate(prevProps) {
+        if(this.props.comment !== prevProps.comment){
+          let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+          this.setState({
+            data: commentsList,
+            dataFixed:commentsList,
+            maxPage: Math.floor(commentsList.length/this.state.elementsByPage)
+          })
+      }
 
       }
 
@@ -75,9 +86,6 @@ class BackOfficeShowComments extends Component {
     }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
-
-            
-     
           this.search()
 
                  
@@ -96,7 +104,7 @@ class BackOfficeShowComments extends Component {
         }
         }).then(()=>{
           let asyncUpdate = async()=>{
-            await this.props.fetchCommentsByPostId()
+            this.props.deleteComment(id)
             this.getData()
             this.search()
            }
@@ -210,7 +218,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch,own) => bindActionCreators({
   fetchCommentsByPostId: ()=> fetchCommentsByPostId(own.match.params.id),
   setPopUp,
-  unsetPopUp
+  unsetPopUp,
+  deleteComment
   
 }, dispatch)
  
