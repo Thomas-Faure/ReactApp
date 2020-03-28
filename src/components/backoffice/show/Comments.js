@@ -55,11 +55,11 @@ class BackOfficeShowComments extends Component {
         this.setState({
           data: data,
           dataFixed: data,
-          maxPage: Math.floor(data.length/this.state.elementsByPage)
+          maxPage: Math.ceil(data.length/this.state.elementsByPage)
         })
     }
     pushNextButton(){
-        if(this.state.actualPage < this.state.maxPage){
+        if(this.state.actualPage < this.state.maxPage-1){
         this.setState({
             actualPage : this.state.actualPage+1   
         })
@@ -195,7 +195,7 @@ class BackOfficeShowComments extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>

@@ -46,14 +46,14 @@ class BackOfficeShowReportComments extends Component {
        this.setState({
             data: res.data,
             dataFixed:res.data,
-            maxPage: Math.floor(res.data.length/this.state.elementsByPage)
+            maxPage: Math.ceil(res.data.length/this.state.elementsByPage)
           })
       })
         
     }
 
     pushNextButton(){
-        if(this.state.actualPage < this.state.maxPage){
+        if(this.state.actualPage < this.state.maxPage-1){
         this.setState({
             actualPage : this.state.actualPage+1
            
@@ -231,7 +231,7 @@ class BackOfficeShowReportComments extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/>
 <button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button>
 <br/>
 </p>

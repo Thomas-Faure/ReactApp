@@ -51,12 +51,12 @@ class BackOfficeShowPosts extends Component {
         this.setState({
           data: postsList,
           dataFixed:postsList,
-          maxPage: Math.floor(postsList.length/this.state.elementsByPage)
+          maxPage: Math.ceil(postsList.length/this.state.elementsByPage)
         })
     }
 
     pushNextButton(){
-        if(this.state.actualPage < this.state.maxPage){
+        if(this.state.actualPage < this.state.maxPage-1){
         this.setState({
             actualPage : this.state.actualPage+1
            
@@ -213,7 +213,7 @@ class BackOfficeShowPosts extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>

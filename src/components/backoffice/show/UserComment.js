@@ -35,10 +35,14 @@ class BackOfficeShowUserComments extends Component {
       componentDidUpdate(prevProps) {
         if(this.props.comment !== prevProps.comment){
           let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+          console.log(commentsList.length/this.state.elementsByPage)
+          console.log(Math.floor(commentsList.length/this.state.elementsByPage))
+          console.log("--------")
+
           this.setState({
             data: commentsList,
             dataFixed:commentsList,
-            maxPage: Math.floor(commentsList.length/this.state.elementsByPage)
+            maxPage: Math.ceil(commentsList.length/this.state.elementsByPage)
           })
       }
     }
@@ -54,6 +58,7 @@ class BackOfficeShowUserComments extends Component {
     }
     getData(){
       let data = this.props.comment.allIds.map(id => this.props.comment.byId[id])
+      console.log(data.length/this.state.elementsByPage)
         this.setState({
           data: data,
           dataFixed: data,
@@ -61,7 +66,7 @@ class BackOfficeShowUserComments extends Component {
         })
     }
     pushNextButton(){
-        if(this.state.actualPage < this.state.maxPage){
+        if(this.state.actualPage < this.state.maxPage-1){
         this.setState({
             actualPage : this.state.actualPage+1   
         })
@@ -127,6 +132,7 @@ class BackOfficeShowUserComments extends Component {
         }
     }
     render() {
+      
         return (
             <div>
           
@@ -200,7 +206,7 @@ class BackOfficeShowUserComments extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>
