@@ -6,7 +6,10 @@ import fetchUsers from '../../../fetch/fetchUsers'
 import BackOfficeCreateUser from "../create/User"
 import BackOfficeEditUser from "../edit/User"
 import {setPopUp,unsetPopUp,removeUser} from '../../../actions';
-
+/*
+* Composant permettant d'afficher la liste des utilisateurs pour pouvoir les modifier ou les supprimer
+*
+*/
 class BackOfficeShowUsers extends Component {
 
     constructor(props) {

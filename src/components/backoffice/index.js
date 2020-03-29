@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import {FormattedMessage} from 'react-intl';
+/*
+* Composant permettant d'afficher le menu du backoffice afin d'accéder aux différentes options
+*
+*/
 class BackOfficeIndex extends Component {
   render() {
     return (

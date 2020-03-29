@@ -5,6 +5,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* Réduceur permettant le stockage des catégories de posts
+*
+*/
 const categoriePostReducer = (state = initialState, action)=>{
     switch(action.type) {
         case REMOVE_POST_CATEGORIE:

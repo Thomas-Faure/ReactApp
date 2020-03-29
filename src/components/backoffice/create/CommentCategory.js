@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {unsetPopUp} from '../../../actions'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
+/*
+* Composant permettant d'afficher un formulaire pour creer une nouvelle catégorie de commmentaire
+*
+*/
 class BackOfficeCreateCommentCategory extends Component {
   constructor(props) {
     super(props)

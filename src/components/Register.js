@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
 import { FormattedMessage, injectIntl } from 'react-intl';
-
+/*
+* Composant affichant un formulaire d'inscription pour un utilisateur
+*
+*/
 class Register extends Component {
 
   constructor(props) {

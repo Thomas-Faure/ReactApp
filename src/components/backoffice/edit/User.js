@@ -5,6 +5,11 @@ import fetchUsers from '../../../fetch/fetchUsers'
 import sha256 from 'sha256';
 import { queryAllByTestId } from "@testing-library/react";
 import {unsetPopUp,updateUser} from '../../../actions'
+
+/*
+* Composant permettant d'afficher un formulaire pour modifier un utilisateur
+*
+*/
 class BackOfficeEditUser extends Component {
   constructor(props) {
     super(props)

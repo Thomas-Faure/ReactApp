@@ -5,6 +5,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* Réduceur permettant le stockage des catégories de commentaires
+*
+*/
 const categorieCommentReducer = (state = initialState, action)=>{
     switch(action.type) {
 

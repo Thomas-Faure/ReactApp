@@ -6,6 +6,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* Réduceur permettant le stockage de tout les utilisateurs
+*
+*/
 const userListReducer = (state = initialState, action)=>{
     switch(action.type) {
         case REMOVE_USER:

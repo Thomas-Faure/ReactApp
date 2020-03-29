@@ -8,6 +8,10 @@ import BackOfficeCreatePost from "../create/Post"
 import BackOfficeEditPost from "../edit/Post"
 import {setPopUp,unsetPopUp} from '../../../actions';
 import {FormattedMessage,injectIntl} from 'react-intl';
+/*
+* Composant permettant d'afficher la liste des posts afin de pouvoir effectuer des actions comme la suppression ou la modification
+*
+*/
 class BackOfficeShowPosts extends Component {
 
     constructor(props) {

@@ -9,6 +9,10 @@ import {addComments,deleteComment} from '../../../actions';
 import axios from 'axios'
 
 import {setPopUp,unsetPopUp} from '../../../actions';
+/*
+* Composant permettant d'afficher la liste des commentaires d'un utilisateur passé en paramètre afin de pouvoir les modifier ou les supprimer
+*
+*/
 class BackOfficeShowUserComments extends Component {
 
     constructor(props) {

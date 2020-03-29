@@ -6,6 +6,10 @@ import BackOfficeEditUser from '../edit/User'
 import {history} from 'react-router-dom'
 import {addNewUserToList,setPopUp,unsetPopUp,removeUser} from '../../../actions'
 import axios from 'axios'
+/*
+* Composant permettant d'afficher les informations d'un utilisateur passé en paramètre, permet de le modifier,supprimer,voir ses posts et voir ses commentaires
+*
+*/
 class BackOfficeShowUserPage extends Component {
     constructor(props){
         super(props)

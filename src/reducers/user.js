@@ -1,3 +1,7 @@
+/*
+* Réduceur permettant le stockage de l'utilisateur connecté
+*
+*/
 const userReducer = (state = null, action)=>{
     switch(action.type){
         case "SETUSER":

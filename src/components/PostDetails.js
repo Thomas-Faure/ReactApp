@@ -13,6 +13,11 @@ import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { FormattedMessage, injectIntl } from 'react-intl';
 
+/*
+* Composant affichant le détails d'un post, c'est à dire les informations d'un post en lui même
+* et sa list de commentaires ainsi q'un formulaire pour ajouter un nouveau commentaire à ce post
+*
+*/
 class PostDetails extends Component {
 
   constructor(props) {

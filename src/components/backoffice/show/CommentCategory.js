@@ -7,6 +7,11 @@ import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import BackOfficeEditCommentCategory from '../edit/CommentCategory'
 import {setPopUp,unsetPopUp} from '../../../actions';
 import BackOfficeCreateCommentCategory from "../create/CommentCategory"
+
+/*
+* Composant permettant d'afficher la liste des catégories de commentaire afin de pouvoir effectuer des actions comme la suppression ou la modification
+*
+*/
 class BackOfficeShowCommentCategories extends Component {
 
     constructor(props) {

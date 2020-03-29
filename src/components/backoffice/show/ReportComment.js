@@ -6,6 +6,10 @@ import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import {setPopUp} from '../../../actions';
 import axios from 'axios';
+/*
+* Composant permettant d'afficher la liste des commentaires qui on été signalé afin q'un administrateur puisse décider de le garder ou de le supprimer
+*
+*/
 class BackOfficeShowReportComments extends Component {
 
     constructor(props) {

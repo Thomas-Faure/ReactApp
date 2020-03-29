@@ -11,6 +11,10 @@ import { setPopUp } from '../actions';
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
+/*
+* Composant affichant la liste de tout les posts existante, avec un système de filtre par "mot", par "post le plus récent","post le plus populaire","post le plus commenté"
+*
+*/
 class PostsList extends Component {
   constructor(props) {
     super(props)

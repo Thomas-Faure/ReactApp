@@ -5,6 +5,11 @@ import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
 import {unsetPopUp} from '../../../actions'
 import {FormattedMessage,injectIntl} from 'react-intl';
+
+/*
+* Composant permettant d'afficher un formulaire pour creer un nouveau post
+*
+*/
 class BackOfficeCreatePost extends Component {
   constructor(props) {
     super(props)

@@ -4,6 +4,10 @@ import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import {unsetPopUp} from '../../../actions'
 
+/*
+* Composant permettant d'afficher un formulaire pour creer une nouvelle catégorie de post
+*
+*/
 class BackOfficeCreatePostCategory extends Component {
   constructor(props) {
     super(props)

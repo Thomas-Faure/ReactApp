@@ -5,6 +5,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* Réduceur permettant le stockages des posts
+*
+*/
 const postReducer = (state = initialState, action)=>{
     switch(action.type) {
       

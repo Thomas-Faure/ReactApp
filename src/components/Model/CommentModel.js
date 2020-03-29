@@ -5,6 +5,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { updateCommentReport, changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
 import { FormattedMessage } from 'react-intl';
+/*
+* Composant affichant un commentaire
+*
+*/
 class CommentModel extends Component {
 
   constructor(props) {

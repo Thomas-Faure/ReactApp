@@ -4,6 +4,10 @@ import fetchPosts from '../fetch/fetchPosts'
 import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
 import { FormattedMessage, injectIntl } from 'react-intl';
+/*
+* Composant affichant un formulaire permettant la connexion, permettant d'acceder à la page "mot de passe oublié" ou bien pour acceder à la page "inscription"
+*
+*/
 class Login extends Component {
   constructor(props) {
     super(props)

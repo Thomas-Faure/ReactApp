@@ -48,7 +48,10 @@ import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
 import AddPost from "./AddPost";
 import Account from "./Account";
-
+/*
+* Composant principale, ou notre route y est définie
+*
+*/
 class Main extends Component {
 
   constructor(props) {

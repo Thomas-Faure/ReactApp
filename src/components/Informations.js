@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import {FormattedMessage} from 'react-intl';
+/*
+* Composant affichant des informations concernant la dénonciation du séxisme
+*
+*/
 class Informations extends Component {
     render() {
         return (

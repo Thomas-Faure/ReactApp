@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { login, setUser, unsetPopUp, setPopUp } from '../actions';
 import sha256 from 'sha256';
 import { FormattedMessage, injectIntl } from 'react-intl';
+/*
+* Composant affichant une page de modification de son compte utilisateur
+*
+*/
 class Account extends Component {
   constructor(props) {
     super(props)

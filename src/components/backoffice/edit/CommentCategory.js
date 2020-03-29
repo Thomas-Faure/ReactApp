@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {unsetPopUp} from '../../../actions'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
+
+/*
+* Composant permettant d'afficher un formulaire pour modifier uune catégorie de commentaire
+*
+*/
 class BackOfficeEditCommentCategory extends Component {
   constructor(props) {
     super(props)

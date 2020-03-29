@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {setPopUp,unsetPopUp,removePostCategorie} from '../../../actions';
 import BackOfficeEditPostCategory from '../edit/PostCategory'
 import BackOfficeCreatePostCategory from "../create/PostCategory"
+/*
+* Composant permettant d'afficher la liste des catégories de posts afin de pouvoir effectuer des actions comme la suppression ou la modification
+*
+*/
 class BackOfficeShowPostCategories extends Component {
 
     constructor(props) {

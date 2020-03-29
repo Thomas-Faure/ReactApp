@@ -4,6 +4,10 @@ import { bindActionCreators } from "redux";
 import fetchUsers from '../../../fetch/fetchUsers'
 import sha256 from 'sha256';
 import {unsetPopUp} from '../../../actions'
+/*
+* Composant permettant d'afficher un formulaire pour creer un nouvel utilisateur
+*
+*/
 class BackOfficeCreateUser extends Component {
   constructor(props) {
     super(props)

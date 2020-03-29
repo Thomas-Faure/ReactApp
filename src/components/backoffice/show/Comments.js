@@ -5,6 +5,11 @@ import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
 import {setPopUp,unsetPopUp,deleteComment} from '../../../actions';
+
+/*
+* Composant permettant d'afficher la liste des commentaires d'un post donné en paramètre afin de pouvoir effectuer des actions comme la suppression ou la modification
+*
+*/
 class BackOfficeShowComments extends Component {
 
     constructor(props) {

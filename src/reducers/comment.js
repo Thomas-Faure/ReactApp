@@ -5,6 +5,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* Réduceur permettant le stockage des commentaires
+*
+*/
 const commentReducer = (state = initialState, action)=>{
     switch(action.type) {
 

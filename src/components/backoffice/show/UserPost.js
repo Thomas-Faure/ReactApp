@@ -8,6 +8,10 @@ import BackOfficeCreatePost from "../create/Post"
 import BackOfficeEditPost from "../edit/Post"
 import {setPopUp,unsetPopUp} from '../../../actions';
 import {FormattedMessage,injectIntl} from 'react-intl';
+/*
+* Composant permettant d'afficher la liste des posts d'un utilisateur passé en paramètre afin de pouvoir les modifier ou les supprimer
+*
+*/
 class BackOfficeShowUserPosts extends Component {
 
     constructor(props) {

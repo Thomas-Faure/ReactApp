@@ -6,6 +6,10 @@ import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import fetchComments from '../../../fetch/fetchComments'
 import {unsetPopUp,updateComment} from '../../../actions'
 
+/*
+* Composant permettant d'afficher un formulaire pour modifier un commentaire
+*
+*/
 class BackOfficeEditComment extends Component {
   constructor(props) {
     super(props)

@@ -1,3 +1,6 @@
+/*
+* Réduceur permettant de connaitre le formulaire/popup à faire apparaitre souhaité
+*/
 const PopUpReducer = (state = {page:null,id:null}, action)=>{
     switch(action.type){
         case "SET_POPUP":

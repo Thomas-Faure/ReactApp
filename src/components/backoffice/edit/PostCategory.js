@@ -7,6 +7,10 @@ import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import fetchPosts from '../../../fetch/fetchPosts'
 import {unsetPopUp} from '../../../actions'
 
+/*
+* Composant permettant d'afficher un formulaire pour modifier une catégorie de post
+*
+*/
 class BackOfficeEditPostCategory extends Component {
   constructor(props) {
     super(props)

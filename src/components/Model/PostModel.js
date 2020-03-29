@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+/*
+* Composant affichant un post
+*
+*/
 class PostModel extends Component {
 
   constructor(props) {

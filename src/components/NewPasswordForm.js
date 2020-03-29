@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import {FormattedMessage} from 'react-intl';
 import sha256 from 'sha256';
+/*
+* Composant affichant un formulaire pour le changement de mot de passe suite à la reception d'un mail de "mot de passe oublié" pour un utilisateur
+*
+*/
 class NewPasswordForm extends Component {
     constructor(props){
         super(props)

@@ -7,6 +7,11 @@ import fetchPosts from '../../../fetch/fetchPosts'
 import {unsetPopUp} from '../../../actions'
 import {FormattedMessage ,injectIntl} from 'react-intl';
 
+/*
+* Composant permettant d'afficher un formulaire pour modifier un post
+*
+*/
+
 class BackOfficeEditPost extends Component {
   constructor(props) {
     super(props)

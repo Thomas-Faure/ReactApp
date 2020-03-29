@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl';
+/*
+* Composant affichant la page contact permettant d'envoyer un mail à l'administrateur
+*
+*/
 class Contact extends Component {
 
   constructor(props) {

@@ -5,7 +5,10 @@ import { bindActionCreators } from 'redux';
 import fetchPosts from '../fetch/fetchPosts'
 import fetchPostCategories from '../fetch/fetchPostCategories'
 import { FormattedMessage, injectIntl } from 'react-intl';
-
+/*
+* Composant affichant un formulaire pour un ajout de post
+*
+*/
 class AddPost extends Component {
 
   constructor(props) {
