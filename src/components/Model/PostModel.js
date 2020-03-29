@@ -12,19 +12,10 @@ class PostModel extends Component {
 
   constructor(props) {
     super(props)
-    
-
-
-
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      post: nextProps.post
-    })
   }
 
 
+  //pour afficher la page de détails du post
   seePost(id) {
     window.location.href = '/#/post/' + id;
   }

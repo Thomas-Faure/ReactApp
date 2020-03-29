@@ -114,13 +114,13 @@ class Login extends Component {
         })
         info = await info.json()
         this.props.setUser(info[0])
-        console.log(info[0])
+    
         
        this.props.unsetPopUp()
         localStorage.setItem("token", res.token)
       this.props.login()
       if(info[0].admin==1){
-        console.log("oui !")
+     
         this.props.fetchPosts();
       }
 

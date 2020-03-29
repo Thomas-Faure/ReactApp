@@ -34,6 +34,7 @@ class CommentModel extends Component {
     }
   }
 
+  //pour supprimer le commentaire
   async removeComment() {
     const token = localStorage.token;
     const id = this.props.commentState.byId[this.props.commentid].comment_id
@@ -58,6 +59,7 @@ class CommentModel extends Component {
     }
   }
 
+  //pour liker positivement/negativement le commentaire
   like(like) {
     const token = localStorage.token;
     const post_id = this.props.commentState.byId[this.props.commentid].post
@@ -89,7 +91,7 @@ class CommentModel extends Component {
 
   }
 
-
+  //pour dénoncer le commentaire
   report() {
     const token = localStorage.token;
     fetch("https://thomasfaure.fr/reportcomment/create", {

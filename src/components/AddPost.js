@@ -42,11 +42,13 @@ class AddPost extends Component {
     this._isMounted && this.getMyLocation();
   }
 
+  //pour afficher le formulaire de login
   login() {
     this.props.unsetPopUp()
     this.props.setPopUp("login", null)
   }
 
+  //pour récuperer la localisation de l'utilisateur
   getMyLocation() {
     var city = ""
     const location = window.navigator && window.navigator.geolocation
@@ -89,6 +91,7 @@ class AddPost extends Component {
   }
 
 
+  //pour envoyer le nouveau post sur le serveur
   async handleSubmit(event) {
     if((this.state.title).trim() == ""){
       this.setState({error: "title"})

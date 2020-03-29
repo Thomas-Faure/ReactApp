@@ -42,7 +42,6 @@ class BackOfficeShowUserPage extends Component {
         //si on a pas deja enregister la liste des utilisateurs
     
         if(this.props.userList.byId[this.props.match.params.id] == null){
-            console.log("on ne connait pas deja l'utilisateur")
             const token = localStorage.token;
             const config = {
                 headers: { Authorization: 'Bearer ' + token }
@@ -52,7 +51,7 @@ class BackOfficeShowUserPage extends Component {
         }else{
             //vu qu'on a deja tout les utilisateurs, inutile de charger via la base, on va chercher l'utilisateur souhaité
             var user = this.props.userList.byId[this.props.match.params.id]
-            console.log("on a connait deja l'utilisateur")
+         
             
             
         }

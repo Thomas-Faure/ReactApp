@@ -1,4 +1,8 @@
 
+/*
+* Fichier contenant toutes les actions permettant l'accès aux reduceurs
+*
+*/
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE'
 export const changeLanguage = (language) =>{
     return {

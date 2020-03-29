@@ -39,9 +39,7 @@ class BackOfficeShowUserComments extends Component {
       componentDidUpdate(prevProps) {
         if(this.props.comment !== prevProps.comment){
           let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
-          console.log(commentsList.length/this.state.elementsByPage)
-          console.log(Math.floor(commentsList.length/this.state.elementsByPage))
-          console.log("--------")
+    
 
           this.setState({
             data: commentsList,
