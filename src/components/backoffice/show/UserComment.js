@@ -5,6 +5,8 @@ import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
 import {addComments,deleteComment} from '../../../actions';
+import {FormattedMessage} from 'react-intl';
+
 
 import axios from 'axios'
 
@@ -134,7 +136,7 @@ class BackOfficeShowUserComments extends Component {
         }
     }
     render() {
-      
+      const { formatMessage } = this.props.intl;
         return (
             <div>
           
@@ -155,8 +157,8 @@ class BackOfficeShowUserComments extends Component {
         <p>Are you sure to delete this comment ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
-      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
     </footer>
   </div>
 </div>}
@@ -179,14 +181,14 @@ class BackOfficeShowUserComments extends Component {
             </div>
             </div>
 
-            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <input className="input" type="text" placeholder={formatMessage({id: "backoffice.general.search"})} value={this.state.searchItem} onChange={this.handleChangeSearch} />
 
         
             <table style={{width: "100%"}} className="table">
   <thead>
     <tr style={{textAlign:"center"}}>  
         <th >Id</th>
-        <th >Description</th>
+        <th ><FormattedMessage id="backoffice.menu2.comment.description"/></th>
         <th >Action</th>
     </tr>
   </thead>
@@ -208,7 +210,7 @@ class BackOfficeShowUserComments extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>

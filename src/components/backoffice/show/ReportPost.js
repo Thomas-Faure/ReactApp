@@ -6,6 +6,7 @@ import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import {setPopUp} from '../../../actions';
 import axios from 'axios';
+import {FormattedMessage,injectIntl} from 'react-intl'
 /*
 * Composant permettant d'afficher la liste des posts qui on été signalé afin q'un administrateur puisse décider de le garder ou de le supprimer
 *
@@ -150,7 +151,7 @@ class BackOfficeShowReportPosts extends Component {
 
 
     render() {
-   
+      const { formatMessage } = this.props.intl;
         return (
             <div>
            
@@ -174,9 +175,9 @@ class BackOfficeShowReportPosts extends Component {
     {this.state.action =="validate" ?
       <button className="button is-danger" onClick={()=>{this.validate(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>Validate</button>
       :
-      <button className="button is-danger" onClick={()=>{this.delete(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>Delete</button>
+      <button className="button is-danger" onClick={()=>{this.delete(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>{formatMessage({id: "backoffice.general.delete"})}</button>
     }
-      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>Cancel</button>
+      <button className="button" onClick={()=>{this.setState({isOpen:false})}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
     </footer>
   </div>
 </div>
@@ -197,7 +198,7 @@ class BackOfficeShowReportPosts extends Component {
             </div>
             </div>
 
-            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <input className="input" type="text" placeholder={formatMessage({id: "backoffice.general.search"})} value={this.state.searchItem} onChange={this.handleChangeSearch} />
 
         
             <table style={{width: "100%"}} className="table">
@@ -235,8 +236,8 @@ class BackOfficeShowReportPosts extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/>
-<button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1} / {this.state.maxPage}</span><br/>
+<button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button>
 <br/>
 </p>
             </div>
@@ -264,4 +265,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   
 }, dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowReportPosts);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowReportPosts));

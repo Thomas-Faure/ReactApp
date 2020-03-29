@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
 import {unsetPopUp} from '../../../actions'
+import {FormattedMessage,injectIntl} from 'react-intl';
 
 /*
 * Composant permettant d'afficher un formulaire pour creer une nouvelle catégorie de post
@@ -71,6 +72,7 @@ class BackOfficeCreatePostCategory extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
     return (
 
       <div className={'modal is-active'}>
@@ -87,33 +89,28 @@ class BackOfficeCreatePostCategory extends Component {
   <div>
         <form onSubmit={this.handleSubmit}>
           <div className="field">
-            <label className="label">Description</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.postC.create.description"/></label>
             <div className="control">
               <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
-            <label className="label">Couleur</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.postC.create.color"/></label>
             <div className="control">
               <input className="input" type="color" placeholder="Couleur" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
             </div>
           </div>
-          <div className="field">
-            <label className="label">Url</label>
-            <div className="control">
-              <input className="input" type="text" placeholder="Url" value={this.state.valueUrl} onChange={this.handleChangeUrl} />
-            </div>
-          </div>
+         
        
 
           <div className="control">
-            <input className="button is-link" type="submit" value="submit"></input>
+            <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
 
           </div>
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger"  onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger"  onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.back"})}</button></p>
 
 
       </div>
@@ -144,7 +141,7 @@ const mapDispatchToProps = dispatch => bindActionCreators( {
   
 },dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePostCategory);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeCreatePostCategory));
 
 
 

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {unsetPopUp} from '../../../actions'
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
-
+import {FormattedMessage,injectIntl} from 'react-intl'
 /*
 * Composant permettant d'afficher un formulaire pour modifier uune catégorie de commentaire
 *
@@ -90,6 +90,7 @@ class BackOfficeEditCommentCategory extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
     return (
 
       <div className={'modal is-active'}>
@@ -110,13 +111,13 @@ class BackOfficeEditCommentCategory extends Component {
 
         <form onSubmit={this.handleSubmit}>
           <div className="field">
-            <label className="label">Description</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.commentC.create.description"/></label>
             <div className="control">
               <input className="input" type="text" placeholder="Description" value={this.state.valueDescription} onChange={this.handleChangeDescription} />
             </div>
           </div>
           <div className="field">
-            <label className="label">Couleur</label>
+            <label className="label"><FormattedMessage id="backoffice.menu1.commentC.create.couleur"/></label>
             <div className="control">
               <input className="input" type="color" placeholder="Couleur" value={this.state.valueCouleur} onChange={this.handleChangeCouleur} />
             </div>
@@ -125,13 +126,13 @@ class BackOfficeEditCommentCategory extends Component {
        
 
           <div className="control">
-            <input className="button is-link" type="submit" value="submit"></input>
+            <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
 
           </div>
 
 
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.back"})}</button></p>
 
 
       </div>
@@ -165,4 +166,4 @@ const mapDispatchToProps = () => {
   }
 }
  
-export default connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditCommentCategory);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps())(BackOfficeEditCommentCategory));

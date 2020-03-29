@@ -159,8 +159,8 @@ class BackOfficeShowUserPosts extends Component {
                   <p>Are you sure to delete this post ?</p>
               </section>
               <footer className="modal-card-foot">
-                <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
-                <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+                <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
+                <button className="button" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
               </footer>
             </div>
           </div>

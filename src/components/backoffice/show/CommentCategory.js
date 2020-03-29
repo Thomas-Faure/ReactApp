@@ -7,7 +7,7 @@ import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import BackOfficeEditCommentCategory from '../edit/CommentCategory'
 import {setPopUp,unsetPopUp} from '../../../actions';
 import BackOfficeCreateCommentCategory from "../create/CommentCategory"
-
+import {FormattedMessage,injectIntl} from 'react-intl';
 /*
 * Composant permettant d'afficher la liste des catégories de commentaire afin de pouvoir effectuer des actions comme la suppression ou la modification
 *
@@ -130,6 +130,7 @@ class BackOfficeShowCommentCategories extends Component {
 
 
     render() {
+      const { formatMessage } = this.props.intl;
         return (
             <div>
 {this.props.popUp.page != "BOCommentCatCreate" ? null 
@@ -153,8 +154,8 @@ class BackOfficeShowCommentCategories extends Component {
         <p>Are you sure to delete this Comment category ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
-      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deletePostCategory(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
     </footer>
   </div>
 </div>}
@@ -177,7 +178,7 @@ class BackOfficeShowCommentCategories extends Component {
             </div>
             </div>
 
-            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <input className="input" type="text" placeholder={formatMessage({id: "backoffice.general.search"})} value={this.state.searchItem} onChange={this.handleChangeSearch} />
 
         
             <table style={{width: "100%"}} className="table">
@@ -210,7 +211,7 @@ class BackOfficeShowCommentCategories extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1} / {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>
@@ -237,5 +238,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   
 }, dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowCommentCategories);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowCommentCategories));
  

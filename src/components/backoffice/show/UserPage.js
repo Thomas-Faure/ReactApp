@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage,injectIntl} from 'react-intl';
 import BackOfficeEditUser from '../edit/User'
 import {history} from 'react-router-dom'
 import {addNewUserToList,setPopUp,unsetPopUp,removeUser} from '../../../actions'
 import axios from 'axios'
+
 /*
 * Composant permettant d'afficher les informations d'un utilisateur passé en paramètre, permet de le modifier,supprimer,voir ses posts et voir ses commentaires
 *
@@ -60,6 +61,8 @@ class BackOfficeShowUserPage extends Component {
       this.props.history.goBack();
   }
   render() {
+    const { formatMessage } = this.props.intl;
+
     if(this.props.userList.byId[this.props.match.params.id] == null){
         return(<h1>Pas d'utilisateur avec cet identifiant ! </h1>)
     }else{
@@ -84,8 +87,8 @@ class BackOfficeShowUserPage extends Component {
                     <p>Are you sure to delete this user ?</p>
                 </section>
                 <footer className="modal-card-foot">
-                <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
-                <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+                <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
+                <button className="button" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
                 </footer>
             </div>
             </div>}
@@ -95,17 +98,17 @@ class BackOfficeShowUserPage extends Component {
         <div className="column">
         <button className="button is-danger" onClick={event =>  this.goBack()}>⬅</button>
 
-        <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px"}}>Page Utilisateur</h1>
-        <h2 style={{fontWeight: "bold",fontSize:"20px"}}>Informations:</h2>
-        <p style={{marginBottom: "10px",width: "100%"}}>Prénom: {user.firstname}</p>
-        <p style={{marginBottom: "10px",width: "100%"}}>Nom: {user.lastname}</p>
-        <p style={{marginBottom: "10px",width: "100%"}}>Username: {user.username}</p>
-        <p style={{marginBottom: "10px",width: "100%"}}>Mail: {user.mail}</p>
+        <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px"}}><FormattedMessage id="backoffice.menuUser.title"/></h1>
+        <h2 style={{fontWeight: "bold",fontSize:"20px"}}><FormattedMessage id="backoffice.menuUser.information"/>:</h2>
+        <p style={{marginBottom: "10px",width: "100%"}}><FormattedMessage id="backoffice.menuUser.firstname"/>: {user.firstname}</p>
+        <p style={{marginBottom: "10px",width: "100%"}}><FormattedMessage id="backoffice.menuUser.lastname"/>: {user.lastname}</p>
+        <p style={{marginBottom: "10px",width: "100%"}}><FormattedMessage id="backoffice.menuUser.username"/>: {user.username}</p>
+        <p style={{marginBottom: "10px",width: "100%"}}><FormattedMessage id="backoffice.menuUser.mail"/>: {user.mail}</p>
         <h2 style={{fontWeight: "bold",fontSize:"20px"}}>Actions:</h2>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/posts"}>Ses posts</button></p>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/comments"}>Ses commentaires</button></p>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={()=>{this.props.setPopUp("BOUserEdit",user.user_id)}}>Modifier</button></p>
-        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-danger"  onClick={()=>{this.props.setPopUp("deleteUser",user.user_id)}}>Supprimer</button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/posts"}><FormattedMessage id="backoffice.menuUser.post"/></button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-info" onClick={event =>  window.location.href='/#/backoffice/user/'+this.props.match.params.id+"/comments"}><FormattedMessage id="backoffice.menuUser.comment"/></button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-warning" onClick={()=>{this.props.setPopUp("BOUserEdit",user.user_id)}}><FormattedMessage id="backoffice.menuUser.modify"/></button></p>
+        <p style={{marginBottom: "10px"}}><button style={{width: "100%"}}className="button is-danger"  onClick={()=>{this.props.setPopUp("deleteUser",user.user_id)}}><FormattedMessage id="backoffice.menuUser.delete"/></button></p>
 
 
         </div>
@@ -138,5 +141,5 @@ const mapStateToProps = state => {
     
   }, dispatch)
    
-  export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUserPage);
+  export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUserPage));
  

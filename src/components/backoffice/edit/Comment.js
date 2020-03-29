@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import fetchCommentCategories from "../../../fetch/fetchCommentCategories";
 import fetchComments from '../../../fetch/fetchComments'
 import {unsetPopUp,updateComment} from '../../../actions'
-
+import {FormattedMessage,injectIntl} from 'react-intl';
 /*
 * Composant permettant d'afficher un formulaire pour modifier un commentaire
 *
@@ -91,6 +91,8 @@ class BackOfficeEditComment extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl;
+
     return (
       
 <div className={'modal is-active'}>
@@ -132,10 +134,10 @@ class BackOfficeEditComment extends Component {
             </div>
           </div>
           <div className="control">
-            <input className="button is-link" type="submit" value="submit"></input>
+            <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
           </div>
         </form>
-        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>Back</button></p>
+        <p style={{marginTop:"10px"}}><button className="button is-danger" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.back"})}</button></p>
 
 
       </div>
@@ -169,6 +171,6 @@ const mapDispatchToProps = dispatch => bindActionCreators( {
   
 },dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditComment);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeEditComment));
 
 

@@ -6,6 +6,7 @@ import fetchUsers from '../../../fetch/fetchUsers'
 import BackOfficeCreateUser from "../create/User"
 import BackOfficeEditUser from "../edit/User"
 import {setPopUp,unsetPopUp,removeUser} from '../../../actions';
+import {FormattedMessage,injectIntl} from 'react-intl';
 /*
 * Composant permettant d'afficher la liste des utilisateurs pour pouvoir les modifier ou les supprimer
 *
@@ -118,6 +119,7 @@ class BackOfficeShowUsers extends Component {
 
     }
     render() {
+      const { formatMessage } = this.props.intl;
         return (
             <div>
                             {this.props.popUp.page != "BOUserCreate" ? null 
@@ -142,8 +144,8 @@ class BackOfficeShowUsers extends Component {
         <p>Are you sure to delete this user ?</p>
     </section>
     <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>Delete</button>
-      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>Cancel</button>
+      <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
+      <button className="button" onClick={()=>{this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.cancel"})}</button>
     </footer>
   </div>
 </div>}
@@ -152,7 +154,7 @@ class BackOfficeShowUsers extends Component {
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half"  style={{margin: "auto"}}>
-            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage User</h1>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}><FormattedMessage id="backoffice.menu1.users.titlePage"/></h1>
            
             <div className="columns">
             <div className="column is-one-quarter">
@@ -166,7 +168,7 @@ class BackOfficeShowUsers extends Component {
             </div>
             </div>
 
-            <input className="input" type="text" placeholder="Search" value={this.state.searchItem} onChange={this.handleChangeSearch} />
+            <input className="input" type="text" placeholder={formatMessage({id: "backoffice.general.search"})} value={this.state.searchItem} onChange={this.handleChangeSearch} />
 
         
             <table style={{width: "100%"}} className="table">
@@ -174,8 +176,8 @@ class BackOfficeShowUsers extends Component {
     <tr style={{textAlign:"center"}}>
       
         <th >Id</th>
-        <th >Username</th>
-        <th >Firstname</th>
+        <th ><FormattedMessage id="backoffice.menu1.users.field.username"/></th>
+        <th ><FormattedMessage id="backoffice.menu1.users.field.firstname"/></th>
         <th >Action</th>
 
     </tr>
@@ -199,7 +201,7 @@ class BackOfficeShowUsers extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}>The actual page is : {this.state.actualPage+1}/ {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}>Prev</button><button className="button is-link" onClick={this.pushNextButton}>Next</button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1}/ {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>
@@ -230,4 +232,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   
 }, dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUsers);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUsers));

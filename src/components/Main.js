@@ -5,7 +5,7 @@ import fetchPosts from '../fetch/fetchPosts'
 import Login from './Login'
 import Register from './Register'
 import fetchUsers from '../fetch/fetchUsers'
-import { FormattedMessage } from 'react-intl';
+
 
 
 import {
@@ -43,6 +43,8 @@ import NotFound from './NotFound'
 import BackOfficeShowUserPage from './backoffice/show/UserPage'
 import { login, logoff, setUser, unSetUser, setPopUp, unsetPopUp, changeLanguage } from '../actions';
 import sha256 from 'sha256';
+import {FormattedMessage,injectIntl} from 'react-intl'
+
 import fetchBestAnswer from "../fetch/fetchBestAnswer";
 import fetchCommentCategories from "../fetch/fetchCommentCategories";
 import fetchPostCategories from "../fetch/fetchPostCategories";
@@ -142,6 +144,8 @@ class Main extends Component {
   )
 
   render() {
+    const { formatMessage } = this.props.intl;
+
     if(this.state.isLoaded == false){
      return null
     }else{
@@ -173,7 +177,7 @@ class Main extends Component {
                       <Register></Register>
                     </section>
                     <footer className="modal-card-foot">
-                      <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
+                      <button className="button" onClick={() => { this.props.unsetPopUp() }}>{formatMessage({id: "backoffice.general.cancel"})}</button>
                     </footer>
                   </div>
                 </div>
@@ -190,7 +194,7 @@ class Main extends Component {
                       <Login></Login>
                     </section>
                     <footer className="modal-card-foot">
-                      <button className="button" onClick={() => { this.props.unsetPopUp() }}>Cancel</button>
+                      <button className="button" onClick={() => { this.props.unsetPopUp() }}>{formatMessage({id: "backoffice.general.cancel"})}</button>
                     </footer>
                   </div>
                 </div>}
@@ -369,4 +373,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(Main));

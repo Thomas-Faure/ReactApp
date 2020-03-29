@@ -188,7 +188,7 @@ class Account extends Component {
                   </div>
 
                   <div className="control">
-                    <input className="button is-link" type="submit" value="submit"></input>
+                    <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
 
                   </div>
 
