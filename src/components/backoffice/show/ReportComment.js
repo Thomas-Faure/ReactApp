@@ -51,7 +51,7 @@ class BackOfficeShowReportComments extends Component {
        this.setState({
             data: res.data,
             dataFixed:res.data,
-            maxPage: Math.ceil(res.data.length/this.state.elementsByPage)
+            maxPage: (Math.ceil(res.data.length/this.state.elementsByPage)== 0 ? 1 : Math.ceil(res.data.length/this.state.elementsByPage))
           })
       })
         
@@ -80,7 +80,7 @@ class BackOfficeShowReportComments extends Component {
     })
     this.setState({data:temp,
         actualPage : 0,
-        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
+        maxPage: (Math.ceil(temp.length/this.state.elementsByPage) == 0 ?  1 : Math.ceil(temp.length/this.state.elementsByPage))})
 
     }
     handleChangeSearch(event){
@@ -166,15 +166,15 @@ class BackOfficeShowReportComments extends Component {
     </header>
     <section className="modal-card-body">
     {this.state.action =="validate" ?
-     <p>Are you sure to validate this comment ?</p>
+     <p><FormattedMessage id="backoffice.report.validate.comment"/></p>
       :
-      <p>Are you sure to unvalidate this comment ?</p>
+      <p><FormattedMessage id="backoffice.report.unvalidate.comment"/></p>
       }
      
     </section>
     <footer className="modal-card-foot">
     {this.state.action =="validate" ?
-      <button className="button is-danger" onClick={()=>{this.validate(this.state.idCommentSelected);this.setState({isOpen:false,idCommentSelected:null,action:""})}}>Validate</button>
+      <button className="button is-danger" onClick={()=>{this.validate(this.state.idCommentSelected);this.setState({isOpen:false,idCommentSelected:null,action:""})}}>{formatMessage({id: "backoffice.general.validate"})}</button>
       :
       <button className="button is-danger" onClick={()=>{this.delete(this.state.idCommentSelected);this.setState({isOpen:false,idCommentSelected:null,action:""})}}>{formatMessage({id: "backoffice.general.delete"})}</button>
     }
@@ -207,9 +207,9 @@ class BackOfficeShowReportComments extends Component {
     <tr style={{textAlign:"center"}}>
       
         <th >Id</th>
-        <th >Count</th>
-        <th >Description</th>
-        <th >Action</th>
+        <th ><FormattedMessage id="backoffice.report.count"/></th>
+        <th ><FormattedMessage id="backoffice.report.description"/></th>
+        <th ><FormattedMessage id="backoffice.report.action"/></th>
 
     </tr>
   </thead>

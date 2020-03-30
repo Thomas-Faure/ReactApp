@@ -80,11 +80,11 @@ class BackOfficeShowUserPage extends Component {
             <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
             <div className="modal-card">
                 <header className="modal-card-head">
-                <p className="modal-card-title">Delete User</p>
+                <p className="modal-card-title"><FormattedMessage id="backoffice.delete.title.user"/></p>
                 <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
                 </header>
                 <section className="modal-card-body">
-                    <p>Are you sure to delete this user ?</p>
+                    <p><FormattedMessage id="backoffice.delete.user"/></p>
                 </section>
                 <footer className="modal-card-foot">
                 <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>

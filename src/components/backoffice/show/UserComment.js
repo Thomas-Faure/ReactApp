@@ -5,7 +5,7 @@ import fetchCommentsByPostId from '../../../fetch/fetchComments'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import BackOfficeEditComment from "../edit/Comment"
 import {addComments,deleteComment} from '../../../actions';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage,injectIntl} from 'react-intl';
 
 
 import axios from 'axios'
@@ -46,7 +46,7 @@ class BackOfficeShowUserComments extends Component {
           this.setState({
             data: commentsList,
             dataFixed:commentsList,
-            maxPage: Math.ceil(commentsList.length/this.state.elementsByPage)
+            maxPage: (Math.ceil(commentsList.length/this.state.elementsByPage) == 0 ? 1 : Math.ceil(commentsList.length/this.state.elementsByPage))
           })
       }
     }
@@ -66,7 +66,7 @@ class BackOfficeShowUserComments extends Component {
         this.setState({
           data: data,
           dataFixed: data,
-          maxPage: Math.floor(data.length/this.state.elementsByPage)
+          maxPage: (Math.ceil(data.length/this.state.elementsByPage)== 0 ? 1 : Math.ceil(data.length/this.state.elementsByPage) )
         })
     }
     pushNextButton(){
@@ -93,8 +93,7 @@ class BackOfficeShowUserComments extends Component {
     })
     this.setState({data:temp,
         actualPage : 0,
-        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-    }
+        maxPage: (Math.ceil(temp.length/this.state.elementsByPage) == 0 ?  1 : Math.ceil(temp.length/this.state.elementsByPage))})    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
 
@@ -150,11 +149,11 @@ class BackOfficeShowUserComments extends Component {
   <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
-      <p className="modal-card-title">Delete Post</p>
+      <p className="modal-card-title"><FormattedMessage id="backoffice.delete.title.comment"/></p>
       <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
-        <p>Are you sure to delete this comment ?</p>
+        <p><FormattedMessage id="backoffice.delete.comment"/></p>
     </section>
     <footer className="modal-card-foot">
       <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
@@ -240,7 +239,7 @@ const mapDispatchToProps = (dispatch,own) => bindActionCreators({
   
 }, dispatch)
  
-export default connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUserComments);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(BackOfficeShowUserComments));
 
 
 

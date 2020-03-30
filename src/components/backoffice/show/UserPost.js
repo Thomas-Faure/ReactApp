@@ -41,7 +41,7 @@ class BackOfficeShowUserPosts extends Component {
           this.setState({
             data: postsList,
             dataFixed:postsList,
-            maxPage: Math.ceil(postsList.length/this.state.elementsByPage)
+            maxPage: (Math.ceil(postsList.length/this.state.elementsByPage) == 0 ? 1 : Math.ceil(postsList.length/this.state.elementsByPage))
           })
       }
 
@@ -57,7 +57,7 @@ class BackOfficeShowUserPosts extends Component {
         this.setState({
           data: postsList,
           dataFixed:postsList,
-          maxPage: Math.ceil(postsList.length/this.state.elementsByPage)
+          maxPage: (Math.ceil(postsList.length/this.state.elementsByPage)==0 ? 1 : Math.ceil(postsList.length/this.state.elementsByPage) )
         })
     }
 
@@ -85,8 +85,7 @@ class BackOfficeShowUserPosts extends Component {
     })
     this.setState({data:temp,
         actualPage : 0,
-        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-
+        maxPage: (Math.ceil(temp.length/this.state.elementsByPage) == 0 ?  1 : Math.ceil(temp.length/this.state.elementsByPage))})
     }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
@@ -152,11 +151,11 @@ class BackOfficeShowUserPosts extends Component {
             <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
             <div className="modal-card">
               <header className="modal-card-head">
-                <p className="modal-card-title">Delete Post</p>
+                <p className="modal-card-title"><FormattedMessage id="backoffice.delete.title.post"/></p>
                 <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
               </header>
               <section className="modal-card-body">
-                  <p>Are you sure to delete this post ?</p>
+                  <p><FormattedMessage id="backoffice.delete.post"/></p>
               </section>
               <footer className="modal-card-foot">
                 <button className="button is-danger" onClick={()=>{this.deletePost(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>

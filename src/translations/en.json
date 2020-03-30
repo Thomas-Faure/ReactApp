@@ -61,6 +61,23 @@
     "informations.title": "What are the penalties for sexist remarks?",
     "informations.content": "The content of this article is up to date with regard to the law applicable on 28.09.2018. In particular, it incorporates the amendments made by Law No. 2018-703 of 3 August 2018 strengthening the fight against sexual and gender-based violence.\r\n        Sexist insult is a manifestation of sexism, which is expressed through behaviour with a sexual or sexist connotation, which, regardless of the space in which it is expressed or the forms it takes, undermines the dignity of the person because of its degrading or humiliating nature, and creates an intimidating, hostile or offensive situation. Such conduct need not be repeated for the offence to be characterized.\r\n        Materially, it may be :\r\n        \r\n        Whistling, obscene gestures and\/or sounds, such as suggesting or imitating a sexual act;\r\n        sexual proposals or intrusive questions about sex life;\r\n        degrading comments about appearance or dress;\r\n        following a person persistently on the street.\r\n        Article 621-1 of the Penal Code punishes sexist insults.\r\n        \r\n        Apart from cases of violence, exhibition, sexual or moral harassment, sexist insult is the act of imposing on any person any comment or behaviour with a sexual or sexist connotation that :\r\n        \r\n        Either violates his or her dignity because of its degrading or humiliating nature;\r\n        Creates an intimidating, hostile or offensive situation against him\/her.\r\n        The penalty incurred is a fine of up to \u20AC90 for a 4th class offence (up to \u20AC750 for immediate payment) or up to \u20AC750 for a 5th class offence (up to \u20AC1,500) in the event of aggravating circumstances or a repeat offence.\r\n\r\n",
     
+    "backoffice.report.validate.post":"are you sure to validate this post ?",
+    "backoffice.report.validate.comment":"are you sure to validate this comment ?",
+    "backoffice.report.unvalidate.post":"are you sure to unvalidate this post ?",
+    "backoffice.report.unvalidate.comment":"are you sure to unvalidate this comment ?",
+    "backoffice.delete.title.post":"Delete Post",
+    "backoffice.delete.title.comment":"Delete Comment",
+    "backoffice.delete.title.commentC":"Delete Comment Category",
+    "backoffice.delete.title.postC": "Delete Post Category ",
+    "backoffice.delete.title.user":"Delete User",
+
+    "backoffice.delete.post":" are you sure to delete this post ?",
+    "backoffice.delete.comment":" are you sure to delete this comment ?",
+    "backoffice.delete.commentC":" are you sure to delete this comment category ?",
+    "backoffice.delete.postC":" are you sure to delete this post category ?",
+    "backoffice.delete.user":" are you sure to delete this user ?",
+
+    "backoffice.general.validate":"validate",
     "backoffice.general.submit": "submit",
     "backoffice.general.back": "back",
     "backoffice.general.delete": "delete",
@@ -72,6 +89,11 @@
     "backoffice.title": "BackOffice Menu",
     "backoffice.menu1": "Manage Data",
 
+
+    "backoffice.report.count":"Count",
+    "backoffice.report.description":"Description",
+    "backoffice.report.title":"Title",
+    "bakcoffice.report.action:":"Action",
     "backoffice.menu1.posts.title": "Posts",
     "backoffice.menu1.posts.titlePage": "Manage Post",
     "backoffice.menu1.posts.field.title": "Title",

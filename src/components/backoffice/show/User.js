@@ -52,7 +52,7 @@ class BackOfficeShowUsers extends Component {
         this.setState({
           data: usersList,
           dataFixed: usersList,
-          maxPage: Math.floor(usersList.length/this.state.elementsByPage)
+          maxPage: (Math.ceil(usersList.length/this.state.elementsByPage)==0 ? 1 : Math.ceil(usersList.length/this.state.elementsByPage) )
         })
 
      
@@ -60,7 +60,7 @@ class BackOfficeShowUsers extends Component {
     }
 
     pushNextButton(){
-        if(this.state.actualPage < this.state.maxPage){
+        if(this.state.actualPage < this.state.maxPage-1){
         this.setState({
             actualPage : this.state.actualPage+1
            
@@ -83,8 +83,7 @@ class BackOfficeShowUsers extends Component {
     })
     this.setState({data:temp,
         actualPage : 0,
-        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-    }
+        maxPage: (Math.ceil(temp.length/this.state.elementsByPage) == 0 ?  1 : Math.ceil(temp.length/this.state.elementsByPage))})    }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
             this.search()             
@@ -137,11 +136,11 @@ class BackOfficeShowUsers extends Component {
   <div className="modal-background" onClick={()=>{this.props.unsetPopUp()}}></div>
   <div className="modal-card">
     <header className="modal-card-head">
-      <p className="modal-card-title">Delete User</p>
+      <p className="modal-card-title"><FormattedMessage id="backoffice.delete.title.user"/></p>
       <button className="delete" aria-label="close" onClick={()=>{this.props.unsetPopUp()}}></button>
     </header>
     <section className="modal-card-body">
-        <p>Are you sure to delete this user ?</p>
+        <p><FormattedMessage id="backoffice.delete.user"/></p>
     </section>
     <footer className="modal-card-foot">
       <button className="button is-danger" onClick={()=>{this.deleteUser(this.props.popUp.id);this.props.unsetPopUp()}}>{formatMessage({id: "backoffice.general.delete"})}</button>
@@ -201,7 +200,7 @@ class BackOfficeShowUsers extends Component {
     
   </tbody>
 </table>
-<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1}/ {this.state.maxPage+1}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
+<p style={{textAlign: "center",margin: "auto"}}><span style={{marginBottom:"10px"}}><FormattedMessage id="backoffice.general.currentPage"/> : {this.state.actualPage+1}/ {this.state.maxPage}</span><br/><button className="button is-link" onClick={this.pushPrevButton}><FormattedMessage id="backoffice.general.prev"/></button><button className="button is-link" onClick={this.pushNextButton}><FormattedMessage id="backoffice.general.next"/></button><br/>
 </p>
             </div>
             <div className="column is-one-quarted"></div>

@@ -50,7 +50,7 @@ class BackOfficeShowReportPosts extends Component {
        this.setState({
             data: res.data,
             dataFixed:res.data,
-            maxPage: Math.ceil(res.data.length/this.state.elementsByPage)
+            maxPage: (Math.ceil(res.data.length/this.state.elementsByPage) == 0 ? 1 : Math.ceil(res.data.length/this.state.elementsByPage))
           })
       })
         
@@ -79,8 +79,7 @@ class BackOfficeShowReportPosts extends Component {
     })
     this.setState({data:temp,
         actualPage : 0,
-        maxPage: Math.floor(temp.length/this.state.elementsByPage)})
-
+        maxPage: (Math.ceil(temp.length/this.state.elementsByPage) == 0 ?  1 : Math.ceil(temp.length/this.state.elementsByPage))})
     }
     handleChangeSearch(event){
         this.setState({searchItem: event.target.value},()=>{
@@ -165,15 +164,15 @@ class BackOfficeShowReportPosts extends Component {
     </header>
     <section className="modal-card-body">
     {this.state.action =="validate" ?
-     <p>Are you sure to validate this post ?</p>
+     <p><FormattedMessage id="backoffice.report.validate.post"/></p>
       :
-      <p>Are you sure to unvalidate this post ?</p>
+      <p><FormattedMessage id="backoffice.report.unvalidate.post"/></p>
       }
      
     </section>
     <footer className="modal-card-foot">
     {this.state.action =="validate" ?
-      <button className="button is-danger" onClick={()=>{this.validate(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>Validate</button>
+      <button className="button is-danger" onClick={()=>{this.validate(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>{formatMessage({id: "backoffice.general.validate"})}</button>
       :
       <button className="button is-danger" onClick={()=>{this.delete(this.state.idPostSelected);this.setState({isOpen:false,idPostSelected:null,action:""})}}>{formatMessage({id: "backoffice.general.delete"})}</button>
     }
@@ -206,9 +205,9 @@ class BackOfficeShowReportPosts extends Component {
     <tr style={{textAlign:"center"}}>
       
         <th >Id</th>
-        <th >Count</th>
-        <th >Title</th>
-        <th >Action</th>
+        <th ><FormattedMessage id="backoffice.report.count"/></th>
+        <th ><FormattedMessage id="backoffice.report.title"/></th>
+        <th ><FormattedMessage id="backoffice.report.action"/></th>
 
     </tr>
   </thead>
