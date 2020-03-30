@@ -67,10 +67,12 @@ class PostDetails extends Component {
   }
 
   handleAnonymousInput(event) {
-
     this.setState({ anonymous: !this.state.anonymous })
   }
-
+/*
+* Acceder à la page precedente si possible
+*
+*/
   pushPrevButton() {
     if (this.state.actualPage > 0) {
       this.setState({
@@ -79,7 +81,10 @@ class PostDetails extends Component {
       })
     }
   }
-
+/*
+* Supprimer un post qui nous appartient
+*
+*/
   async removePost() {
     const token = localStorage.token;
     const config = {
@@ -92,7 +97,10 @@ class PostDetails extends Component {
       let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
     }
   }
-
+/*
+* Acceder à la page suivante si elle existe
+*
+*/
   pushNextButton() {
     if (this.state.actualPage !== this.state.maxPage) {
       this.setState({
@@ -102,7 +110,10 @@ class PostDetails extends Component {
     }
 
   }
-
+/*
+* Recuperation des posts dont l'utilisateur courant est le propriétaire
+*
+*/
   async postOwner() {
     const token = localStorage.token;
     const config = {
@@ -113,7 +124,10 @@ class PostDetails extends Component {
       owner: res.data
     });
   }
-
+/*
+* Recuperation des commentaires du post dont l'utilisateur est le propriétaire
+*
+*/
   async commentsOwner() {
     const token = localStorage.token;
     const config = {
@@ -124,7 +138,10 @@ class PostDetails extends Component {
       commentsID: res.data
     });
   }
-
+/*
+* Ajout ou suprression d'un like sur un post
+*
+*/
   async like() {
     const token = localStorage.token;
     const config = {
@@ -141,7 +158,10 @@ class PostDetails extends Component {
 
 
   }
-
+/*
+* Mise à jour des commentaires du post
+*
+*/
   setComments() {
     let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
 
@@ -150,7 +170,10 @@ class PostDetails extends Component {
       maxPage: (Math.ceil(commentsList.length / this.state.elementsByPage) - 1)
     })
   }
-
+/*
+* Chargement descommentaires du post
+*
+*/
   getData() {
 
     let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
@@ -175,7 +198,10 @@ class PostDetails extends Component {
   handleChangeCategory(event) {
     this.setState({ valueCategory: event.target.value })
   }
-
+/*
+* Verification si l'id du commentaire donné en paramètres est un id dont l'utilisateur est propriétaire
+*
+*/
   isOwner(id) {
     var a = false
     this.state.commentsID.filter(idC => {
@@ -185,7 +211,10 @@ class PostDetails extends Component {
     })
     return a
   }
-
+/*
+* Signalement d'un post
+*
+*/
   async report() {
     const token = localStorage.token;
     var res = await fetch("https://thomasfaure.fr/reportpost/create", {
@@ -205,7 +234,10 @@ class PostDetails extends Component {
 
 
 
-
+/*
+* Ajout d'un commentaire sur le post
+*
+*/
 
   async sendData() {
     if ((this.state.valueComment).trim() == "") {
@@ -249,7 +281,10 @@ class PostDetails extends Component {
 
       })
   }
-
+/*
+* Vue détaillé d'un post avec ses commentaires
+*
+*/
   render() {
     let commentsList = this.props.comment.allIds.map(id => this.props.comment.byId[id])
     var bestAnswer = null

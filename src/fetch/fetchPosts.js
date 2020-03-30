@@ -1,6 +1,10 @@
 import {fetchPostsPending, fetchPostsSuccess} from '../actions';
 import axios from 'axios';
 
+/*
+* Recuperation des posts et mise a jour du redux
+*
+*/
 export const fetchPosts= ()=> async dispatch => {
   const token = localStorage.token;
     const config = {

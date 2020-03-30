@@ -5,6 +5,10 @@ const initialState = {
     allIds: [],
     error: null
 }
+/*
+* mise a jour des meilleures réponses des posts
+*
+*/
 const bestAnswer = (state = initialState, action)=>{
     switch(action.type) {
         case CHANGE_BEST_ANSWER:

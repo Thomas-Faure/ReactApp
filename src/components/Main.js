@@ -66,7 +66,10 @@ class Main extends Component {
 
 
   }
-
+/*
+* Fonction de verification de la validité du token de l'utilisateur
+*
+*/
   async verifLogin() {
     if (localStorage.getItem("token") !== null) {
 
@@ -124,17 +127,27 @@ class Main extends Component {
 
 
   }
-
+/*
+* Affichage menu en responsive
+*
+*/
   clickBurger() {
     this.setState({ burgerOpen: (!this.state.burgerOpen) })
   }
+/*
+* Fonction de deconnexion de l'utilisateur
+*
+*/
   logoff() {
     this.props.logoff();
     localStorage.setItem("token", null)
     window.location.href = '/#/';
     this.props.unSetUser()
   }
-
+/*
+* Routes
+*
+*/
   PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
       (this.props.user != null && this.props.user.admin) == 1
@@ -143,6 +156,10 @@ class Main extends Component {
     )} />
   )
 
+  /*
+* Vue principale
+*
+*/
   render() {
     const { formatMessage } = this.props.intl;
 

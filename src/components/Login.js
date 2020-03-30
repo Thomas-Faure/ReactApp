@@ -12,7 +12,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      forgetPasswordMessage : "",
+      forgetPasswordMessage: "",
       valueP: "",
       valueU: "",
       errorLogin: false,
@@ -56,16 +56,23 @@ class Login extends Component {
     event.preventDefault();
   }
 
+  /*
+* Soumision du formulaire pour la connexion d'un utilistauer
+*
+*/
   handleSubmit(event) {
-    if((this.state.valueP == "" )||(this.state.valueU == "")){
+    if ((this.state.valueP == "") || (this.state.valueU == "")) {
       this.setState({ errorLogin: true })
       return false
     }
     this.login()
     event.preventDefault();
   }
-
-  async forgetPassword(){
+/*
+* Fonction pour l'oublie du mot de passe par l'utilisateur, lui envoie un mail
+*
+*/
+  async forgetPassword() {
     var res = await fetch("https://thomasfaure.fr/user/forgotPassword/create", {
       method: 'POST',
       headers: {
@@ -75,20 +82,27 @@ class Login extends Component {
       body: JSON.stringify({ mail: this.state.mailF })
     })
     res = await res.json()
-   
+
     if (res == false) {
-      this.setState({forgetPasswordMessage : "email non existant"})
-    }else{
-      this.setState({forgetPasswordMessage : "email envoyé ! regardez vos mail !"})
+      this.setState({ forgetPasswordMessage: "email non existant" })
+    } else {
+      this.setState({ forgetPasswordMessage: "email envoyé ! regardez vos mail !" })
     }
 
 
   }
 
+/*
+* Accès a la vue pour s'inscrire
+*
+*/
   register() {
     this.props.setPopUp("register", null)
   }
-
+/*
+* Envoie des informations de la connexion
+*
+*/
   async login() {
     var user_id = 0
 
@@ -101,36 +115,39 @@ class Login extends Component {
       body: JSON.stringify({ username: this.state.valueU, password: sha256(this.state.valueP) })
     })
     res = await res.json()
-   
-    if (res.token !== undefined) {
-        user_id = res.id
-        this.setState({ errorLogin: false })
 
-        var info = await fetch("https://thomasfaure.fr/user/" + user_id, {
-            method: "GET",
-            headers: {
-              'Authorization': 'Bearer ' + res.token
-            }
-        })
-        info = await info.json()
-        this.props.setUser(info[0])
-    
-        
-       this.props.unsetPopUp()
-        localStorage.setItem("token", res.token)
+    if (res.token !== undefined) {
+      user_id = res.id
+      this.setState({ errorLogin: false })
+
+      var info = await fetch("https://thomasfaure.fr/user/" + user_id, {
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + res.token
+        }
+      })
+      info = await info.json()
+      this.props.setUser(info[0])
+
+
+      this.props.unsetPopUp()
+      localStorage.setItem("token", res.token)
       this.props.login()
-      if(info[0].admin==1){
-     
+      if (info[0].admin == 1) {
+
         this.props.fetchPosts();
       }
 
-        } else {
-          this.setState({ errorLogin: true })
-        }
-      
+    } else {
+      this.setState({ errorLogin: true })
+    }
+
 
   }
-
+/*
+* Vue de connexion
+*
+*/
   render() {
     const { formatMessage } = this.props.intl;
 
@@ -182,29 +199,29 @@ class Login extends Component {
                 <button className="delete" aria-label="close" onClick={() => { this.setState({ forget: null }) }}></button>
               </header>
               <form onSubmit={this.handleSubmitForgetPassword}>
-              <section className="modal-card-body">
-                {this.state.forgetPasswordMessage.length>0 ?
-                <p>{this.state.forgetPasswordMessage}</p> 
-                : null}
-                <div className="field">
-                  <label className=" is-large">Mail</label>
-                  <div className="control">
-                    <input className="input is-large" type="mail" placeholder={formatMessage({ id: "register.field.mail" })} value={this.state.mailF} onChange={this.mailF} />
+                <section className="modal-card-body">
+                  {this.state.forgetPasswordMessage.length > 0 ?
+                    <p>{this.state.forgetPasswordMessage}</p>
+                    : null}
+                  <div className="field">
+                    <label className=" is-large">Mail</label>
+                    <div className="control">
+                      <input className="input is-large" type="mail" placeholder={formatMessage({ id: "register.field.mail" })} value={this.state.mailF} onChange={this.mailF} />
+                    </div>
                   </div>
-                </div>
-             
-              </section>
-              <footer className="modal-card-foot ">
-                <div className="padding">
-             
-                  <input className="button is-sucess" type="submit" value="Confirm"></input>
-                </div>
-              </footer>
+
+                </section>
+                <footer className="modal-card-foot ">
+                  <div className="padding">
+
+                    <input className="button is-sucess" type="submit" value="Confirm"></input>
+                  </div>
+                </footer>
               </form>
             </div>
           </div>
         }
-      
+
       </section>
     );
   }

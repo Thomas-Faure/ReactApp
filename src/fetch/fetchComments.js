@@ -1,7 +1,10 @@
 import {fetchCommentsPending, fetchCommentsSuccess} from '../actions';
 import axios from 'axios'
 
-
+/*
+* Recuperation des commentaires d'un post et mise a jour du redux
+*
+*/
 export const fetchCommentsByPostId = (id) => async dispatch =>{
   dispatch(fetchCommentsPending());
 

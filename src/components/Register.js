@@ -47,6 +47,10 @@ class Register extends Component {
   handleChangeUsername(event) {
     this.setState({ valueU: event.target.value })
   }
+/*
+* Mis à jour du "state" pour le mot de passe avec une sécurisation
+*
+*/
   handleChangePassword(event) {
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*/])(?=.{8,})");
     const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
@@ -97,18 +101,27 @@ class Register extends Component {
   handleChangeSexe(event) {
     this.setState({ valueS: event.target.value })
   }
-
+/*
+* Soumission du formulaire
+*
+*/
   handleSubmit(event) {
 
     this.register()
     event.preventDefault();
   }
-
+/*
+* Accès vue login
+*
+*/
   login() {
     this.props.unsetPopUp()
     this.props.setPopUp("login", null)
   }
-
+/*
+* Enregistrement d'un nouveau utilisateur avec de la sécurité
+*
+*/
   register() {
     if ((this.state.password == false)) {
       this.setState({error : "password"})
@@ -149,6 +162,10 @@ class Register extends Component {
       })
 
   }
+/*
+* Vue d'inscription
+*
+*/
   render() {
     const { formatMessage } = this.props.intl;
 

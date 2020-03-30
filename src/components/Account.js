@@ -64,6 +64,10 @@ class Account extends Component {
     event.preventDefault();
   }
 
+  /*
+* FOnction pour initialiser les champs en fonction des informations de l'utilisateur
+*
+*/
   getData() {
     var user = this.props.user
     this.setState({
@@ -76,6 +80,10 @@ class Account extends Component {
     })
   }
 
+  /*
+* Fonction pour envoyer les modifications des informations de l'utilisateur
+*
+*/
   async sendData() {
     console.log(this.state.birthday)
     const token = localStorage.token;
@@ -125,6 +133,10 @@ class Account extends Component {
       })
   }
 
+  /*
+* Vue du formulaire de modificiation
+*
+*/
   render() {
     const { formatMessage } = this.props.intl;
 
@@ -188,7 +200,7 @@ class Account extends Component {
                   </div>
 
                   <div className="control">
-                    <input className="button is-link" type="submit" value={formatMessage({id: "backoffice.general.submit"})}></input>
+                    <input className="button is-link" type="submit" value={formatMessage({ id: "backoffice.general.submit" })}></input>
 
                   </div>
 

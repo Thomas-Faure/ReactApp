@@ -108,6 +108,10 @@ class CommentModel extends Component {
         this.props.updateCommentReport(this.props.commentState.byId[this.props.commentid].comment_id, res.result)
       })
   }
+/*
+* Vue d'un commentaire
+*
+*/
   render() {
     if (this.props.commentState.byId[this.props.commentid] == undefined) {
       return (null)

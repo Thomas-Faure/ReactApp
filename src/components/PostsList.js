@@ -58,13 +58,20 @@ class PostsList extends Component {
   seePost(id) {
     window.location.href = '/#/post/' + id;
   }
-
+/*
+* Appel du filtre principale par date, commentaire et popularité
+*
+*/
   mainfilter(e) {
     this.filtreDate(e.target.value)
     this.setState({
       mainfilter: e.target.value
     })
   }
+/*
+* Filtre par catégorie des posts
+*
+*/
   async categoryFilter(e) {
     await this.setState({
       cat: e.target.value
@@ -73,7 +80,10 @@ class PostsList extends Component {
     this.filtreDate(this.state.mainfilter)
   }
 
-
+/*
+* Filtre par date, popularité ou nombre de commentaire des posts
+*
+*/
   filtreDate(value) {
     let newList = [];
     newList = this.state.posts
@@ -98,7 +108,10 @@ class PostsList extends Component {
     })
 
   }
-
+/*
+* Filtre des posts en fonction de la barre de recherche
+*
+*/
   async search() {
     let currentList = this.state.list
     let newList = null;
@@ -141,7 +154,10 @@ class PostsList extends Component {
     }
 
   }
-
+/*
+* Appel de la recherche du filtrage des posts en conservant les autres filtres
+*
+*/
   async handleChange(e) {
     await this.setState({
       search: e.target.value
@@ -149,7 +165,10 @@ class PostsList extends Component {
     await this.search()
     this.filtreDate(this.state.mainfilter)
   }
-
+/*
+* Vue principale, affichage des la liste de tout les posts avec la recherche
+*
+*/
   render() {
     let categoryList = this.props.categoryPost.allIds.map(id => this.props.categoryPost.byId[id])
     return (

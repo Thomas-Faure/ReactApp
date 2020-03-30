@@ -20,7 +20,10 @@ class Contact extends Component {
     this.onNameChange = this.onNameChange.bind(this)
     this.onMessageChange = this.onMessageChange.bind(this)
   }
-
+/*
+* Fonction de soumission du formulaire de contact, envoie de mail
+*
+*/
   handleSubmit(e) {
     e.preventDefault();
     axios({
@@ -52,7 +55,10 @@ class Contact extends Component {
   onMessageChange(event) {
     this.setState({ message: event.target.value })
   }
-
+/*
+* Vue du formulaire de contact
+*
+*/
   render() {
     return (
       <section className="hero is-fullheight">

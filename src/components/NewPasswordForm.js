@@ -30,7 +30,10 @@ class NewPasswordForm extends Component {
         this.changePassword()
         event.preventDefault();
     }
-
+/*
+* Fonction de changement du mot de passe après la réception du mail de mot de passe oublié
+*
+*/
     async changePassword(){
         if(this.state.passwordF == this.state.passwordCF){
             if(this.state.passwordF.length<5){
@@ -60,7 +63,10 @@ class NewPasswordForm extends Component {
 
 
 
-    
+/*
+* Vue changement de mot de passe oublié
+*
+*/
     render() {
         return (
             <div>

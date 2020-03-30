@@ -1,7 +1,10 @@
 import {fetchUsersPending, fetchUsersSuccess} from '../actions';
 import axios from 'axios'
 
-
+/*
+* Recuperation des utilisateurs et mise a jour du redux
+*
+*/
 export const fetchUsers= ()=> async dispatch => {
     dispatch(fetchUsersPending());
     const token = localStorage.token;
