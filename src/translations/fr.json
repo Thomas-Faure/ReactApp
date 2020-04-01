@@ -88,7 +88,7 @@
     "backoffice.title": "Menu BackOffice",
     "backoffice.menu1": "Gestion des données",
 
-
+    "backoffice.report.action":"Action",
     "backoffice.report.count":"Nombre",
     "backoffice.report.description":"Description",
     "backoffice.report.title":"Titre",

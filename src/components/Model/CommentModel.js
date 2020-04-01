@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import { updateCommentReport, changeBestAnswer, updateCommentRate, deleteComment, decreateCommentCounter } from '../../actions'
+import { updateCommentReport, changeBestAnswer, updateCommentRate, deleteComment, decrementCommentCounter } from '../../actions'
 import { FormattedMessage } from 'react-intl';
 /*
 * Composant affichant un commentaire
@@ -45,7 +45,7 @@ class CommentModel extends Component {
     };
     const res = await axios.delete("https://thomasfaure.fr/comment/" + id + "/delete", config)
     if (res.data.affectedRows > 0) {
-      this.props.decreateCommentCounter(this.props.commentState.byId[this.props.commentid].post)
+      this.props.decrementCommentCounter(this.props.commentState.byId[this.props.commentid].post)
       this.props.deleteComment(id)
       var listComments = this.props.commentState.allIds.map(el => this.props.commentState.byId[el])
       if (listComments.length == 0) {
@@ -247,7 +247,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   updateCommentReport: updateCommentReport,
   updateCommentRate: updateCommentRate,
   deleteComment: deleteComment,
-  decreateCommentCounter: decreateCommentCounter,
+  decrementCommentCounter: decrementCommentCounter,
   changeBestAnswer: changeBestAnswer
 
 }, dispatch)

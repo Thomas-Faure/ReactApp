@@ -235,7 +235,7 @@ export const UPDATE_POSTS_REPORT = 'UPDATE_POSTS_REPORT'
 export const DELETE_POST = 'DELETE_POST'
 export const DECREASE_COMMENT_COUNTER = 'DECREASE_COMMENT_COUNTER'
 
-export const decreateCommentCounter = (id) =>{
+export const decrementCommentCounter = (id) =>{
     return{
         type: DECREASE_COMMENT_COUNTER,
         payload: id
