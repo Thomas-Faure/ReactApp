@@ -268,10 +268,14 @@ class PostDetails extends Component {
               this.props.changeBestAnswer(null, this.props.popUp.id)
             } else {
               const max = listComments.reduce(function (prev, current) {
-                return (prev.like > current.like) ? prev : current
+                return ((prev.like-prev.dislike) > (current.like-current.dislike)) ? prev : current
               })
 
+              if((max.like-max.dislike) > 0){
               this.props.changeBestAnswer(max, this.props.popUp.id)
+              }else{
+                this.props.changeBestAnswer(null, this.props.popUp.id)
+              }
             }
             await this.setState({ actualPage: this.state.maxPage, valueComment: "" })
             await this.commentsOwner()

@@ -18,6 +18,7 @@ class CommentModel extends Component {
 
     var color = this.props.categorieComment.byId[this.props.commentState.byId[this.props.commentid].comment_category].color
     this.state = {
+      waitBeforeVote:false,
       color: color,
       best: this.props.best,
       delete: null
@@ -51,16 +52,22 @@ class CommentModel extends Component {
         this.props.changeBestAnswer(null, post_id)
       } else {
         const max = listComments.reduce(function (prev, current) {
-          return (prev.like > current.like) ? prev : current
+          return ((prev.like-prev.dislike) > (current.like-current.dislike)) ? prev : current
         })
-        if(max.like>0)
+        if((max.like-max.dislike)>0){
         this.props.changeBestAnswer(max, post_id)
+        }else{
+          this.props.changeBestAnswer(null, post_id)
+        }
       }
     }
   }
 
   //pour liker positivement/negativement le commentaire
   like(like) {
+    if(this.state.waitBeforeVote == false){
+     
+    this.setState({waitBeforeVote : true})
     const token = localStorage.token;
     const post_id = this.props.commentState.byId[this.props.commentid].post
     fetch("https://thomasfaure.fr/rateComment/create", {
@@ -81,13 +88,22 @@ class CommentModel extends Component {
             this.props.changeBestAnswer(null, post_id)
           } else {
             const max = listComments.reduce(function (prev, current) {
-              return (prev.like > current.like) ? prev : current
+              return ((prev.like-prev.dislike) > (current.like-current.dislike)) ? prev : current
             })
-            if(max.like>0)
+            console.log(max.like-max.dislike)
+            if((max.like-max.dislike)>0){
+              console.log("superieur")
              this.props.changeBestAnswer(max, post_id)
+            }else{
+              this.props.changeBestAnswer(null, post_id)
+            }
           }
+          setTimeout(()=>this.setState({waitBeforeVote : false}),2000)
+        }else{
+          setTimeout(()=>this.setState({waitBeforeVote : false}),2000)
         }
       })
+    }
 
   }
 

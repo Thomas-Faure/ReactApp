@@ -40,19 +40,20 @@ const commentReducer = (state = initialState, action)=>{
             var like = state.byId[action.payload.id].like
             var dislike = state.byId[action.payload.id].dislike
             var rated = undefined
+          
             if(state.byId[action.payload.id].rated == undefined){
                 if(action.payload.like == true){
-                   
+             
                     like = like +1
                     rated = 1
                 }else{
-                
-                    like = like -1
+                  
+                    dislike = dislike + 1
                     rated = -1
                 }
             }else if(state.byId[action.payload.id].rated == 1){
                 if(action.payload.info == "updated"){
-                   
+               
                     like = like - 1
                     dislike = dislike +1
                     rated = -1
@@ -60,20 +61,23 @@ const commentReducer = (state = initialState, action)=>{
                
                     like = like - 1
                     rated = undefined
+            
                 }
 
             }else if(state.byId[action.payload.id].rated == -1){
                 if(action.payload.info == "updated"){
-                
+                  
                     like = like + 1
                     dislike = dislike-1
                     rated = 1
                 }else if(action.payload.info == "deleted"){
-                
+                   
+
                     dislike = dislike - 1
                     rated = undefined
                 }
             }
+           
             return{
                 ...state,
                 byId:{

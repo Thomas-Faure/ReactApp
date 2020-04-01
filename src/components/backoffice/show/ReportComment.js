@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import fetchPosts from '../../../fetch/fetchPosts'
 import fetchPostCategories from "../../../fetch/fetchPostCategories";
-import {setPopUp} from '../../../actions';
+import {setPopUp,decreateCommentCounter} from '../../../actions';
 import axios from 'axios';
 import {FormattedMessage,injectIntl} from 'react-intl'
 /*
@@ -101,7 +101,7 @@ class BackOfficeShowReportComments extends Component {
           }).then(()=>{
 
             let asyncUpdate = async()=>{
-
+              this.props.decreateCommentCounter(this.props.comment.byId[id].post)
               this.getData()
               this.search()
            
@@ -252,7 +252,7 @@ class BackOfficeShowReportComments extends Component {
 
 const mapStateToProps = state => {
   return {
-
+    comment: state.comment
 
   }
 }
@@ -261,6 +261,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchPosts: fetchPosts,
   fetchPostCategories:fetchPostCategories,
   setPopUp,
+  decreateCommentCounter
 
   
 }, dispatch)
