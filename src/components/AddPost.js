@@ -182,7 +182,7 @@ class AddPost extends Component {
                           <select value={this.state.category} onChange={this.handleChangeCategory}>
                             {(categoryList.length !== 0) ?
                               categoryList.map((val, index) =>
-                                <option key={val.post_category_id} value={val.post_category_id}>{val.description}</option>
+                                <option key={val.post_category_id} value={val.post_category_id} style={{backgroundColor: val.couleur}}>{val.description}</option>
                               )
                               :
                               null
