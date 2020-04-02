@@ -85,7 +85,7 @@ class Account extends Component {
 *
 */
   async sendData() {
-    console.log(this.state.birthday)
+ 
     const token = localStorage.token;
     fetch("https://thomasfaure.fr/user/edit", {
       method: 'POST',

@@ -62,7 +62,7 @@ class BackOfficeShowUserComments extends Component {
     }
     getData(){
       let data = this.props.comment.allIds.map(id => this.props.comment.byId[id])
-      console.log(data.length/this.state.elementsByPage)
+    
         this.setState({
           data: data,
           dataFixed: data,

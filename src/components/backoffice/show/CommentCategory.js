@@ -163,7 +163,7 @@ class BackOfficeShowCommentCategories extends Component {
             <div className="columns">
             <div className="column is-one-quarter"></div>
             <div className="column is-half"  style={{margin: "auto"}}>
-            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}>Manage Comment Category</h1>
+            <h1 style={{textAlign: "center",fontWeight: "bold",fontSize: "30px",marginBottom:"10px"}}><FormattedMessage id="backoffice.menu1.commentC.titlePage"/></h1>
            
             <div className="columns">
             <div className="column is-one-quarter">
@@ -185,9 +185,9 @@ class BackOfficeShowCommentCategories extends Component {
     <tr style={{textAlign:"center"}}>
       
         <th >Id</th>
-        <th >Description</th>
-        <th >color</th>
-        <th >Action</th>
+        <th ><FormattedMessage id="backoffice.menu1.commentC.field.description"/></th>
+        <th ><FormattedMessage id="backoffice.menu1.commentC.field.couleur"/></th>
+        <th ><FormattedMessage id="backoffice.menu1.commentC.field.action"/></th>
 
     </tr>
   </thead>

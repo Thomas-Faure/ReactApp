@@ -90,9 +90,9 @@ class CommentModel extends Component {
             const max = listComments.reduce(function (prev, current) {
               return ((prev.like-prev.dislike) > (current.like-current.dislike)) ? prev : current
             })
-            console.log(max.like-max.dislike)
+           
             if((max.like-max.dislike)>0){
-              console.log("superieur")
+     
              this.props.changeBestAnswer(max, post_id)
             }else{
               this.props.changeBestAnswer(null, post_id)
